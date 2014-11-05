@@ -55,8 +55,8 @@
     });
     
     namespace.CLASE = CLASE;
-} (window));
+} (window.jt=window.jt||{}));
 
 window.onload=function(){
-	this.clase=new CLASE();
+	this.clase=new jt.CLASE();
 }
