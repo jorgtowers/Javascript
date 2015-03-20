@@ -1,29 +1,63 @@
+/*!
+ * ABOUT:		Snippet Javascript implement OOP
+ * CREADOR: 	Jorge L. Torres A.
+ * NOTA: 		Cambiar el nombre CLASE por el nombre que se le de al objeto en javascript
+ * METODO: 		Para implementar un nuevo método tomar como referencia código "CLASE.prototype.NuevoMetodo"
+ */
+ 
 (function (namespace) {
     //Constructor    
     function CLASE() {
         this.Constructor();
     }
-    // Variables
+	//Variables Estaticas
+	CLASE.STARTTIME=new Date();
+	//Variables Privadas
     var myVariable = CLASE.prototype;
+    var _Tracert = false;
 
-    // Métodos
+	//Metodos
     CLASE.prototype.Constructor = function () {
 		this.myVariable = null;				
-    }
-	CLASE.prototype.Metodo = function (callback) {			
-		if(typeof callback === 'function') {
-			callback();
-		}
-    }
+       if (_Tracert) { console.log("CLASE inicializado correctamente..." + this.Runtime(CLASE.STARTTIME)); }
     
-	//Método Obsoleto
+	}
+	
+	CLASE.prototype.SUB_NAMESPACE = {
+		METODO1:function(){
+		},		
+		SUB_NAMESPACE:{
+			METODO1:funtion(){
+			},
+			METODO2:funtion(){
+		}
+	}
+	
+	
+	CLASE.prototype.Runtime = function (starTime) {
+        return (((new Date() - starTime) / 1000) + " segundos...").toFixed(2);
+    };
+
+   CLASE.prototype.NuevoMetodo = function (callback) {
+        if (_Tracert) { console.log('metodo: "CLASE.NuevoMetodo()" ha cargado exitosamente'); }
+        var STARTTIME = new Date();
+        var self = this;
+
+        if (typeof callback === 'function') {
+            callback();
+        }
+
+        if (_Tracert) { console.log('"CLASE.NuevoMetodo()" realizado en ' + this.Runtime(STARTTIME)); }
+    };
+    
+	//Marcar Método Obsoleto
 	CLASE.prototype.MetodoObsoleto = function () {
 		var self = this;		
-	    var e="MetodoObsoleto esta Obsoleto, por favor usar Metodo. Este metodo será removido en futuras versiones.";
-		if (!this.Metodo) { throw(e); }
+	    var e="MetodoObsoleto esta Obsoleto, por favor usar NuevoMetodo. Este NuevoMetodo será removido en futuras versiones.";
+		if (!this.NuevoMetodo) { throw(e); }
 		(this.MetodoObsoleto = function() {
 		  console.log(e);
-		  self.Metodo();
+		  self.NuevoMetodo();
 		})();
     }
 	
