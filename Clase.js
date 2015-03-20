@@ -1,6 +1,6 @@
 /*!
  * ABOUT:		Snippet Javascript implement OOP
- * CREADOR: 	Jorge L. Torres A.
+ * CREADOR: 		Jorge L. Torres A.
  * NOTA: 		Cambiar el nombre CLASE por el nombre que se le de al objeto en javascript
  * METODO: 		Para implementar un nuevo método tomar como referencia código "CLASE.prototype.NuevoMetodo"
  */
