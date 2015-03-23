@@ -490,5 +490,5 @@
 }(window.jt = window.jt || {}));
 
 window.onload = function () {
-    this.App = new jt.App();
+    this.app = new jt.App();
 }
