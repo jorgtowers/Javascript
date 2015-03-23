@@ -51,14 +51,14 @@
     };
     
 	//Marcar Método Obsoleto
-	CLASE.prototype.MetodoObsoleto = function () {
-		var self = this;		
-	    var e="MetodoObsoleto esta Obsoleto, por favor usar NuevoMetodo. Este NuevoMetodo será removido en futuras versiones.";
-		if (!this.NuevoMetodo) { throw(e); }
-		(this.MetodoObsoleto = function() {
-		  console.log(e);
-		  self.NuevoMetodo();
-		})();
+ 	CLASE.prototype.MetodoObsoleto = function () {
+        var self = this;
+        var e = "[deprecated] MetodoObsoleto está Obsoleto y será removido en futuras versiones. Usar el siguiente método NOMBRE_NUEVO_METODO";
+        if (!this.NOMBRE_NUEVO_METODO) { throw (e); }
+        (this.MetodoObsoleto = function () {
+            console.log(e);
+            self.NOMBRE_NUEVO_METODO();
+        })();
     }
 	
     //Propiedades
