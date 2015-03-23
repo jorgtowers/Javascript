@@ -14,7 +14,7 @@
     App.STARTTIME = new Date();
     //Variables Privadas
     var myVariable = App.prototype;
-    var _Tracert = false;
+    var _Tracert = true;
     var _Result = null;
 
     //Metodos
@@ -236,8 +236,8 @@
         },
         QueryString: function (name) {
             if (_Tracert) { console.log('metodo: "App.Utils.QueryString(name)" ha cargado exitosamente'); }
-            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]" );
-            var regexS = "[\\?&]" + name + "=([^&#]*)" ;
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
             var regex = new RegExp(regexS);
             var results = regex.exec(window.location.search);
             if (results === null) {
@@ -249,15 +249,15 @@
         CheckConnection: function () {
             if (_Tracert) { console.log('metodo: "App.Utils.CheckConnection()" ha cargado exitosamente'); }
             /// <summary>Valida que la conexi�n de internet este activa.</summary>
-            if(navigator.onLine!==undefined){
-                if(navigator.onLine) {
+            if (navigator.onLine !== undefined) {
+                if (navigator.onLine) {
                     return true;
                 } else {
                     return false;
                 }
             } else {
                 var xhr = new XMLHttpRequest();
-                var file =  "http://" + window.location.host +"/" ;
+                var file = "http://" + window.location.host + "/";
                 var r = Math.round(Math.random() * 10000);
                 xhr.open('HEAD', file + "?CheckConnection=" + r, false);
                 try {
@@ -275,7 +275,7 @@
     };
 
 
-    App.prototype.UI = {        
+    App.prototype.UI = {
         Paginador: {
             Contenedor: "",
             ItemsPorPagina: 0,
@@ -384,10 +384,10 @@
             }
         }
     };
-    
+
     App.prototype.Runtime = function (starTime) {
         if (_Tracert) { console.log('metodo: "App.Runtime(starTime)" ha cargado exitosamente'); }
-        return (((new Date() - starTime) / 1000) + " segundos...").toFixed(2);
+        return (((new Date() - starTime) / 1000).toFixed(2) + " segundos...");
     };
 
     //Metodos por deprecar
@@ -428,7 +428,7 @@
         enumerable: false,
         configurable: false
     });
-    
+
     Object.defineProperty(App.prototype, "Resultado", {
         get: function Resultado() {
             return _result;
