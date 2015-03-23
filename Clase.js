@@ -4,49 +4,64 @@
  * NOTA: 		Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO: 		Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
  */
- 
+
 (function (namespace) {
     //Constructor    
     function App() {
         this.Constructor();
     }
-	//Variables Estaticas
-	App.STARTTIME=new Date();
-	//Variables Privadas
+    //Variables Estaticas
+    App.STARTTIME = new Date();
+    //Variables Privadas
     var myVariable = App.prototype;
     var _Tracert = false;
+    var _Result = null;
 
-	//Metodos
+    //Metodos
     App.prototype.Constructor = function () {
-		this.myVariable = null;				
-       if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }    
-	};
-	
-	App.prototype.SUB_NAMESPACE = {
-		METODO1:function(){
-		},		
-		SUBCLASE:{
-			METODO1:function(){},
-			METODO2:function(){}
-		}
-	};
-	
-	
-	App.prototype.Utils = {
+        this.myVariable = null;
+        if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
+    };
+
+    App.prototype.Utils = {
+        Callback: function (url, parametros, callback) {
+            if (_Tracert) { console.log('metodo: "App.UI.CallBack(url, parametros, callback)" ha cargado exitosamente'); }
+            if (url != null) {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4 && request.status == 200) {
+                        data = JSON.parse(request.responseText);
+                        if (data != null) {
+                            _Result = data;
+                        }
+                        else {
+                            _Result = null;
+                        }
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+                    }
+                };
+                request.open('GET', url + (parametros != null ? "?" + parametros : ""), true);
+                request.send();
+            } else {
+                _Result = null;
+            }
+        },
         NoEnter: function () {
             if (_Tracert) { console.log('metodo: "App.Utils.NoEnter()" ha cargado exitosamente'); }
             return !(window.event && window.event.keyCode === 13);
         },
         ValidarCampos: function (idContentPlaceHolder, applyClass) {
-            if (_Tracert) { console.log('metodo: "App.Utils.ValidarCampos()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "App.Utils.ValidarCampos(idContentPlaceHolder, applyClass)" ha cargado exitosamente'); }
             /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
             /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
             var contenedor;
-            if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0){
+            if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0) {
                 contenedor = document.getElementById(idContentPlaceHolder);
-			} else {
+            } else {
                 contenedor = document;
-			}
+            }
             var vacios = [];
             var obj = null;
             var inputs = contenedor.querySelectorAll("input[type=text]");
@@ -60,48 +75,48 @@
             objects.push.apply(objects, selects);
             for (i = 0; i < objects.length; i++) {
                 obj = objects[i];
-                if (!obj.disabled){
+                if (!obj.disabled) {
                     if (obj.getAttribute("optional") === null) {//Si tiene atributo opcional no validará
                         if (obj.value.length === 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
                         {
                             if (applyClass) {
                                 this.ClassCss.Add(obj, "requerido");
                             }
-                            if (obj.getAttribute("title") !== null){
+                            if (obj.getAttribute("title") !== null) {
                                 vacios.push(obj.getAttribute("title").toUpperCase());
-							} else {                                
-								vacios.push("ID: " + obj.id.toUpperCase()); 
-							}
+                            } else {
+                                vacios.push("ID: " + obj.id.toUpperCase());
+                            }
                         } else {
                             this.ClassCss.Remove(obj, "requerido");
-						}
-					}
-				}
+                        }
+                    }
+                }
 
             }
             if (vacios.length > 0) {
                 if (!applyClass) {
-					alert("ATENCIÓN: Hay un(os) campo(s) vacio(s):\r\r" + vacios.toString().replace(/,/g, '\r') + "\r\rPor favor ingrese la información y vuelva a intentarlo.");
-				}
-                if (_Tracert) { console.log("App.Utils.ValidarCampos(): Elementos vacios " + vacios.toString());}
+                    alert("ATENCIÓN: Hay un(os) campo(s) vacio(s):\r\r" + vacios.toString().replace(/,/g, '\r') + "\r\rPor favor ingrese la información y vuelva a intentarlo.");
+                }
+                if (_Tracert) { console.log("App.Utils.ValidarCampos(): Elementos vacios " + vacios.toString()); }
                 /* Chequea si tiene un contendor como un DIV*/
                 for (i = 0; i < objects.length; i++) {
                     obj = objects[i];
-                    if (!obj.disabled){
-                        if (obj.getAttribute("optional") === null){ //Si tiene atributo opcional no validará
+                    if (!obj.disabled) {
+                        if (obj.getAttribute("optional") === null) { //Si tiene atributo opcional no validará
                             if (obj.value.length === 0)
                                 //if (isNaN(obj.value) ? obj.value.length == 0 : parseInt(obj.value) < 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
                             {
                                 var objContent = obj.parentElement;
-                                if (objContent !== null){
+                                if (objContent !== null) {
                                     if (objContent.style.display === 'none') {
                                         objContent.style.display = 'block';
-									}
-								}
+                                    }
+                                }
                                 break;
                             }
-						}
-					}
+                        }
+                    }
                 }
                 return false;
             }
@@ -135,22 +150,22 @@
         },
         ClassCss: {
             HasClass: function (elemento, App) {
-                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.HasClass()" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.HasClass(elemento, App)" ha cargado exitosamente'); }
                 return new RegExp('(\\s|^)' + App + '(\\s|$)').test(elemento.className);
             },
             Add: function (elemento, App) {
-                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.Add()" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.Add(elemento, App)" ha cargado exitosamente'); }
                 if (!this.HasClass(elemento, App)) { elemento.className += (elemento.className ? ' ' : '') + App; }
             },
             Remove: function (elemento, App) {
-                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.Remove()" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.Remove(elemento, App)" ha cargado exitosamente'); }
                 if (this.HasClass(elemento, App)) {
                     elemento.className = elemento.className.replace(new RegExp('(\\s|^)' + App + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
                 }
             }
         },
         Toogle: function (elemento) {
-            if (_Tracert) { console.log('metodo: "App.Utils.Toogle()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "App.Utils.Toogle(elemento)" ha cargado exitosamente'); }
             var el = document.getElementById(elemento);
             if (el.style.display == "block") {
                 el.style.display = "none";
@@ -166,6 +181,7 @@
             }
         },
         GetFecha: function (elemento) {
+            if (_Tracert) { console.log('metodo: "App.Utils.GetFecha(elemento)" ha cargado exitosamente'); }
             var obj = document.getElementById(elemento);
             if (obj !== null) {
                 var date = new Date();
@@ -174,6 +190,7 @@
             }
         },
         LPad: function (value, padding) {
+            if (_Tracert) { console.log('metodo: "App.Utils.LPad(value, padding)" ha cargado exitosamente'); }
             var zeroes = "0";
             for (var i = 0; i < padding; i++) { zeroes += "0"; }
             return (zeroes + value).slice(padding * -1);
@@ -211,49 +228,72 @@
                         return false;
                 }
             };
-        }       
+        },
+        VersionIE: function () {
+            if (_Tracert) { console.log('metodo: "App.Utils.VersionIE()" ha cargado exitosamente'); }
+            var myNav = navigator.userAgent.toLowerCase();
+            return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1], 0) : false;
+        },
+        QueryString: function (name) {
+            if (_Tracert) { console.log('metodo: "App.Utils.QueryString(name)" ha cargado exitosamente'); }
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]" );
+            var regexS = "[\\?&]" + name + "=([^&#]*)" ;
+            var regex = new RegExp(regexS);
+            var results = regex.exec(window.location.search);
+            if (results === null) {
+                return "";
+            } else {
+                return decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+        },
+        CheckConnection: function () {
+            if (_Tracert) { console.log('metodo: "App.Utils.CheckConnection()" ha cargado exitosamente'); }
+            /// <summary>Valida que la conexi�n de internet este activa.</summary>
+            if(navigator.onLine!==undefined){
+                if(navigator.onLine) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                var xhr = new XMLHttpRequest();
+                var file =  "http://" + window.location.host +"/" ;
+                var r = Math.round(Math.random() * 10000);
+                xhr.open('HEAD', file + "?CheckConnection=" + r, false);
+                try {
+                    xhr.send();
+                    if (xhr.status >= 200 && xhr.status < 304) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } catch (e) {
+                    return false;
+                }
+            }
+        }
     };
-	
-	App.prototype.UI={
-	 Paginador: {        
-            Mover: function (nombrelink, nombrePagina) {
-                if (_Tracert) { console.log('metodo: "App.Paginador.Mover(nombrelink, nombrePagina)" ha cargado exitosamente'); }
-                /// <summary>Muestra una página requerida por el páginador.</summary>
-                /// <param name="nombrelink" type="String">Nombre del Link para buscar el elemento por el metodo document.getElementById y asignarle la App "numeroPagina activa".</param>
-                /// <param name="nombrePagina" type="String">Obtiene la colección de páginas para mostrar la que se este pidiendo mostrar, y se activa pagina[i]style.display='block'.</param>
-                /// <seealso cref="paginador">Método requerido por NT.Paginador</seealso>
-                /// <returns type="Void">No retorna valor.</returns>
 
-                var paginas = document.querySelectorAll("div.pagina");
-                var pagina = document.getElementById(nombrePagina);
-                var link = document.getElementById(nombrelink);
-                var links = document.querySelectorAll("a.numeroPagina");
-                if (links !== null) {
-                    for (i = 0; i < links.length; i++) {
-                        links[i].className = 'numeroPagina';
-                    }
-                }
-                if (paginas !== null) {
-                    for (i = 0; i < paginas.length; i++) {
-                        paginas[i].style.display = 'none';
-                    }
-                }
-                if (pagina !== null) {
-                    pagina.style.display = 'block';
-                }
-                if (link !== null) {
-                    link.className = "numeroPagina activa";
-                }
-            },
-            Mostrar: function (nombreContenedor, itemsPorPagina, maximoPaginasAMostrar, addClassPagina) {
-                /// <summary>Páginador dinámico creado vía JavaScript.</summary>
-                /// <param name="nombreContenedor" type="String">Nombre del contenedor para buscar el elemento por el metodo document.getElementById, donde se alojarán las nuevas páginas generadas por el páginador.</param>
-                /// <param name="itemsPorPagina" type="Number">Indica la cantidad de elementos por página, por defecto se establece 5.</param>
-                /// <param name="maximoPaginasAMostrar" type="Number">Indica la cantidad de páginas activas mostradas por el páginador, por defecto se establece 10.</param>
-                /// <param name="addClassPagina" type="String">Agrega una subApp a cada página generada.</param>
-                /// <seealso cref="paginador">Método requerido por NT.Paginador</seealso>
-                /// <returns type="Void">Construye páginas usando Divs y asinandole el Id='pagina+iteradorPaginas'.</returns>
-                if (_Tracert) { console.log('metodo: "App.Paginador.Mostrar(nombreContenedor, itemsPorPagina, maximoPaginasAMostrar, addClassPagina)" ha cargado exitosamente'); }
+
+    App.prototype.UI = {        
+        Paginador: {
+            Contenedor: "",
+            ItemsPorPagina: 0,
+            MaximoPaginas: 0,
+            AgregarClaseCss: "",
+            Mostrar: function () {
+                if (_Tracert) { console.log('metodo: "App.UI.Paginador.Mostrar()" ha cargado exitosamente'); }
+                nombreContenedor = this.Contenedor;
+                itemsPorPagina = this.ItemsPorPagina;
+                maximoPaginasAMostrar = this.MaximoPaginas;
+                addClassPagina = this.AgregarClaseCss;
+                /// <summary>P�ginador din�mico creado v�a JavaScript.</summary>
+                /// <param name="nombreContenedor" type="String">Nombre del contenedor para buscar el elemento por el metodo document.getElementById, donde se alojar�n las nuevas p�ginas generadas por el p�ginador.</param>
+                /// <param name="itemsPorPagina" type="Number">Indica la cantidad de elementos por p�gina, por defecto se establece 5.</param>
+                /// <param name="maximoPaginasAMostrar" type="Number">Indica la cantidad de p�ginas activas mostradas por el p�ginador, por defecto se establece 10.</param>
+                /// <param name="addClassPagina" type="String">Agrega una subclase a cada p�gina generada.</param>
+                /// <seealso cref="paginador">M�todo requerido por NT.Paginador</seealso>
+                /// <returns type="Void">Construye p�ginas usando Divs y asinandole el Id='pagina+iteradorPaginas'.</returns>
                 try {
                     if (nombreContenedor.length > 0) {
                         var contenedor = document.getElementById(nombreContenedor);
@@ -294,7 +334,7 @@
                             for (c = 0; c < (paginas > maximoPaginasAMostrar ? maximoPaginasAMostrar : paginas) - 1; c++) {
                                 var elemento = document.createElement("a");
                                 elemento.id = "link" + c;
-                                elemento.href = "javascript:NT.Paginador.Mover('link" + c + "','pagina" + c + "')";
+                                elemento.href = "javascript:UI.Paginador.Mover('link" + c + "','pagina" + c + "')";
                                 elemento.innerHTML = c + 1;
                                 if (c === 0) {
                                     elemento.className = "numeroPagina activa";
@@ -309,72 +349,146 @@
                     }
                 }
                 catch (err) {
-                    if (_Tracert) {
-                        console.log('error en Metodo: "paginadorMostrar(nombreContenedor,  itemsPorPagina, maximoPaginasAMostrar)", ' + err.message);
+
+                    console.log('error en Metodo: "paginadorMostrar(nombreContenedor,  itemsPorPagina, maximoPaginasAMostrar)", ' + err.message);
+
+                }
+            },
+            Mover: function (nombrelink, nombrePagina) {
+                if (_Tracert) { console.log('metodo: "App.UI.Paginador.Mover(nombrelink, nombrePagina)" ha cargado exitosamente'); }
+                /// <summary>Muestra una p�gina requerida por el p�ginador.</summary>
+                /// <param name="nombrelink" type="String">Nombre del Link para buscar el elemento por el metodo document.getElementById y asignarle la clase "numeroPagina activa".</param>
+                /// <param name="nombrePagina" type="String">Obtiene la colecci�n de p�ginas para mostrar la que se este pidiendo mostrar, y se activa pagina[i]style.display='block'.</param>
+                /// <seealso cref="paginador">M�todo requerido por NT.Paginador</seealso>
+                /// <returns type="Void">No retorna valor.</returns>
+                var paginas = document.querySelectorAll("div.pagina");
+                var pagina = document.getElementById(nombrePagina);
+                var link = document.getElementById(nombrelink);
+                var links = document.querySelectorAll("a.numeroPagina");
+                if (links !== null) {
+                    for (i = 0; i < links.length; i++) {
+                        links[i].className = 'numeroPagina';
                     }
+                }
+                if (paginas !== null) {
+                    for (i = 0; i < paginas.length; i++) {
+                        paginas[i].style.display = 'none';
+                    }
+                }
+                if (pagina !== null) {
+                    pagina.style.display = 'block';
+                }
+                if (link !== null) {
+                    link.className = "numeroPagina activa";
                 }
             }
         }
-	};
-	
-	
-	App.prototype.Runtime = function (starTime) {
+    };
+    
+    App.prototype.Runtime = function (starTime) {
+        if (_Tracert) { console.log('metodo: "App.Runtime(starTime)" ha cargado exitosamente'); }
         return (((new Date() - starTime) / 1000) + " segundos...").toFixed(2);
     };
 
-   App.prototype.NuevoMetodo = function (callback) {
-        if (_Tracert) { console.log('metodo: "App.NuevoMetodo()" ha cargado exitosamente'); }
-        var STARTTIME = new Date();
+    //Metodos por deprecar
+    App.prototype.Toogle = function (elemento) {
         var self = this;
-
-        if (typeof callback === 'function') {
-            callback();
-        }
-
-        if (_Tracert) { console.log('"App.NuevoMetodo()" realizado en ' + this.Runtime(STARTTIME)); }
-    };
-    
-	//Marcar Método Obsoleto
- 	App.prototype.MetodoObsoleto = function () {
-        var self = this;
-        var e = "[deprecated] MetodoObsoleto está Obsoleto y será removido en futuras versiones. Usar el siguiente método NOMBRE_NUEVO_METODO";
-        if (!this.NOMBRE_NUEVO_METODO) { throw (e); }
-        (this.MetodoObsoleto = function () {
+        var e = "[deprecated] App.Toogle(elemento) está Obsoleto, por favor usar App.Utils.Toogle(elemento). Este metodo será removido en futuras versiones.";
+        if (!this.Utils.Toogle) { throw (e); }
+        (this.Toogle = function () {
             console.log(e);
-            self.NOMBRE_NUEVO_METODO();
+            self.Utils.Toogle(elemento);
         })();
     }
-	
+    App.prototype.Obtener = function (url, parametros, callback) {
+        var self = this;
+        var e = "[deprecated] App.Obtener(url, parametros, callback) está Obsoleto, por favor usar App.Utils.Callback(url, parametros, callback). Este metodo será removido en futuras versiones.";
+        if (!this.Utils.Callback) { throw (e); }
+        (this.Obtener = function () {
+            console.log(e);
+            self.Utils.Callback(url, parametros, callback);
+        })();
+    }
+
+
     //Propiedades
-	Object.defineProperty(Object.prototype,'Enum', {
-		value: function() {
-			for(i in arguments) {
-				Object.defineProperty(this,arguments[i], {
-					value:parseInt(i,2),
-					writable:false,
-					enumerable:true,
-					configurable:true
-				});
-			}
-			return this;
-		},
-		writable:false,
-		enumerable:false,
-		configurable:false
-	}); 
-	
-	Object.defineProperty(App.prototype, "Propiedad", {
-        get: function Propiedad() {
-            return myVariable;
+    Object.defineProperty(Object.prototype, 'Enum', {
+        value: function () {
+            for (i in arguments) {
+                Object.defineProperty(this, arguments[i], {
+                    value: parseInt(i, 2),
+                    writable: false,
+                    enumerable: true,
+                    configurable: true
+                });
+            }
+            return this;
         },
-        set: function Propiedad(value) {
-            unidad = myVariable;
-        }
+        writable: false,
+        enumerable: false,
+        configurable: false
     });
     
-    namespace.App = App;
-} (window.jt=window.jt||{}));
+    Object.defineProperty(App.prototype, "Resultado", {
+        get: function Resultado() {
+            return _result;
+        }
+    });
+    Object.defineProperty(App.prototype, "Tracert", {
+        get: function Tracert() {
+            return _Tracert;
+        },
+        set: function Tracert(value) {
+            _Tracert = value;
+        }
+    });
 
-window.onload=function(){
-	this.App=new jt.App();
+    /* Para Usar como plantilla para nuevos metodos, metodos obsoletos y/o propiedades 
+
+         App.prototype.SUB_NAMESPACE = {
+            METODO1: function () {
+            },
+            SUBCLASE: {
+                METODO1: function () { },
+                METODO2: function () { }
+            }
+        };
+
+        App.prototype.NuevoMetodo = function (callback) {
+            if (_Tracert) { console.log('metodo: "App.NuevoMetodo()" ha cargado exitosamente'); }
+            var STARTTIME = new Date();
+            var self = this;
+
+            if (typeof callback === 'function') {
+                callback();
+            }
+
+            if (_Tracert) { console.log('"App.NuevoMetodo()" realizado en ' + this.Runtime(STARTTIME)); }
+        };
+
+        //Marcar Método Obsoleto
+        App.prototype.MetodoObsoleto = function () {
+            var self = this;
+            var e = "[deprecated] MetodoObsoleto está Obsoleto y será removido en futuras versiones. Usar el siguiente método NOMBRE_NUEVO_METODO";
+            if (!this.NOMBRE_NUEVO_METODO) { throw (e); }
+            (this.MetodoObsoleto = function () {
+                console.log(e);
+                self.NOMBRE_NUEVO_METODO();
+            })();
+        }
+        Object.defineProperty(App.prototype, "Propiedad", {
+            get: function Propiedad() {
+                return myVariable;
+            },
+            set: function Propiedad(value) {
+                unidad = myVariable;
+            }
+        });
+
+    */
+    namespace.App = App;
+}(window.jt = window.jt || {}));
+
+window.onload = function () {
+    this.App = new jt.App();
 }
