@@ -1,8 +1,10 @@
-/*!
+/*
  * ABOUT:		Snippet Javascript implement OOP
  * CREADOR: 		Jorge L. Torres A.
  * NOTA: 		Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO: 		Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
+ * ACTUALIZADO: 24-03-2015 04:03AM
+ * CREADO:      20-03-2015 11:53PM
  */
 
 (function (namespace) {
@@ -280,6 +282,7 @@
             Contenedor: "",
             ItemsPorPagina: 0,
             MaximoPaginas: 0,
+            EtiquetaACrear:"",
             AgregarClaseCss: "",
             Mostrar: function () {
                 if (_Tracert) { console.log('metodo: "App.UI.Paginador.Mostrar()" ha cargado exitosamente'); }
@@ -309,7 +312,7 @@
                             var oldDivs = [];
                             oldDivs.push.apply(oldDivs, notas);
                             for (a = 0; a < paginas; a++) {
-                                var div = document.createElement("div");
+                                var div = document.createElement(this.EtiquetaACrear);
                                 div.id = "pagina" + a;
                                 div.className = "pagina " + (addClassPagina !== undefined ? addClassPagina : '');
                                 if (a === 0) {
