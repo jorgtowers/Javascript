@@ -337,7 +337,7 @@
                             for (c = 0; c < (paginas > maximoPaginasAMostrar ? maximoPaginasAMostrar : paginas) - 1; c++) {
                                 var elemento = document.createElement("a");
                                 elemento.id = "link" + c;
-                                elemento.href = "javascript:UI.Paginador.Mover('link" + c + "','pagina" + c + "')";
+                                elemento.href = "javascript:app.UI.Paginador.Mover('link" + c + "','pagina" + c + "')";
                                 elemento.innerHTML = c + 1;
                                 if (c === 0) {
                                     elemento.className = "numeroPagina activa";
@@ -364,7 +364,7 @@
                 /// <param name="nombrePagina" type="String">Obtiene la colecci�n de p�ginas para mostrar la que se este pidiendo mostrar, y se activa pagina[i]style.display='block'.</param>
                 /// <seealso cref="paginador">M�todo requerido por NT.Paginador</seealso>
                 /// <returns type="Void">No retorna valor.</returns>
-                var paginas = document.querySelectorAll("div.pagina");
+                var paginas = document.querySelectorAll(this.EtiquetaACrear + ".pagina");
                 var pagina = document.getElementById(nombrePagina);
                 var link = document.getElementById(nombrelink);
                 var links = document.querySelectorAll("a.numeroPagina");
