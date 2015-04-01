@@ -1,10 +1,11 @@
 /*
- * ABOUT:		Snippet Javascript implement OOP
- * CREADOR: 		Jorge L. Torres A.
- * NOTA: 		Cambiar el nombre App por el nombre que se le de al objeto en javascript
- * METODO: 		Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
- * ACTUALIZADO: 24-03-2015 04:03AM
- * CREADO:      20-03-2015 11:53PM
+ * ABOUT:		  Snippet Javascript implement OOP
+ * CREADOR: 	  Jorge L. Torres A.
+ * NOTA: 		  Cambiar el nombre App por el nombre que se le de al objeto en javascript
+ * METODO: 		  Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
+ * ACTUALIZADO:   01-05-2015 04:03AM
+ * CREADO:        20-03-2015 11:53PM
+ * ACTUALIZACION: Inclución de UI.Draggable, para poder mover elementos que tengas la clase css .dragme 
  */
 
 (function (namespace) {
@@ -22,6 +23,10 @@
     //Metodos
     App.prototype.Constructor = function () {
         this.myVariable = null;
+        if (this.UI.Draggable) {
+            document.onmousedown = this.UI.Draggable.Iniciar;
+            document.onmouseup = this.UI.Draggable.Detener;
+        }
         if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
     };
 
@@ -384,6 +389,39 @@
                 if (link !== null) {
                     link.className = "numeroPagina activa";
                 }
+            }
+        },
+        Draggable: {
+            Iniciar: function (e) {
+                if (_Tracert) { console.log('metodo: "App.UI.Draggable.Iniciar(e)" ha cargado exitosamente'); }
+                var self = this;
+                if (!e) {
+                    var e = window.event;
+                }
+                if (e.preventDefault) e.preventDefault();
+                targ = e.target ? e.target : e.srcElement;
+                if (targ.className != 'dragme') { return };
+                offsetX = e.clientX;
+                offsetY = e.clientY;
+                if (!targ.style.left) { targ.style.left = '0px' };
+                if (!targ.style.top) { targ.style.top = '0px' };
+                coordX = parseInt(targ.style.left);
+                coordY = parseInt(targ.style.top);
+                drag = true;
+                document.onmousemove = this.app.UI.Draggable.Elemento;
+                return false;
+            },
+            Elemento: function (e) {
+                if (_Tracert) { console.log('metodo: "App.UI.Draggable.Elemento(e)" ha cargado exitosamente'); }
+                if (!drag) { return };
+                if (!e) { var e = window.event };
+                targ.style.left = coordX + e.clientX - offsetX + 'px';
+                targ.style.top = coordY + e.clientY - offsetY + 'px';
+                return false;
+            },
+            Detener: function () {
+                if (_Tracert) { console.log('metodo: "App.UI.Draggable.Detener()" ha cargado exitosamente'); }
+                drag = false;
             }
         }
     };
