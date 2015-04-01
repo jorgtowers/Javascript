@@ -3,7 +3,7 @@
  * CREADOR: 	  Jorge L. Torres A.
  * NOTA: 		  Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO: 		  Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
- * ACTUALIZADO:   01-05-2015 04:03AM
+ * ACTUALIZADO:   01-05-2015 12:03PM
  * CREADO:        20-03-2015 11:53PM
  * ACTUALIZACION: Inclución de UI.Draggable, para poder mover elementos que tengas la clase css .dragme 
  */
@@ -394,22 +394,21 @@
         Draggable: {
             Iniciar: function (e) {
                 if (_Tracert) { console.log('metodo: "App.UI.Draggable.Iniciar(e)" ha cargado exitosamente'); }
-                var self = this;
                 if (!e) {
                     var e = window.event;
-                }
-                if (e.preventDefault) e.preventDefault();
+                }                
                 targ = e.target ? e.target : e.srcElement;
-                if (targ.className != 'dragme') { return };
-                offsetX = e.clientX;
-                offsetY = e.clientY;
-                if (!targ.style.left) { targ.style.left = '0px' };
-                if (!targ.style.top) { targ.style.top = '0px' };
-                coordX = parseInt(targ.style.left);
-                coordY = parseInt(targ.style.top);
-                drag = true;
-                document.onmousemove = this.app.UI.Draggable.Elemento;
-                return false;
+                if (targ.className != 'dragme') { return; }
+                    if (e.preventDefault) e.preventDefault();
+                    offsetX = e.clientX;
+                    offsetY = e.clientY;
+                    if (!targ.style.left) { targ.style.left = '0px' };
+                    if (!targ.style.top) { targ.style.top = '0px' };
+                    coordX = parseInt(targ.style.left);
+                    coordY = parseInt(targ.style.top);
+                    drag = true;                
+                    document.onmousemove = this.app.UI.Draggable.Elemento;
+                    return false;                
             },
             Elemento: function (e) {
                 if (_Tracert) { console.log('metodo: "App.UI.Draggable.Elemento(e)" ha cargado exitosamente'); }
@@ -419,7 +418,7 @@
                 targ.style.top = coordY + e.clientY - offsetY + 'px';
                 return false;
             },
-            Detener: function () {
+            Detener: function () {                
                 if (_Tracert) { console.log('metodo: "App.UI.Draggable.Detener()" ha cargado exitosamente'); }
                 drag = false;
             }
