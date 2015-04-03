@@ -3,7 +3,7 @@
  * CREADOR: 	  Jorge L. Torres A.
  * NOTA: 		  Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO: 		  Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
- * ACTUALIZADO:   01-05-2015 12:03PM
+ * ACTUALIZADO:   02-05-2015 08:09PM
  * CREADO:        20-03-2015 11:53PM
  * ACTUALIZACION: Inclución de UI.Draggable, para poder mover elementos que tengas la clase css .dragme 
  */
@@ -278,9 +278,32 @@
                     return false;
                 }
             }
+        },
+        TimeAgo:function (date) {
+            var seconds = Math.floor((new Date() - date) / 1000);
+            var interval = Math.floor(seconds / 31536000);
+            if (interval > 1) {
+                return interval + " years";
+            }
+            interval = Math.floor(seconds / 2592000);
+            if (interval > 1) {
+                return interval + " months";
+            }
+            interval = Math.floor(seconds / 86400);
+            if (interval > 1) {
+                return interval + " days";
+            }
+            interval = Math.floor(seconds / 3600);
+            if (interval > 1) {
+                return interval + " hours";
+            }
+            interval = Math.floor(seconds / 60);
+            if (interval > 1) {
+                return interval + " minutes";
+            }
+            return Math.floor(seconds) + " seconds";
         }
     };
-
 
     App.prototype.UI = {
         Paginador: {
@@ -422,6 +445,72 @@
                 if (_Tracert) { console.log('metodo: "App.UI.Draggable.Detener()" ha cargado exitosamente'); }
                 drag = false;
             }
+        },
+        Notificacion:{
+            Init:function(){
+                this.Overlight=document.getElementById("overlight");
+                if(this.Overlight==null){
+                    var body=document.getElementsByTagName("body");
+                    this.Overlight=document.createElement("div");
+                    this.Overlight.id="overlight";
+        			this.Overlight.style.display="none";
+                    var tagBody=body[0];
+                    tagBody.parentNode.insertBefore(this.Overlight,tagBody);            
+                }
+                var styleOverlight=this.Css("#overlight");
+                if(styleOverlight==null){
+                    var head=document.getElementsByTagName("head");
+                    styleOverlight=document.createElement("style");
+                    styleOverlight.innerHTML="#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em;}";
+                    var tagHead=head[0];
+                    tagHead.appendChild(styleOverlight);
+                }
+        		this.Box=document.getElementById("boxNotificacion");		
+                if(this.Box==null){
+                    this.Box = document.createElement("div");
+        			this.Box.id="boxNotificacion";
+        			
+                    this.Overlight.appendChild(this.Box)                        
+                }
+            },
+        	Overlight:null,
+            Box:null,
+        	Duracion:10,
+        	Mensaje:function(mensaje){
+        		var self=this;
+        		this.Init();
+        		this.Overlight.style.display="block";
+        		this.Box.innerHTML=mensaje.Codigo + "-" + mensaje.Mensaje;
+        		var segundos=this.Duracion-1;
+        		var tituloPage=document.title;
+        		var falta=function(){
+        			setTimeout(function(){
+        				segundos=segundos-1;
+        				document.title= " Cerrando en " + segundos
+        				if(segundos>0)
+        					falta();
+        				},1000);
+        		};
+        		falta();
+        		setTimeout(function () {
+        			self.Overlight.style.display="none"; 
+        			self.Box.innerHTML="";
+        			document.title=tituloPage;
+        		}, this.Duracion *1000);
+            },
+            Css:function(className) {
+        		var estyles=document.styleSheets[0];
+        		if(estyles!=null){
+        			var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules
+        			for(var x=0;x<classes.length;x++) {
+        				if(classes[x].selectorText==className) {
+        					return classes[x].cssText;
+        				}
+        			}
+        		} else {
+        			return null;
+        		}
+        	}
         }
     };
 
