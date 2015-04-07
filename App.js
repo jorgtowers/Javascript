@@ -12,6 +12,7 @@
     //Constructor    
     function App() {
         this.Constructor();
+         _StartTime = App.STARTTIME;
     }
     //Variables Estaticas
     App.STARTTIME = new Date();
@@ -19,6 +20,7 @@
     var myVariable = App.prototype;
     var _Tracert = true;
     var _Result = null;
+    var _StartTime = new Date();
 
     //Metodos
     App.prototype.Constructor = function () {
@@ -563,6 +565,11 @@
             return _Result;
         }
     });
+    Object.defineProperty(App.prototype, "StartTime", {
+        get: function Resultado() {
+            return _StartTime;
+        }
+    });
     Object.defineProperty(App.prototype, "Tracert", {
         get: function Tracert() {
             return _Tracert;
@@ -618,6 +625,12 @@
     namespace.App = App;
 }(window.jt = window.jt || {}));
 
-window.onload = function () {
-    this.app = new jt.App();
+document.onreadystatechange = function () {
+    if (document.readyState == "interactive") {
+        this.app = new jt.App();
+    }
+    if (document.readyState == "complete") {
+        if (this.app.Tracert) { console.log("App finalmente correctamente..." + this.app.Runtime(this.app.StartTime)); }
+        //TO DO...
+    }
 }
