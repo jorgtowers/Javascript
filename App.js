@@ -560,7 +560,7 @@
 
     Object.defineProperty(App.prototype, "Resultado", {
         get: function Resultado() {
-            return _result;
+            return _Result;
         }
     });
     Object.defineProperty(App.prototype, "Tracert", {
