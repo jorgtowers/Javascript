@@ -3,9 +3,9 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
- * ACTUALIZADO..: 02-05-2015 08:09PM
+ * ACTUALIZADO..: 08-05-2015 03:23PM
  * CREADO.......: 20-03-2015 11:53PM
- * ACTUALIZACION: Inclución de UI.Draggable, para poder mover elementos que tengas la clase css .dragme 
+ * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
 
 (function (namespace) {
@@ -434,7 +434,7 @@
                 var fecha = grego.toLocaleTimeString("es-ve", options);
                 return fecha.substring(0, fecha.indexOf(" "));
             },
-            GregorialDateTime:function(JDN){
+            GregorianDateTime:function(JDN){
                 var jd=JDN.toString();
                     var	j1, j2, j3, j4, j5;			//scratch
                     //
