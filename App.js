@@ -281,29 +281,227 @@
                 }
             }
         },
-        TimeAgo:function (date) {
-            var seconds = Math.floor((new Date() - date) / 1000);
-            var interval = Math.floor(seconds / 31536000);
-            if (interval > 1) {
-                return interval + " years";
+        TimeAgo: function (date) {
+            var self = this;
+            var e = "[deprecated] App.TimeAgo(elemento) está Obsoleto, por favor usar App.Utils.Time.Ago(elemento). Este metodo será removido en futuras versiones.";
+            if (!this.Time) { throw (e); }
+            (this.TimeAgo = function () {
+                console.log(e);
+                self.Time.Ago(date);
+            })();
+        },
+        Time: {
+            Ago: function (date) {
+                if (_Tracert) { console.log('metodo: "App.Utils.Time.Ago(date)" ha cargado exitosamente'); }
+                var seconds = Math.floor((new Date() - date) / 1000);
+                var interval = Math.floor(seconds / 31536000);
+                if (interval > 1) {
+                    return interval + " years";
+                }
+                interval = Math.floor(seconds / 2592000);
+                if (interval > 1) {
+                    return interval + " months";
+                }
+                interval = Math.floor(seconds / 86400);
+                if (interval > 1) {
+                    return interval + " days";
+                }
+                interval = Math.floor(seconds / 3600);
+                if (interval > 1) {
+                    return interval + " hours";
+                }
+                interval = Math.floor(seconds / 60);
+                if (interval > 1) {
+                    return interval + " minutes";
+                }
+                return Math.floor(seconds) + " seconds";
+            },
+            JulianDate: function (date) {
+                if (_Tracert) { console.log('metodo: "App.Utils.Time.Julian(date)" ha cargado exitosamente'); }
+                var myDate = date
+                var jul = null;                                
+                if (myDate === null) {
+                    alert("La fecha es incorrecta. Por favor utilice el calendario desplegable para ingresar la fecha a convertir.");
+                    return
+                }
+                var myYear = myDate.getFullYear();
+                var myDay = myDate.getDate();
+                var myMonth = myDate.getMonth() ;
+                var date1 = new Date(myYear,myMonth,myDay);
+                var date2 = new Date(myYear, 0, 1);
+                var days = this.DiffBetweenDays(date1, date2);
+                jul = (myYear - 1900) * 1000 + days + 1;                
+                return jul;                
+            },
+            JulianDateTime: function (datetime) {
+                var era="CE";
+                var y = datetime.getFullYear();
+                var m = datetime.getMonth()+1;
+                var d = datetime.getDate();
+                var h = datetime.getHours();
+                var mn = datetime.getMinutes();
+                var s = datetime.getSeconds();
+                var jy, ja, jm;			//scratch
+                if (y == 0) {
+                    alert("There is no year 0 in the Julian system!");
+                    return "invalid";
+                }
+                if (y == 1582 && m == 10 && d > 4 && d < 15) {
+                    alert("The dates 5 through 14 October, 1582, do not exist in the Gregorian system!");
+                    return "invalid";
+                }
+
+                //	if( y < 0 )  ++y;
+                if (era == "BCE") y = -y + 1;
+                if (m > 2) {
+                    jy = y;
+                    jm = m + 1;
+                } else {
+                    jy = y - 1;
+                    jm = m + 13;
+                }
+
+                var intgr = Math.floor(Math.floor(365.25 * jy) + Math.floor(30.6001 * jm) + d + 1720995);
+
+                //check for switch to Gregorian calendar
+                var gregcal = 15 + 31 * (10 + 12 * 1582);
+                if (d + 31 * (m + 12 * y) >= gregcal) {
+                    ja = Math.floor(0.01 * jy);
+                    intgr += 2 - ja + Math.floor(0.25 * ja);
+                }
+
+                //correct for half-day offset
+                var dayfrac = h / 24.0 - 0.5;
+                if (dayfrac < 0.0) {
+                    dayfrac += 1.0;
+                    --intgr;
+                }
+
+                //now set the fraction of a day
+                var frac = dayfrac + (mn + s / 60.0) / 60.0 / 24.0;
+
+                //round to nearest second
+                var jd0 = (intgr + frac) * 100000;
+                var jd = Math.floor(jd0);
+                if (jd0 - jd > 0.5)++jd;
+                return jd / 100000;
+            },
+            GregorianDate: function (JDN) {
+                if (_Tracert) { console.log('metodo: "App.Utils.Time.DiffBetweenDays(desde,hasta)" ha cargado exitosamente'); }
+                var myJul = JDN.toString();
+                var out = null;
+                var yearSubStr;
+                var daySubStr;
+                if (myJul.length == 5) {
+                    yearSubStr = myJul.substr(0, 2);
+                    daySubStr = myJul.substr(2, 3)
+                } else {
+                    yearSubStr = myJul.substr(0, 3);
+                    daySubStr = myJul.substr(3, 3)
+                }
+                if (yearSubStr.substr(0, 1) == "0") {
+                    alert("Ingreso una fecha incorrecta");
+                    return
+                }
+                var year = 1900 + parseInt(yearSubStr);
+                if (daySubStr.substr(0, 1) == "0") {
+                    if (daySubStr.substr(0, 2) == "00")
+                        daySubStr = parseInt(daySubStr.substr(2, 1));
+                    else
+                        daySubStr = parseInt(daySubStr.substr(1, 2))
+                } else {
+                    daySubStr = parseInt(daySubStr.substr(0, 3))
+                }
+                var days = daySubStr;
+                var grego = new Date(year, 0, 1);
+                if (myJul.length > 6 || !this.isValidDate(grego) || myJul.length < 5) {
+                    alert("Ingreso una fecha incorrecta");
+                    return
+                }
+                grego.setDate(grego.getDate() + days - 1);
+                var myYear = grego.getFullYear();
+                var myDay = grego.getDate();
+                var myMonth = grego.getMonth() + 1;
+                if (myYear !== year) {
+                    alert("Ingreso una fecha incorrecta");
+                    return
+                }
+                if (myYear < 1971 || myYear > 2100) {
+                    alert("El Rango de fechas soportado es entre 1971 y 2100");
+                    return
+                }
+                var options = { year: "numeric", month: "2-digit", day: "2-digit" };
+                var fecha = grego.toLocaleTimeString("es-ve", options);
+                return fecha.substring(0, fecha.indexOf(" "));
+            },
+            GregorialDateTime:function(JDN){
+                var jd=JDN.toString();
+                    var	j1, j2, j3, j4, j5;			//scratch
+                    //
+                    // get the date from the Julian day number
+                    //
+                    var intgr   = Math.floor(jd);
+                    var frac    = jd - intgr;
+                    var gregjd  = 2299161;
+                    if( intgr >= gregjd ) {				//Gregorian calendar correction
+                        var tmp = Math.floor( ( (intgr - 1867216) - 0.25 ) / 36524.25 );
+                        j1 = intgr + 1 + tmp - Math.floor(0.25*tmp);
+                    } else
+                        j1 = intgr;
+
+                    //correction for half day offset
+                    var dayfrac = frac + 0.5;
+                    if( dayfrac >= 1.0 ) {
+                        dayfrac -= 1.0;
+                        ++j1;
+                    }
+
+                    j2 = j1 + 1524;
+                    j3 = Math.floor( 6680.0 + ( (j2 - 2439870) - 122.1 )/365.25 );
+                    j4 = Math.floor(j3*365.25);
+                    j5 = Math.floor( (j2 - j4)/30.6001 );
+
+                    var d = Math.floor(j2 - j4 - Math.floor(j5*30.6001));
+                    var m = Math.floor(j5 - 1);
+                    if( m > 12 ) m -= 12;
+                    var y = Math.floor(j3 - 4715);
+                    if( m > 2 )   --y;
+                    if( y <= 0 )  --y;
+
+                    //
+                    // get time of day from day fraction
+                    //
+                    var hr  = Math.floor(dayfrac * 24.0);
+                    var mn  = Math.floor((dayfrac*24.0 - hr)*60.0);
+                    f  = ((dayfrac*24.0 - hr)*60.0 - mn)*60.0;
+                    var sc  = Math.floor(f);
+                    f -= sc;
+                    if( f > 0.5 ) ++sc;
+
+                    //if( y < 0 ) {
+                    //    y = -y;
+                    //    form.era[1].checked = true;
+                    //} else
+                //    form.era[0].checked = true;
+                    var grego = new Date(y, m-1, d, hr, mn, sc);
+                    var options = { year: "numeric", month: "2-digit", day: "2-digit", hour:"2-digit",minute:"2-digit",second:"2-digit" };
+                    return grego.toLocaleTimeString("es-ve", options);
+                
+            },
+            DiffBetweenDays: function (desde, hasta) {
+                if (_Tracert) { console.log('metodo: "App.Utils.Time.DiffBetweenDays(desde,hasta)" ha cargado exitosamente'); }
+                var ONE_DAY = 1000 * 60 * 60 * 24;
+                var date1_ms = desde.getTime();
+                var date2_ms = hasta.getTime();
+                var difference_ms = Math.abs(date1_ms - date2_ms);
+                return Math.round(difference_ms / ONE_DAY);
+            },            
+            isValidDate: function (d) {
+                if (_Tracert) { console.log('metodo: "App.Utils.Time.isValidDate(d)" ha cargado exitosamente'); }
+                if (Object.prototype.toString.call(d) !== "[object Date]")
+                    return false;
+                return !isNaN(d.getTime())
             }
-            interval = Math.floor(seconds / 2592000);
-            if (interval > 1) {
-                return interval + " months";
-            }
-            interval = Math.floor(seconds / 86400);
-            if (interval > 1) {
-                return interval + " days";
-            }
-            interval = Math.floor(seconds / 3600);
-            if (interval > 1) {
-                return interval + " hours";
-            }
-            interval = Math.floor(seconds / 60);
-            if (interval > 1) {
-                return interval + " minutes";
-            }
-            return Math.floor(seconds) + " seconds";
         }
     };
 
