@@ -65,6 +65,7 @@
             if (_Tracert) { console.log('metodo: "App.Utils.ValidarCampos(idContentPlaceHolder, applyClass)" ha cargado exitosamente'); }
             /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
             /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
+            var validados = true;
             var contenedor;
             if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0) {
                 contenedor = document.getElementById(idContentPlaceHolder);
@@ -89,11 +90,13 @@
                         if (obj.value.length === 0) {
                             if (applyClass) {
                                 this.ClassCss.Add(obj, "requerido");
+                                validados = false;
                             }
                         } else if (parseInt(obj.value) < 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
                         {
                             if (applyClass) {
                                 this.ClassCss.Add(obj, "requerido");
+                                validados = false;
                             }
                             if (obj.getAttribute("title") !== null) {
                                 vacios.push(obj.getAttribute("title").toUpperCase());
@@ -129,9 +132,9 @@
                             }
                         }
                     }
-                }
-                return false;
+                }                
             }
+            return validados;
         },
         NoRefresh: function () {
             if (_Tracert) { console.log('metodo: "App.Utils.NoRefresh()" ha cargado exitosamente'); }
