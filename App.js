@@ -86,7 +86,11 @@
                 obj = objects[i];
                 if (!obj.disabled) {
                     if (obj.getAttribute("optional") === null) {//Si tiene atributo opcional no validará
-                        if (obj.value.length === 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
+                        if (obj.value.length === 0) {
+                            if (applyClass) {
+                                this.ClassCss.Add(obj, "requerido");
+                            }
+                        } else if (parseInt(obj.value) < 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
                         {
                             if (applyClass) {
                                 this.ClassCss.Add(obj, "requerido");
@@ -101,7 +105,6 @@
                         }
                     }
                 }
-
             }
             if (vacios.length > 0) {
                 if (!applyClass) {
