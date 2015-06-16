@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
- * ACTUALIZADO..: 08-05-2015 03:23PM
+ * ACTUALIZADO..: 16-06-2015 09:05PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -55,6 +55,15 @@
                 request.send();
             } else {
                 _Result = null;
+            }
+        },
+        HoraActual: function (elemento) {
+            if (_Tracert) { console.log('metodo: "App.Utils.HoraActual(elemento)" ha cargado exitosamente'); }
+            var obj = document.getElementById(elemento);
+            if (obj != null) {
+                var date = new Date();
+                var str = this.Utils.LPad(date.getDate(), 2) + "-" + this.Utils.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + " " + this.Utils.LPad(date.getHours(), 2) + ":" + this.Utils.LPad(date.getMinutes(), 2) + ":" + this.Utils.LPad(date.getSeconds(), 2);
+                obj.value = str;
             }
         },
         NoEnter: function () {
