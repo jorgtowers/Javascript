@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
- * ACTUALIZADO..: 16-06-2015 09:05PM
+ * ACTUALIZADO..: 21-06-2015 09:05PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -29,6 +29,12 @@
             document.onmousedown = this.UI.Draggable.Iniciar;
             document.onmouseup = this.UI.Draggable.Detener;
         }
+        var filtro = document.getElementById("filtro");
+        var tabla = document.getElementById("listado");
+        if (filtro != null)
+            filtro.onkeyup = function () {
+                filterTable(filtro, tabla);
+            };
         if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
     };
 
