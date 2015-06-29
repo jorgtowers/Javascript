@@ -201,12 +201,12 @@
                 this.Toogle('editPanel');
             }
         },
-        GetFecha: function (elemento) {
+        GetFecha: function (elemento,sinHora) {
             if (_Tracert) { console.log('metodo: "App.Utils.GetFecha(elemento)" ha cargado exitosamente'); }
             var obj = document.getElementById(elemento);
             if (obj !== null) {
                 var date = new Date();
-                var str = this.LPad(date.getDate(), 2) + "-" + this.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + " " + this.LPad(date.getHours(), 2) + ":" + this.LPad(date.getMinutes(), 2) + ":" + this.LPad(date.getSeconds(), 2);
+                var str = this.LPad(date.getDate(), 2) + "-" + this.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + this.LPad(date.getHours(), 2) + ":" + this.LPad(date.getMinutes(), 2) + ":" + this.LPad(date.getSeconds(), 2) : "");
                 obj.value = str;
             }
         },
