@@ -2,8 +2,8 @@
  * ABOUT........: Snippet Javascript implement OOP
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
- * METODO.......: Para implementar un nuevo método tomar como referencia código "App.prototype.NuevoMetodo"
- * ACTUALIZADO..: 21-06-2015 09:05PM
+ * METODO.......: Se agrega validarRif
+ * ACTUALIZADO..: 11-07-2015 09:05PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -39,6 +39,48 @@
     };
 
     App.prototype.Utils = {
+        ValidarRif:function (sRif) {
+            var bResultado = false;
+            var iFactor = 0;
+            sRif = sRif.split('-').join('');
+            if (sRif.length < 10)
+                sRif = LPad(sRif.toString().toUpperCase().substr(0, 1) + sRif.toString().substr(1, sRif.length - 1), 9, '0');
+
+            var sPrimerCaracter = sRif.toString().substr(0, 1).toUpperCase();
+            switch (sPrimerCaracter) {
+                case "V": iFactor = 1; break;
+                case "E": iFactor = 2; break;
+                case "J": iFactor = 3; break;
+                case "P": iFactor = 4; break;
+                case "G": iFactor = 5; break;
+            }
+
+            if (iFactor > 0) {
+                var suma = (sRif.toString().substr(8, 1) * 2)
+                                 + (sRif.toString().substr(7, 1) * 3)
+                                 + (sRif.toString().substr(6, 1) * 4)
+                                 + (sRif.toString().substr(5, 1) * 5)
+                                 + (sRif.toString().substr(4, 1) * 6)
+                                 + (sRif.toString().substr(3, 1) * 7)
+                                 + (sRif.toString().substr(2, 1) * 2)
+                                 + (sRif.toString().substr(1, 1) * 3)
+                                 + (iFactor * 4);
+                var dividendo = suma / 11;
+                var DividendoEntero = parseInt(dividendo, 0);
+                var resto = 11 - (suma - DividendoEntero * 11);
+                if (resto >= 10 || resto < 1)
+                    resto = 0;
+                if (sRif.toString().substr(9, 1) == resto.toString()) {
+                    bResultado = true;
+                }
+            }
+            if (!bResultado) {
+                alert("RIF Incorrecto!!!");
+            }else {
+                alert("RIF Correcto!!!");
+                            }
+            return bResultado;
+        },
         Callback: function (url, parametros, callback) {
             if (_Tracert) { console.log('metodo: "App.UI.CallBack(url, parametros, callback)" ha cargado exitosamente'); }
             if (url != null) {
