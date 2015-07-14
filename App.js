@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 11-07-2015 09:05PM
+ * ACTUALIZADO..: 15-07-2015 10:40PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -715,7 +715,7 @@
                 if(styleOverlight==null){
                     var head=document.getElementsByTagName("head");
                     styleOverlight=document.createElement("style");
-                    styleOverlight.innerHTML="#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em;}";
+                    styleOverlight.innerHTML="#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;z-index:9999}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em;}";
                     var tagHead=head[0];
                     tagHead.appendChild(styleOverlight);
                 }
