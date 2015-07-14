@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 15-07-2015 10:40PM
+ * ACTUALIZADO..: 15-07-2015 01:40PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -729,28 +729,30 @@
             },
         	Overlight:null,
             Box:null,
-        	Duracion:10,
-        	Mensaje:function(mensaje){
-        		var self=this;
-        		this.Init();
-        		this.Overlight.style.display="block";
-        		this.Box.innerHTML=mensaje.Codigo + "-" + mensaje.Mensaje;
-        		var segundos=this.Duracion-1;
-        		var tituloPage=document.title;
-        		var falta=function(){
-        			setTimeout(function(){
-        				segundos=segundos-1;
-        				document.title= " Cerrando en " + segundos
-        				if(segundos>0)
-        					falta();
-        				},1000);
-        		};
-        		falta();
-        		setTimeout(function () {
-        			self.Overlight.style.display="none"; 
-        			self.Box.innerHTML="";
-        			document.title=tituloPage;
-        		}, this.Duracion *1000);
+        	Duracion:5,
+        	Mensaje: function (mensaje,callback) {
+                var self = this;
+                this.Init();
+                this.Overlight.style.display = "block";
+                this.Box.innerHTML =  mensaje.Mensaje;
+                var segundos = this.Duracion - 1;
+                var tituloPage = document.title;
+                var falta = function () {
+                    setTimeout(function () {
+                        segundos = segundos - 1;
+                        document.title = " Cerrando en " + segundos
+                        if (segundos > 0)
+                            falta();
+                    }, 1000);
+                };
+                falta();
+                setTimeout(function () {
+                    self.Overlight.style.display = "none";
+                    self.Box.innerHTML = "";
+                    document.title = tituloPage;
+                    if (callback !== undefined && typeof (callback) === "function") 
+                        callback();
+                }, this.Duracion * 1000);
             },
             Css:function(className) {
         		var estyles=document.styleSheets[0];
