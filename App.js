@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 18-07-2015 11:33AM
+ * ACTUALIZADO..: 18-07-2015 12:03PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -193,6 +193,7 @@
             if (_Tracert) { console.log('metodo: "App.Utils.Validaciones(idContentPlaceHolder)" ha cargado exitosamente'); }
             /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
             /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
+            /// EJ: <asp:TextBox ID="txtWebSite" runat="server" class="form-control" placeholder="Web Site" validation="((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)" validation-message="La dirección url ingresada es inválida, por favor intente nuevamente"></asp:TextBox>
             var contenedor;
             if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0) {
                 contenedor = document.getElementById(idContentPlaceHolder);
