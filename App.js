@@ -25,6 +25,11 @@
     //Metodos
     App.prototype.Constructor = function () {
         this.myVariable = null;
+        
+        this.Utils.Validaciones('editPanel');
+        this.Utils.DisplayWhenEditing();
+        this.Utils.KeyBoard();
+        
         if (this.UI.Draggable) {
             document.onmousedown = this.UI.Draggable.Iniciar;
             document.onmouseup = this.UI.Draggable.Detener;
@@ -183,6 +188,39 @@
                 }                
             }
             return validados;
+        },
+        Validaciones: function (idContentPlaceHolder) {
+            if (_Tracert) { console.log('metodo: "App.Utils.Validaciones(idContentPlaceHolder)" ha cargado exitosamente'); }
+            /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
+            /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
+            var contenedor;
+            if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0) {
+                contenedor = document.getElementById(idContentPlaceHolder);
+            } else {
+                contenedor = document;
+            }
+            var obj = null;
+            if (contenedor !== null) {
+                var inputs = contenedor.querySelectorAll("input[type=text]");
+                var objects = [];
+                objects.push.apply(objects, inputs);
+                for (i = 0; i < objects.length; i++) {
+                    obj = objects[i];
+                    if (!obj.disabled) {
+                        if (obj.getAttribute("validation") !== null) {//Si tiene atributo validation para obtener la expresion regular                        
+                            obj.onblur = function () {
+                                var exp = this.getAttribute("validation");
+                                var msg = this.getAttribute("validation-message");
+                                var validado = this.value.match(exp);
+                                if (!validado) {
+                                    document.app.UI.Notificacion.Mensaje({ "Mensaje": msg });
+                                    this.value = "";
+                                }
+                            };
+                        }
+                    }
+                }
+            }
         },
         NoRefresh: function () {
             if (_Tracert) { console.log('metodo: "App.Utils.NoRefresh()" ha cargado exitosamente'); }
