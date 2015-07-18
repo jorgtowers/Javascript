@@ -209,9 +209,9 @@
                     if (!obj.disabled) {
                         if (obj.getAttribute("validation") !== null) {//Si tiene atributo validation para obtener la expresion regular                        
                             obj.onblur = function () {
-                                var exp = this.getAttribute("validation");
+                                var exp = new RegExp(this.getAttribute("validation"),"ig");
                                 var msg = this.getAttribute("validation-message");
-                                var validado = this.value.match(exp);
+                                var validado = exp.test(this.value);
                                 if (!validado) {
                                     document.app.UI.Notificacion.Mensaje({ "Mensaje": msg });
                                     this.value = "";
