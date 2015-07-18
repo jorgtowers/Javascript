@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 15-07-2015 01:40PM
+ * ACTUALIZADO..: 18-07-2015 11:33AM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
