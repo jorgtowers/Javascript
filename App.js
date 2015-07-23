@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 18-07-2015 12:03PM
+ * ACTUALIZADO..: 23-07-2015 02:25PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -189,35 +189,50 @@
             }
             return validados;
         },
-        Validaciones: function (idContentPlaceHolder) {
-            if (_Tracert) { console.log('metodo: "App.Utils.Validaciones(idContentPlaceHolder)" ha cargado exitosamente'); }
-            /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
-            /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
-            /// EJ: <asp:TextBox ID="txtWebSite" runat="server" class="form-control" placeholder="Web Site" validation="((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)" validation-message="La dirección url ingresada es inválida, por favor intente nuevamente"></asp:TextBox>
-            var contenedor;
-            if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0) {
-                contenedor = document.getElementById(idContentPlaceHolder);
-            } else {
-                contenedor = document;
-            }
-            var obj = null;
-            if (contenedor !== null) {
-                var inputs = contenedor.querySelectorAll("input[type=text]");
-                var objects = [];
-                objects.push.apply(objects, inputs);
-                for (i = 0; i < objects.length; i++) {
-                    obj = objects[i];
-                    if (!obj.disabled) {
-                        if (obj.getAttribute("validation") !== null) {//Si tiene atributo validation para obtener la expresion regular                        
-                            obj.onblur = function () {
-                                var exp = new RegExp(this.getAttribute("validation"),"ig");
-                                var msg = this.getAttribute("validation-message");
-                                var validado = exp.test(this.value);
-                                if (!validado) {
-                                    document.app.UI.Notificacion.Mensaje({ "Mensaje": msg });
-                                    this.value = "";
-                                }
-                            };
+        Validaciones: {
+            Patron: [
+                {
+                    "RegEx": "((?:https?\\://|www\\.)(?:[-a-z0-9]+\\.)*[-a-z0-9]+.*)",
+                    "Message": "La dirección url ingresada es inválida, por favor intente nuevamente"
+                },
+                {
+                    "RegEx": "\\d+",
+                    "Message": "Sólo puede ingresar valores númericos en este campo, por favor intente nuevamente"
+                }
+            ],
+            Validar: function (idContentPlaceHolder) {
+                if (_Tracert) { console.log('metodo: "App.Utils.Validaciones(idContentPlaceHolder)" ha cargado exitosamente'); }
+                /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
+                /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
+                /// <asp:TextBox ID="txtWebSite" runat="server" class="form-control" placeholder="Web Site" validation="0" ></asp:TextBox>
+                var contenedor;
+                if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0) {
+                    contenedor = document.getElementById(idContentPlaceHolder);
+                } else {
+                    contenedor = document;
+                }
+                var obj = null;
+                if (contenedor !== null) {
+                    var inputs = contenedor.querySelectorAll("input[type=text]");
+                    var objects = [];
+                    objects.push.apply(objects, inputs);
+                    for (i = 0; i < objects.length; i++) {
+                        obj = objects[i];
+                        if (!obj.disabled) {
+                            if (obj.getAttribute("validation") !== null) {//Si tiene atributo validation para obtener la expresion regular                        
+                                obj.onblur = function () {
+                                    var ex = eval("document.app.Utils.Validaciones.Patron[" + this.getAttribute("validation") + "]");
+                                    //var exp = new RegExp(this.getAttribute("validation"), "ig");
+                                    var exp = new RegExp(ex.RegEx, "ig");
+                                    //var msg = this.getAttribute("validation-message");
+                                    var msg = ex.Message;
+                                    var validado = exp.test(this.value);
+                                    if (!validado) {
+                                        document.app.UI.Notificacion.Mensaje({ "Mensaje": msg });
+                                        this.value = "";
+                                    }
+                                };
+                            }
                         }
                     }
                 }
