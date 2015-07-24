@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 23-07-2015 02:25PM
+ * ACTUALIZADO..: 24-07-2015 05:09PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  */
@@ -192,12 +192,17 @@
         Validaciones: {
             Patron: [
                 {
+                    "Validation": "0",
                     "RegEx": "((?:https?\\://|www\\.)(?:[-a-z0-9]+\\.)*[-a-z0-9]+.*)",
                     "Message": "La dirección url ingresada es inválida, por favor intente nuevamente"
-                },
-                {
-                    "RegEx": "\\d+",
+                }, {
+                    "Validation": "1",
+                    "RegEx": "[0-9]",
                     "Message": "Sólo puede ingresar valores númericos en este campo, por favor intente nuevamente"
+                }, {
+                    "Validation": "2",
+                    "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
+                    "Message":"La dirección url ingresada es inválida, por favor intente nuevamente"
                 }
             ],
             Validar: function (idContentPlaceHolder) {
