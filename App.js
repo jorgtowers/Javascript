@@ -86,6 +86,22 @@
                             }
             return bResultado;
         },
+        CheckImages: function () {
+            if (_Tracert) { console.log('metodo: "App.Utils.CheckImages()" ha cargado exitosamente'); }
+            var imgsFallidas = document.querySelectorAll("img");
+            if (imgsFallidas !== null) {
+                for (i = 0; i < imgsFallidas.length; i++) {
+                    if (imgsFallidas[i].src.match(/http:\/\/imgs.notitarde.com/g)) {
+                        imgsFallidas[i].onerror = function (evt) { this.src = '/imagenes/IMAGE_ERROR-NO_PHOTO.gif'; };
+                    }
+                }
+                for (i = 0; i < imgsFallidas.length; i++) {
+                    if (imgsFallidas[i].src.match(/http:\/\/imgs.notitarde.com/g)) {
+                        imgsFallidas[i].src = imgsFallidas[i].src;
+                    }
+                }
+            }
+        },
         Callback: function (url, parametros, callback) {
             if (_Tracert) { console.log('metodo: "App.UI.CallBack(url, parametros, callback)" ha cargado exitosamente'); }
             if (url != null) {
