@@ -10,12 +10,16 @@
  */
 
 (function (namespace) {
-    //Constructor    
+    /*----------------------------
+     * Constructor
+     *----------------------------*/   
     function App() {
         this.Constructor();
          _StartTime = App.STARTTIME;
     }
-    //Variables Estaticas
+    /*----------------------------
+     * Variables Estáticas
+     *----------------------------*/   
     App.STARTTIME = new Date();
     //Variables Privadas
     var myVariable = App.prototype;
@@ -23,7 +27,9 @@
     var _Result = null;
     var _StartTime = new Date();
 
-    //Metodos
+    /*----------------------------
+     * Métodos Públicos
+     *----------------------------*/   
     App.prototype.Constructor = function () {
         this.myVariable = null;
         
@@ -43,7 +49,6 @@
             };
         if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
     };
-
     App.prototype.Utils = {
         ValidarRif:function (sRif) {
             var bResultado = false;
@@ -634,7 +639,6 @@
             }
         }
     };
-
     App.prototype.UI = {
         Paginador: {
             Contenedor: "",
@@ -845,13 +849,14 @@
         	}
         }
     };
-
     App.prototype.Runtime = function (starTime) {
         if (_Tracert) { console.log('metodo: "App.Runtime(starTime)" ha cargado exitosamente'); }
         return (((new Date() - starTime) / 1000).toFixed(2) + " segundos...");
     };
 
-    //Metodos por deprecar
+    /*----------------------------
+     * Métodos por Deprecar
+     *----------------------------*/   
     App.prototype.Toogle = function (elemento) {
         var self = this;
         var e = "[deprecated] App.Toogle(elemento) está Obsoleto, por favor usar App.Utils.Toogle(elemento). Este metodo será removido en futuras versiones.";
@@ -871,8 +876,9 @@
         })();
     }
 
-
-    //Propiedades
+    /*----------------------------
+     * Propiedades Públicas
+     *----------------------------*/   
     Object.defineProperty(Object.prototype, 'Enum', {
         value: function () {
             for (i in arguments) {
@@ -889,7 +895,6 @@
         enumerable: false,
         configurable: false
     });
-
     Object.defineProperty(App.prototype, "Resultado", {
         get: function Resultado() {
             return _Result;
@@ -909,9 +914,11 @@
         }
     });
 
-    /* Para Usar como plantilla para nuevos metodos, metodos obsoletos y/o propiedades 
-
-         App.prototype.SUB_NAMESPACE = {
+    /*----------------------------
+     * Para Usar como plantilla para nuevos metodos, metodos obsoletos y/o propiedades 
+     *----------------------------*/   
+    /* 
+        App.prototype.SUB_NAMESPACE = {
             METODO1: function () {
             },
             SUBCLASE: {
@@ -919,7 +926,6 @@
                 METODO2: function () { }
             }
         };
-
         App.prototype.NuevoMetodo = function (callback) {
             if (_Tracert) { console.log('metodo: "App.NuevoMetodo()" ha cargado exitosamente'); }
             var STARTTIME = new Date();
@@ -931,7 +937,6 @@
 
             if (_Tracert) { console.log('"App.NuevoMetodo()" realizado en ' + this.Runtime(STARTTIME)); }
         };
-
         //Marcar Método Obsoleto
         App.prototype.MetodoObsoleto = function () {
             var self = this;
@@ -950,7 +955,6 @@
                 unidad = myVariable;
             }
         });
-
     */
     namespace.App = App;
 }(window.jt = window.jt || {}));
