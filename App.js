@@ -879,41 +879,44 @@
     /*----------------------------
      * Propiedades Públicas
      *----------------------------*/   
-    Object.defineProperty(Object.prototype, 'Enum', {
-        value: function () {
-            for (i in arguments) {
-                Object.defineProperty(this, arguments[i], {
-                    value: parseInt(i, 2),
-                    writable: false,
-                    enumerable: true,
-                    configurable: true
-                });
+     try {
+        Object.defineProperty(Object.prototype, 'Enum', {
+            value: function () {
+                for (i in arguments) {
+                    Object.defineProperty(this, arguments[i], {
+                        value: parseInt(i, 2),
+                        writable: false,
+                        enumerable: true,
+                        configurable: true
+                    });
+                }
+                return this;
+            },
+            writable: false,
+            enumerable: false,
+            configurable: false
+        });
+        Object.defineProperty(App.prototype, "Resultado", {
+            get: function Resultado() {
+                return _Result;
             }
-            return this;
-        },
-        writable: false,
-        enumerable: false,
-        configurable: false
-    });
-    Object.defineProperty(App.prototype, "Resultado", {
-        get: function Resultado() {
-            return _Result;
-        }
-    });
-    Object.defineProperty(App.prototype, "StartTime", {
-        get: function Resultado() {
-            return _StartTime;
-        }
-    });
-    Object.defineProperty(App.prototype, "Tracert", {
-        get: function Tracert() {
-            return _Tracert;
-        },
-        set: function Tracert(value) {
-            _Tracert = value;
-        }
-    });
-
+        });
+        Object.defineProperty(App.prototype, "StartTime", {
+            get: function Resultado() {
+                return _StartTime;
+            }
+        });
+        Object.defineProperty(App.prototype, "Tracert", {
+            get: function Tracert() {
+                return _Tracert;
+            },
+            set: function Tracert(value) {
+                _Tracert = value;
+            }
+        });
+     } catch(err) {
+        console.log("this explorer no support definition the properties") ;
+     }
     /*----------------------------
      * Para Usar como plantilla para nuevos metodos, metodos obsoletos y/o propiedades 
      *----------------------------*/   
