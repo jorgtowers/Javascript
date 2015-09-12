@@ -225,6 +225,19 @@
                     "Validation": "2",
                     "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
                     "Message":"La dirección url ingresada es inválida, por favor intente nuevamente"
+                }, {
+                    "Validation": "3",
+                    "RegEx": "[VEJPG]{1}[0-9][1-9]{1}",
+                    "Message": "El RIF ingresado es inválido, por favor intente nuevamente"
+                }, {
+                    "Validation": "4",
+                    "RegEx": "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i",
+                    "Message": "Dirección de email inválida"
+                },
+                {
+                    "Validation": "5",
+                    "RegEx": "/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/",
+                    "Message": "La contraseña con cumple con las siguientes condiciones: al menos un (1) número, una (1) letra minúscula y una (1) letra Mayúsucla, y debe tener al menos 6 carácteres"
                 }
             ],
             Validar: function (idContentPlaceHolder) {
