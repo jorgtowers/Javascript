@@ -231,11 +231,12 @@
                     "Message": "El RIF ingresado es inválido, por favor intente nuevamente"
                 }, {
                     "Validation": "4",
-                    "RegEx": "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i",
+                    "RegEx": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
                     "Message": "Dirección de email inválida"
-                }, {
+                },
+                {
                     "Validation": "5",
-                    "RegEx": "/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}/",
+                    "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
                     "Message": "La contraseña con cumple con las siguientes condiciones: al menos un (1) número, una (1) letra minúscula y una (1) letra Mayúsucla, y debe tener al menos seis (6) letras, numeros o underscore"
                 }
             ],
