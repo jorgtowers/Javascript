@@ -233,11 +233,10 @@
                     "Validation": "4",
                     "RegEx": "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i",
                     "Message": "Dirección de email inválida"
-                },
-                {
+                }, {
                     "Validation": "5",
-                    "RegEx": "/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/",
-                    "Message": "La contraseña con cumple con las siguientes condiciones: al menos un (1) número, una (1) letra minúscula y una (1) letra Mayúsucla, y debe tener al menos 6 carácteres"
+                    "RegEx": "/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}/",
+                    "Message": "La contraseña con cumple con las siguientes condiciones: al menos un (1) número, una (1) letra minúscula y una (1) letra Mayúsucla, y debe tener al menos seis (6) letras, numeros o underscore"
                 }
             ],
             Validar: function (idContentPlaceHolder) {
