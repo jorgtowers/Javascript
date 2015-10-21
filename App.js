@@ -41,12 +41,34 @@
             document.onmousedown = this.UI.Draggable.Iniciar;
             document.onmouseup = this.UI.Draggable.Detener;
         }
+        //Activa el buscador del filterTable.js y sortTable.js
         var filtro = document.getElementById("filtro");
         var tabla = document.getElementById("listado");
         if (filtro != null)
             filtro.onkeyup = function () {
                 filterTable(filtro, tabla);
             };
+        //Activa el paginador del dataTables.js
+        $('#listado').dataTable({
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                },
+                "lengthMenu": 'Mostrar <select class="\ form-control \" style="\ margin-top:0.5em \">' +
+                '<option value="10">10</option>' +
+                '<option value="20">20</option>' +
+                '<option value="30">30</option>' +
+                '<option value="40">40</option>' +
+                '<option value="50">50</option>' +
+                '<option value="-1">Todos</option>' +
+                '</select> Registros',
+            }
+        });
+            
         if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
     };
     App.prototype.Utils = {
