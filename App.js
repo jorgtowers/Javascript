@@ -36,6 +36,7 @@
         this.Utils.Validaciones('editPanel');
         this.Utils.DisplayWhenEditing();
         this.Utils.KeyBoard();
+        this.Utils.CheckBoxAsToogle();
         
         if (this.UI.Draggable) {
             document.onmousedown = this.UI.Draggable.Iniciar;
@@ -675,6 +676,15 @@
         }
     };
     App.prototype.UI = {
+        CheckBoxAsToogle: function() {
+            var chks = document.querySelectorAll("[type=checkbox]");
+            for (var i = 0; i < chks.length; i++) {
+                var newLabel=document.createElement("Label");
+                newLabel.setAttribute("for", chks[i].id);
+                chks[i].setAttribute("class", "cmn-toggle cmn-toggle-round");
+                chks[i].parentNode.insertBefore(newLabel,chks[i].nextSibling);
+            }            
+        },
         Paginador: {
             Contenedor: "",
             ItemsPorPagina: 0,
