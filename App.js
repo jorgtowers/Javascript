@@ -36,7 +36,7 @@
         this.Utils.Validaciones('editPanel');
         this.Utils.DisplayWhenEditing();
         this.Utils.KeyBoard();
-        this.Utils.CheckBoxAsToogle();
+        this.UI.CheckBoxAsToogle();
         
         if (this.UI.Draggable) {
             document.onmousedown = this.UI.Draggable.Iniciar;
