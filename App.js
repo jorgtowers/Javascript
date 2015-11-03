@@ -155,6 +155,7 @@
                 _Result = null;
             }
         },
+        IsNumeric: function (a) { if (!isNaN(a)) { return true } else { return false } },
         NoEnter: function () {
             if (_Tracert) { console.log('metodo: "App.Utils.NoEnter()" ha cargado exitosamente'); }
             return !(window.event && window.event.keyCode === 13);
