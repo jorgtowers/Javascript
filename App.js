@@ -711,7 +711,7 @@
             for (var i = 0; i < chks.length; i++) {
                 var newLabel=document.createElement("Label");
                 newLabel.setAttribute("for", chks[i].id);
-                chks[i].setAttribute("class", "cmn-toggle cmn-toggle-round");
+                chks[i].setAttribute("class", chks[i].getAttribute("class") + " cmn-toggle cmn-toggle-round");
                 chks[i].parentNode.insertBefore(newLabel,chks[i].nextSibling);
             }            
         },
