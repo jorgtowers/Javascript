@@ -177,7 +177,6 @@
             var obj = null;
             var inputs = contenedor.querySelectorAll("input[type=text]");
             var files = contenedor.querySelectorAll("input[type=file]");
-            var radios = contenedor.querySelectorAll("input[type=radio]");
             var textAreas = contenedor.getElementsByTagName("textarea");
             var selects = contenedor.getElementsByTagName("select");
             var objects = [];
@@ -190,10 +189,17 @@
                 if (!obj.disabled) {
                     if (obj.getAttribute("optional") === null) {//Si tiene atributo opcional no validará
                         if (obj.value.length === 0) {
+                            validados = false;
                             if (applyClass) {
-                                this.ClassCss.Add(obj, "requerido");
-                                validados = false;
+                                this.ClassCss.Add(obj, "requerido");                                
+                            } else {
+                                if (obj.getAttribute("title") !== null) {
+                                    vacios.push(obj.getAttribute("title").toUpperCase());
+                                } else {
+                                    vacios.push("ID: " + obj.id.toUpperCase());
+                                }
                             }
+
                         } else if (parseInt(obj.value) < 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
                         {
                             if (applyClass) {
@@ -211,32 +217,6 @@
                     }
                 }
             }
-            //Requiere linq.js
-            if (typeof (Enumerable) != "undefined")
-            if(radios){
-                var _grupos = Enumerable.From(radios)
-                            .Where(function (x) { return !x.disabled })
-                            .Distinct(function (x) { return x.name })
-                            .Select(function(x){return x.name})
-                            .ToArray();
-                for (var i = 0; i < _grupos.length; i++) {
-                    var grupo = _grupos[i];
-                    var _radios = Enumerable.From(radios)
-                                 .Where(function (x) { return x.name == grupo && x.checked  })
-                                 .ToArray();
-                    if (_radios.length == 0) {
-                        var noSeleccionados = Enumerable.From(radios)
-                                 .Where(function (x) { return x.name == grupo })
-                                 .ToArray();
-                        for (var i = 0; i < noSeleccionados.length; i++) {
-                            this.ClassCss.Add(noSeleccionados[i], "requerido");
-                        }
-                        validados = false;
-                        break;
-                    }
-                }
-            }
-
             if (vacios.length > 0) {
                 if (!applyClass) {
                     alert("ATENCIÓN: Hay un(os) campo(s) vacio(s):\r\r" + vacios.toString().replace(/,/g, '\r') + "\r\rPor favor ingrese la información y vuelva a intentarlo.");
@@ -260,7 +240,7 @@
                             }
                         }
                     }
-                }                
+                }
             }
             return validados;
         },
