@@ -219,7 +219,8 @@
             }
             if (vacios.length > 0) {
                 if (!applyClass) {
-                    alert("ATENCIÓN: Hay un(os) campo(s) vacio(s):\r\r" + vacios.toString().replace(/,/g, '\r') + "\r\rPor favor ingrese la información y vuelva a intentarlo.");
+                    document.app.UI.Notificacion.Mensaje({ "Mensaje": vacios.toString().replace(/,/g, '\r') });
+                    //alert("ATENCIÓN: Hay un(os) campo(s) vacio(s):\r\r" + vacios.toString().replace(/,/g, '\r') + "\r\rPor favor ingrese la información y vuelva a intentarlo.");
                 }
                 if (_Tracert) { console.log("App.Utils.ValidarCampos(): Elementos vacios " + vacios.toString()); }
                 /* Chequea si tiene un contendor como un DIV*/
