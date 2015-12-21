@@ -3,12 +3,13 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 12-08-2015 01:46PM
+ * ACTUALIZADO..: 21-12-2015 01:46PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  *                Se agrega App.Utils.CheckImagen()
  *                Se agrega validación para los campos RadioButton, requiere linq.js, ya que la validación depende
  *                de LinQ to JS
+ *                No se permiten ingreso de caracteres especiales al iniciar un texto
  */
 
 (function (namespace) {
@@ -39,6 +40,7 @@
         this.Utils.DisplayWhenEditing();
         this.Utils.KeyBoard();
         this.UI.CheckBoxAsToogle();
+        this.UI.NotAllowSpecialCharactersToStartAText();
         
         if (this.UI.Draggable) {
             document.onmousedown = this.UI.Draggable.Iniciar;
@@ -695,6 +697,17 @@
                 chks[i].setAttribute("class", chks[i].getAttribute("class") + " cmn-toggle cmn-toggle-round");
                 chks[i].parentNode.insertBefore(newLabel,chks[i].nextSibling);
             }            
+        },
+        NotAllowSpecialCharactersToStartAText: function () {
+            var txts = document.querySelectorAll("[id*=txt]");
+            for (var i = 0; i < txts.length; i++) {
+                txts[i].oninput = function () {
+                    /* Esta forma es igual a la de abajo, solo que está en forma negada es decir invertida
+                    this.value = this.value.replace(/^[.,-@*+/_#$%&()"'=?!¿¡]{1}/, '');
+                    */
+                    this.value = this.value.replace(/[^A-Za-z0-9]{1}/, '');
+                }
+            }
         },
         Paginador: {
             Contenedor: "",
