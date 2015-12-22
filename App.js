@@ -698,14 +698,39 @@
                 chks[i].parentNode.insertBefore(newLabel,chks[i].nextSibling);
             }            
         },
+        ConfirmDeleteAction: function () {
+            var btn = document.forms[0].CPH_BODY_btnEliminar;
+            if (btn != undefined)
+                btn.onclick = function () {
+                    return confirm("Seguro que desea eliminar el registro?");
+                };
+        },
         NotAllowSpecialCharactersToStartAText: function () {
             var txts = document.querySelectorAll("[id*=txt]");
             for (var i = 0; i < txts.length; i++) {
-                txts[i].oninput = function () {
-                    /* Esta forma es igual a la de abajo, solo que está en forma negada es decir invertida
-                    this.value = this.value.replace(/^[.,-@*+/_#$%&()"'=?!¿¡]{1}/, '');
-                    */
-                    this.value = this.value.replace(/[^A-Za-z0-9]{1}/, '');
+                var txt = txts[i];
+                var lblFeedBack = document.createElement("span");
+                lblFeedBack.id = "lblFeedBack_" + txt.id;
+                lblFeedBack.style.color = "green";
+                lblFeedBack.style.fontSize = ".85em";
+                txt.parentNode.insertBefore(lblFeedBack, txt.nextSibling);
+                
+                txt.onpaste = function (e) {
+                    e.preventDefault();
+                    this.nextElementSibling.innerHTML = "No se permiten usar la función de Pegar (Ctrl+V), valores sobre este campo...";
+                }
+
+                txt.oninput = function () {
+                    var firstChart = this.value.substring(0, 1);
+                    var rEx = new RegExp('[.,-@*+/_#$%&()\"\'=?!¿¡]{1}');
+                    if (rEx.test(firstChart))
+                        if(!firstChart.match(/[0-9]/))
+                            this.nextElementSibling.innerHTML = "No se permiten caracteres especiaes \" .,-@*+/_#$%&()\"'=?!¿¡ \" al inicio de este campo..";
+                        else
+                            this.nextElementSibling.innerHTML = "";
+                    else
+                        this.nextElementSibling.innerHTML = "";
+                    this.value = this.value.replace(/[^A-Za-z0-9]{0,1}/, '');
                 }
             }
         },
