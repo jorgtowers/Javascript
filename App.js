@@ -141,7 +141,15 @@
                 var request = new XMLHttpRequest();
                 request.onreadystatechange = function () {
                     if (request.readyState == 4 && request.status == 200) {
-                        data = JSON.parse(request.responseText);
+                        var type = request.getResponseHeader();
+                        switch( type ) {
+                        case "text/xml" :
+                            data = request.responseXML;
+                        case "application/json" :
+                            data = JSON.parse(request.responseText);
+                        default :
+                            data = request.responseText;
+                        }
                         if (data != null) {
                             _Result = data;
                         }
