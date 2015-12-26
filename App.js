@@ -12,19 +12,23 @@
  *                No se permiten ingreso de caracteres especiales al iniciar un texto
  */
 
-(function (namespace) {
+(function (namespace){
     /*----------------------------
      * Constructor
      *----------------------------*/   
-    function App() {
-        this.Constructor();
-         _StartTime = App.STARTTIME;
-    }
+	function App () {		
+		var self=this;
+		_Window.onload=function(){
+			self.Constructor();	
+			_StartTime = App.STARTTIME;
+		};
+	}
     /*----------------------------
      * Variables Estáticas
      *----------------------------*/   
     App.STARTTIME = new Date();
     //Variables Privadas
+    var _Window=namespace;
     var myVariable = App.prototype;
     var _Tracert = true;
     var _Result = null;
@@ -35,7 +39,6 @@
      *----------------------------*/   
     App.prototype.Constructor = function () {
         this.myVariable = null;
-        
         this.Utils.Validaciones('editPanel');
         this.Utils.DisplayWhenEditing();
         this.Utils.KeyBoard();
@@ -1061,10 +1064,11 @@
             }
         });
     */
-    namespace.App = App;
-}(window.jt = window.jt || {}));
+    namespace.App=new App();
+	//return namespace.App;
+})(window || {});
 
-document.onreadystatechange = function () {
+/*document.onreadystatechange = function () {
     if (document.readyState == "interactive") {
         this.app = new jt.App();
     }
@@ -1072,4 +1076,4 @@ document.onreadystatechange = function () {
         if (this.app.Tracert) { console.log("App finalmente correctamente..." + this.app.Runtime(this.app.StartTime)); }
         //TO DO...
     }
-}
+}*/
