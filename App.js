@@ -90,28 +90,23 @@
                 _Fiedls: [],
                 ClassCss: {
                     HasClass: function(elemento, App) {
-                        if (_Tracert) {
-                            console.log('metodo: "App.Utils.ClassCss.HasClass(elemento, App)" ha cargado exitosamente');
-                        }
+                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.HasClass(elemento, App)" ha cargado exitosamente'); }
                         return new RegExp('(\\s|^)' + App + '(\\s|$)').test(elemento.className);
                     },
                     Add: function(elemento, App) {
-                        if (_Tracert) {
-                            console.log('metodo: "App.Utils.ClassCss.Add(elemento, App)" ha cargado exitosamente');
-                        }
+                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Add(elemento, App)" ha cargado exitosamente'); }
                         if (!this.HasClass(elemento, App)) {
                             elemento.className += (elemento.className ? ' ' : '') + App;
                         }
                     },
                     Remove: function(elemento, App) {
-                        if (_Tracert) {
-                            console.log('metodo: "App.Utils.ClassCss.Remove(elemento, App)" ha cargado exitosamente');
-                        }
+                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Remove(elemento, App)" ha cargado exitosamente'); }
                         if (this.HasClass(elemento, App)) {
                             elemento.className = elemento.className.replace(new RegExp('(\\s|^)' + App + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
                         }
                     },
                     Css: function(className) {
+                    	if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Css(className)" ha cargado exitosamente'); }
                         var estyles = document.styleSheets[0];
                         if (estyles !== null) {
                             var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
@@ -127,7 +122,7 @@
                     }
                 },
                 ApplyCssValidation: function() {
-                    //Prepara CCS para campos
+                    if (_Tracert) { console.log('metodo: "App.Utils.Validation.ApplyCssValidation()" ha cargado exitosamente'); }
                     var styleRequerido = this.ClassCss.Css(".requerido");
                     var head = document.getElementsByTagName("head");
                     var tagHead=null;
@@ -146,6 +141,7 @@
                     }
                 },
                 Container: function(idContainer) {
+                	if (_Tracert) { console.log('metodo: "App.Utils.Validation.Container(idContainer)" ha cargado exitosamente'); }
                     if (idContainer !== undefined && idContainer !== null && idContainer.length > 0) {
                         this._Contenedor = document.getElementById(idContainer);
                     } else {
@@ -154,6 +150,7 @@
                     return this._Contenedor;
                 },
                 Fields: function() {
+                	if (_Tracert) { console.log('metodo: "App.Utils.Validation.Fields()" ha cargado exitosamente'); }
                     var content = this._Contenedor;
                     if (content === null){
                         content = this.Container();}
@@ -177,6 +174,7 @@
                     this._Fiedls = objects;
                 },
                 NotAllowCommandCopy: function() {
+                	if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandCopy()" ha cargado exitosamente'); }
                     var objs = this._Fiedls;
                     var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Pegar (Ctrl+C), valores sobre este campo...";
                     for (var i = 0; i < objs.length; i++) {
@@ -191,6 +189,7 @@
                     }
                 },
                 NotAllowCommandPaste: function() {
+                	if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente'); }
                     var objs = this._Fiedls;
                     var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Pegar (Ctrl+V), valores sobre este campo...";
                     for (var i = 0; i < objs.length; i++) {
@@ -205,6 +204,7 @@
                     }
                 },
                 NotAllowSpecialCharactersToStartAText: function() {
+                	if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowSpecialCharactersToStartAText()" ha cargado exitosamente'); }
                     var objs = this._Fiedls;
                     var notAllowSpecialCharactersToStartATextMenssage = "&nbsp;No se permiten caracteres especiaes \" .,-@*+/_#$%&()\"'=?!¿¡ \" al inicio de este campo.";
                     for (var i = 0; i < objs.length; i++) {
@@ -230,9 +230,7 @@
                         }
                 },
                 Validate: function() {
-                    if (_Tracert) {
-                        console.log('metodo: "App.Utils.ValidarCampos()" ha cargado exitosamente');
-                    }
+                	if (_Tracert) { console.log('metodo: "App.Utils.Validation.Validate()" ha cargado exitosamente'); }
                     /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
                     /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
                     var objs = this._Fiedls;
