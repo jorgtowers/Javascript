@@ -39,12 +39,10 @@
      * Métodos Públicos
      *----------------------------*/   
     App.prototype.Constructor = function () {
-        this.myVariable = null;
-        this.Utils.Validaciones('editPanel');
+        this.myVariable = null;        
         this.Utils.DisplayWhenEditing();
         this.Utils.KeyBoard();
-        this.UI.CheckBoxAsToogle();
-        this.UI.NotAllowSpecialCharactersToStartAText();
+        this.UI.CheckBoxAsToogle();        
         
         if (this.UI.Draggable) {
             document.onmousedown = this.UI.Draggable.Iniciar;
@@ -58,28 +56,34 @@
                 filterTable(filtro, tabla);
             };
         //Activa el paginador del dataTables.js
-        $('#listado').dataTable({
-            "ordering": false,
-            "info": false,
-            "searching": false,
-            "language": {
-                "paginate": {
-                    "next": "Siguiente",
-                    "previous": "Anterior",
-                },
-                "lengthMenu": 'Mostrar <select class="\ form-control \" style="\ margin-top:0.5em \">' +
-                '<option value="10">10</option>' +
-                '<option value="20">20</option>' +
-                '<option value="30">30</option>' +
-                '<option value="40">40</option>' +
-                '<option value="50">50</option>' +
-                '<option value="-1">Todos</option>' +
-                '</select> Registros',
-            }
-        });
+        try{
+            $('#listado').dataTable({
+                "ordering": false,
+                "info": false,
+                "searching": false,
+                "language": {
+                    "paginate": {
+                        "next": "Siguiente",
+                        "previous": "Anterior",
+                    },
+                    "lengthMenu": 'Mostrar <select class="\ form-control \" style="\ margin-top:0.5em \">' +
+                    '<option value="10">10</option>' +
+                    '<option value="20">20</option>' +
+                    '<option value="30">30</option>' +
+                    '<option value="40">40</option>' +
+                    '<option value="50">50</option>' +
+                    '<option value="-1">Todos</option>' +
+                    '</select> Registros',
+                }
+            });
+        }catch(ex){
+            console.log("no esta creado el objeto JQuery");
+        }
             
         if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
+        
     };
+    
     App.prototype.Utils = {
         Validation: {
                 _Contenedor: null,
