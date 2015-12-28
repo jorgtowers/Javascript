@@ -236,6 +236,7 @@
                                     obj.nextElementSibling.style.color = "red";
                                 } else {
                                     this.ClassCss.Remove(obj, "requerido");
+                                    obj.nextElementSibling.innerHTML = "";
                                 }
                             }
                             if (obj.getAttribute("validation") !== null) {                            	
