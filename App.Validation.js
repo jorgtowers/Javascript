@@ -256,12 +256,12 @@
                     return validados;
                 }
             },
-	        SetParents:function(){
+	        _:function(){
 	            this.Validation.parent = this;
-	            delete this.init;
+	            delete this._;
 	            return this;
 	        }
-    	}.SetParents();
+    	}._();
 
     namespace.App = new App();
 
