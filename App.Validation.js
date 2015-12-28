@@ -23,6 +23,13 @@
         App.prototype.Constructor = function() {
             if (_Tracert) { console.log('metodo: "App.Constructor()" ha cargado exitosamente'); }
             var self = this;            
+
+            this.Utils.Validation.Fields();
+            this.Utils.Validation.ApplyCssValidation();
+            this.Utils.Validation.NotAllowCommandCopy();
+            this.Utils.Validation.NotAllowCommandPaste();
+            this.Utils.Validation.NotAllowSpecialCharactersToStartAText();
+
             var btns = document.querySelectorAll("input[type=button]");
             for (var i = 0; i < btns.length; i++) {
                 btns[i].onclick = function() {
@@ -57,11 +64,13 @@
                         var estyles = document.styleSheets[0];
                         if (estyles !== null) {
                             var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
-                            for (var x = 0; x < classes.length; x++) {
-                                if (classes[x].selectorText === className) {
-                                    return classes[x].cssText;
-                                }
-                            }
+                            if(classes!==null && classes.length>0){
+	                            for (var x = 0; x < classes.length; x++) {
+	                                if (classes[x].selectorText === className) {
+	                                    return classes[x].cssText;
+	                                }
+	                            }
+                        	}
                             return null;
                         } else {
                             return null;
@@ -145,7 +154,6 @@
                         lblFeedBack.className = "FeedBackLabel";
                         obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
                     }
-
                     this._Fiedls = objects;
                 },
                 NotAllowCommandCopy: function() {
@@ -210,12 +218,12 @@
                     /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
                     var objs = this._Fiedls;
                     if(objs.length===0){
-                    	this.Fields();
-                    	objs = this._Fiedls;
-                    }
-                    if( this.ClassCss.Css(".requerido")===null){
-                    	this.ApplyCssValidation();
-                    }
+                		this.Fields();
+                		objs = this._Fiedls;
+	                }
+	                if( this.ClassCss.Css(".requerido")===null){
+	                	this.ApplyCssValidation();
+	                }
                     var self=this;
                     var requeridFieldMessage = "&nbsp;Este campo es requerido.";
                     var validados = true;
