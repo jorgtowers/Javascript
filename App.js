@@ -289,6 +289,7 @@
                                     obj.nextElementSibling.style.color = "red";
                                 } else {
                                     this.ClassCss.Remove(obj, "requerido");
+                                    obj.nextElementSibling.innerHTML = "";
                                 }
                             }
                             if (obj.getAttribute("validation") !== null) {                            	
@@ -927,12 +928,12 @@
             }
         }
     	,
-        SetParents:function(){
+        _:function(){
             this.Validaciones.parent = this;
             delete this.init;
             return this;
         }
-    }.SetParents();
+    }._();
     App.prototype.UI = {
         CheckBoxAsToogle: function() {
             var chks = document.querySelectorAll("[type=checkbox]");
