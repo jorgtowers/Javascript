@@ -86,7 +86,7 @@
     
     App.prototype.Utils = {
         Validation: {
-                _Contenedor: null,
+                _Container: null,
                 _Fiedls: [],
                 ClassCss: {
                     HasClass: function(elemento, App) {
@@ -121,6 +121,34 @@
                         }
                     }
                 },
+                Pattern: [
+	                {
+	                    "Validation": "0",
+	                    "RegEx": "((?:https?\\://|www\\.)(?:[-a-z0-9]+\\.)*[-a-z0-9]+.*)",
+	                    "Message": "La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
+	                }, {
+	                    "Validation": "1",
+	                    "RegEx": "/[0-9]/",
+	                    "Message": "S&oacute;lo puede ingresar valores n&uacute;mericos en este campo, por favor intente nuevamente"
+	                }, {
+	                    "Validation": "2",
+	                    "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
+	                    "Message":"La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
+	                }, {
+	                    "Validation": "3",
+	                    "RegEx": "[VEJPG]{1}[0-9][1-9]{1}",
+	                    "Message": "El RIF ingresado es inv&aacute;lido, por favor intente nuevamente"
+	                }, {
+	                    "Validation": "4",
+	                    "RegEx": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
+	                    "Message": "Direcci&0acute;n de email inv&aacute;lida"
+	                },
+	                {
+	                    "Validation": "5",
+	                    "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
+	                    "Message": "La contrase&ntilde;a con cumple con las siguientes condiciones: al menos un (1) n&uacute;mero, una (1) letra min&uacute;scula y una (1) letra May&uacute;sucla, y debe tener al menos seis (6) letras, numeros o underscore"
+	                }
+	            ],
                 ApplyCssValidation: function() {
                     if (_Tracert) { console.log('metodo: "App.Utils.Validation.ApplyCssValidation()" ha cargado exitosamente'); }
                     var styleRequerido = this.ClassCss.Css(".requerido");
@@ -143,15 +171,15 @@
                 Container: function(idContainer) {
                 	if (_Tracert) { console.log('metodo: "App.Utils.Validation.Container(idContainer)" ha cargado exitosamente'); }
                     if (idContainer !== undefined && idContainer !== null && idContainer.length > 0) {
-                        this._Contenedor = document.getElementById(idContainer);
+                        this._Container = document.getElementById(idContainer);
                     } else {
-                        this._Contenedor = document;
+                        this._Container = document;
                     }
-                    return this._Contenedor;
+                    return this._Container;
                 },
                 Fields: function() {
                 	if (_Tracert) { console.log('metodo: "App.Utils.Validation.Fields()" ha cargado exitosamente'); }
-                    var content = this._Contenedor;
+                    var content = this._Container;
                     if (content === null){
                         content = this.Container();}
                     var inputs = content.querySelectorAll("input[type=text]");
@@ -234,6 +262,14 @@
                     /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
                     /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
                     var objs = this._Fiedls;
+                    if(objs.length===0){
+                    	this.Fields();
+                    	objs = this._Fiedls;
+                    }
+                    if( this.ClassCss.Css(".requerido")===null){
+                    	this.ApplyCssValidation();
+                    }
+                    var self=this;
                     var requeridFieldMessage = "&nbsp;Este campo es requerido.";
                     var validados = true;
                     for (var i = 0; i < objs.length; i++) {
@@ -254,6 +290,18 @@
                                 } else {
                                     this.ClassCss.Remove(obj, "requerido");
                                 }
+                            }
+                            if (obj.getAttribute("validation") !== null) {                            	
+                                obj.onblur = function () {
+                                	var ex= self.Pattern[this.getAttribute("validation")];
+                                    var exp = new RegExp(ex.RegEx, "ig");
+                                    var validado = exp.test(this.value);
+                                    if (!validado) {
+                                        this.nextElementSibling.innerHTML = ex.Message;
+                                        this.nextElementSibling.style.color = "red";
+                                        this.value = "";
+                                    }
+                                };
                             }
                         }
                     }
