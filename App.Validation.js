@@ -1,3 +1,11 @@
+/*
+ * ABOUT........: Snippet Javascript implement OOP
+ * CREADOR......: Jorge L. Torres A.
+ * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
+ * ACTUALIZADO..: 28-12-2015 02:17PM
+ * CREADO.......: 28-12-2015 02:17PM
+ * ACTUALIZACION: Validaciones a todos los campos en un form web
+ */
 (function(namespace) {
         "use strict";
 
