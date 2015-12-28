@@ -2,7 +2,7 @@
         "use strict";
 
         var _Window = namespace;
-        var _Tracert = true;
+        var _Tracert = false;
 
         function App() {
             if (_Tracert) { console.log('metodo: "App()" se ha inicializado exitosamente');}
@@ -246,10 +246,13 @@
                     }
                     return validados;
                 }
-            }
-		};
-
-		
+            },
+	        SetParents:function(){
+	            this.Validation.parent = this;
+	            delete this.init;
+	            return this;
+	        }
+    	}.SetParents();
 
     namespace.App = new App();
 
