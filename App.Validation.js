@@ -84,7 +84,7 @@
 	                    "Message": "La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
 	                }, {
 	                    "Validation": "1",
-	                    "RegEx": "/[0-9]/",
+	                    "RegEx": "\\d",
 	                    "Message": "S&oacute;lo puede ingresar valores n&uacute;mericos en este campo, por favor intente nuevamente"
 	                }, {
 	                    "Validation": "2",
