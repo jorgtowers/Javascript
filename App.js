@@ -926,7 +926,13 @@
                 return !isNaN(d.getTime())
             }
         }
-    };
+    	,
+        SetParents:function(){
+            this.Validaciones.parent = this;
+            delete this.init;
+            return this;
+        }
+    }.SetParents();
     App.prototype.UI = {
         CheckBoxAsToogle: function() {
             var chks = document.querySelectorAll("[type=checkbox]");
