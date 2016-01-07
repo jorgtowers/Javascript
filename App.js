@@ -264,34 +264,9 @@
             return validados;
         },
         Validaciones: {
-            Patron: [
-                {
-                    "Validation": "0",
-                    "RegEx": "((?:https?\\://|www\\.)(?:[-a-z0-9]+\\.)*[-a-z0-9]+.*)",
-                    "Message": "La dirección url ingresada es inválida, por favor intente nuevamente"
-                }, {
-                    "Validation": "1",
-                    "RegEx": "[0-9]",
-                    "Message": "Sólo puede ingresar valores númericos en este campo, por favor intente nuevamente"
-                }, {
-                    "Validation": "2",
-                    "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
-                    "Message":"La dirección url ingresada es inválida, por favor intente nuevamente"
-                }, {
-                    "Validation": "3",
-                    "RegEx": "[VEJPG]{1}[0-9][1-9]{1}",
-                    "Message": "El RIF ingresado es inválido, por favor intente nuevamente"
-                }, {
-                    "Validation": "4",
-                    "RegEx": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
-                    "Message": "Dirección de email inválida"
-                },
-                {
-                    "Validation": "5",
-                    "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
-                    "Message": "La contraseña con cumple con las siguientes condiciones: al menos un (1) número, una (1) letra minúscula y una (1) letra Mayúsucla, y debe tener al menos seis (6) letras, numeros o underscore"
-                }
-            ],
+            Patron: function () { 
+                return this.parent.Validation.Patron;
+            } ,
             Validar: function (idContentPlaceHolder) {
                 var self = this.parent;
                 var e = "[deprecated] App.Utils.Validaciones(idContentPlaceHolder) está Obsoleto, por favor usar App.Utils.Validation.Validate(). Este metodo será removido en futuras versiones.";                
