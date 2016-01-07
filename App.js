@@ -852,7 +852,7 @@
                         for (var i = 0; i < objs.length; i++) {
                             var obj = objs[i];
                             if (!obj.disabled) {
-                                if (obj.getAttribute("optional") === null) {
+                                if (!obj.hasAttribute("optional")) {
                                     var tieneValorOSeleccionValida = (obj.value.length === 0 || parseInt(obj.value,0) < 0);
                                     if (tieneValorOSeleccionValida) {
                                         validados = false;
