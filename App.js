@@ -672,22 +672,24 @@
                             }
                         },
                         Css: function(className) {
-                            if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Css(className)" ha cargado exitosamente'); }
-                            var estyles = document.styleSheets[0];
-                            if (estyles !== null) {
-                                var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
-                                if(classes!==null && classes.length>0){
-                                    for (var x = 0; x < classes.length; x++) {
-                                        if (classes[x].selectorText === className) {
-                                            return classes[x].cssText;
-                                        }
-                                    }
-                                }
-                                return null;
-                            } else {
-                                return null;
-                            }
+                    	if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Css(className)" ha cargado exitosamente'); }
+                        var estyles = document.styleSheets[0];
+                        if (estyles !== null) {
+                         				if(document.styleSheets.length>0){
+                         					var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
+                         					if(classes!==null && classes.length>0){
+                         						for (var x = 0; x < classes.length; x++) {
+                         							if (classes[x].selectorText === className) {
+                         								return classes[x].cssText;
+                         							}
+                         						}
+                         					}
+                         				}
+                            return null;
+                        } else {
+                            return null;
                         }
+                      }
                     },
                     Pattern: [
                         {
