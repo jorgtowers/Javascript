@@ -19,12 +19,6 @@
 	            _Window.onload = function() {
 	                self.Constructor();
 
-	                if(_Window.WebSocket) {
-						alert("WebSocket is supported");
-					} else {
-						alert("WebSocket is not supported");
-					}
-
 	            };
 	        }
 
