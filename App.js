@@ -693,33 +693,43 @@
                       }
                     },
                     Pattern: [
-                        {
-                            "Validation": "0",
-                            "RegEx": "((?:https?\\://|www\\.)(?:[-a-z0-9]+\\.)*[-a-z0-9]+.*)",
-                            "Message": "La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
-                        }, {
-                            "Validation": "1",
-                            "RegEx": "\\d",
-                            "Message": "S&oacute;lo puede ingresar valores n&uacute;mericos en este campo, por favor intente nuevamente"
-                        }, {
-                            "Validation": "2",
-                            "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
-                            "Message":"La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
-                        }, {
-                            "Validation": "3",
-                            "RegEx": "[VEJPG]{1}[0-9][1-9]{1}",
-                            "Message": "El RIF ingresado es inv&aacute;lido, por favor intente nuevamente"
-                        }, {
-                            "Validation": "4",
-                            "RegEx": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
-                            "Message": "Direcci&0acute;n de email inv&aacute;lida"
-                        },
-                        {
-                            "Validation": "5",
-                            "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
-                            "Message": "La contrase&ntilde;a con cumple con las siguientes condiciones: al menos un (1) n&uacute;mero, una (1) letra min&uacute;scula y una (1) letra May&uacute;sucla, y debe tener al menos seis (6) letras, numeros o underscore"
-                        }
-                    ],
+                     {
+                         "Validation": "0",
+                         "RegEx": "((?:https?\\://|www\\.)(?:[-a-z0-9]+\\.)*[-a-z0-9]+.*)",
+                         "Message": "La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
+                     }, {
+                         "Validation": "1",
+                         "RegEx": "\\d",
+                         "Message": "S&oacute;lo puede ingresar valores n&uacute;mericos en este campo, por favor intente nuevamente"
+                     }, {
+                         "Validation": "2",
+                         "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
+                         "Message": "La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
+                     }, {
+                         "Validation": "3",
+                         "RegEx": "[VEJPG]{1}[0-9][1-9]{1}",
+                         "Message": "El RIF ingresado es inv&aacute;lido, por favor intente nuevamente"
+                     }, {
+                         "Validation": "4",
+                         "RegEx": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
+                         "Message": "Direcci&0acute;n de email inv&aacute;lida"
+                     },
+                     {
+                         "Validation": "5",
+                         "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
+                         "Message": "La contrase&ntilde;a con cumple con las siguientes condiciones: al menos un (1) n&uacute;mero, una (1) letra min&uacute;scula y una (1) letra May&uacute;sucla, y debe tener al menos seis (6) letras, numeros o underscore"
+                     },
+                     {
+                         "Validation": "6",
+                         "RegEx": "^[0-9]*\,?[0-9]*$",
+                         "Message":"S&oacute;lo se puede ingresar valores decimales"
+                     },
+                     {
+                         "Validation": "7",
+                         "RegEx": "[a-zA-ZáéíóúÁÉÍÓÚñÑ]",
+                         "Message":"S&oacute;lo se puede ingresar car&aacute;cteres"
+                     }
+                 ],
                     ApplyCssValidation: function() {
                         if (_Tracert) { console.log('metodo: "App.Utils.Validation.ApplyCssValidation()" ha cargado exitosamente'); }
                         var styleRequerido = this.ClassCss.Css(".requerido");
