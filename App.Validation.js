@@ -91,7 +91,7 @@
 		                }, {
 		                    "Validation": "2",
 		                    "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
-		                    "Message":"La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
+		                    "Message": "La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
 		                }, {
 		                    "Validation": "3",
 		                    "RegEx": "[VEJPG]{1}[0-9][1-9]{1}",
@@ -105,6 +105,16 @@
 		                    "Validation": "5",
 		                    "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
 		                    "Message": "La contrase&ntilde;a con cumple con las siguientes condiciones: al menos un (1) n&uacute;mero, una (1) letra min&uacute;scula y una (1) letra May&uacute;sucla, y debe tener al menos seis (6) letras, numeros o underscore"
+		                },
+		                {
+		                    "Validation": "6",
+		                    "RegEx": "^[0-9]*\,?[0-9]*$",
+		                    "Message":"S&oacute;lo se puede ingresar valores decimales"
+		                },
+		                {
+		                    "Validation": "7",
+		                    "RegEx": "[a-zA-ZáéíóúÁÉÍÓÚñÑ]",
+		                    "Message":"S&oacute;lo se puede ingresar car&aacute;cteres"
 		                }
 		            ],
 	                ApplyCssValidation: function() {
