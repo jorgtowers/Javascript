@@ -711,21 +711,18 @@
                     "Validation": "4",
                     "RegEx": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
                     "Message": "Direcci&0acute;n de email inv&aacute;lida"
-                },
-                {
+                }, {
                     "Validation": "5",
                     "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
                     "Message": "La contrase&ntilde;a con cumple con las siguientes condiciones: al menos un (1) n&uacute;mero, una (1) letra min&uacute;scula y una (1) letra May&uacute;sucla, y debe tener al menos seis (6) letras, numeros o underscore"
-                },
-                {
+                }, {
                     "Validation": "6",
                     "RegEx": "^[0-9]*\,?[0-9]*$",
-                    "Message":"S&oacute;lo se puede ingresar valores decimales"
-                },
-                {
+                    "Message": "S&oacute;lo se puede ingresar valores decimales"
+                }, {
                     "Validation": "7",
                     "RegEx": "[a-zA-ZáéíóúÁÉÍÓÚñÑ]",
-                    "Message":"S&oacute;lo se puede ingresar car&aacute;cteres"
+                    "Message": "S&oacute;lo se puede ingresar car&aacute;cteres"
                 }
             ],
             ApplyCssValidation: function () {
@@ -773,14 +770,13 @@
                 objects.push.apply(objects, selects);
                 for (var i = 0; i < objects.length; i++) {
                     var obj = objects[i];
-                    var lblFeedBack = document.createElement("span");
-                    lblFeedBack.id = "lblFeedBack_" + obj.id;
-                    lblFeedBack.className = "FeedBackLabel";
-                    obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
+                    if(!obj.hasAttribute("disabled") && obj.style.display===""){
+                        var lblFeedBack = document.createElement("span");
+                        lblFeedBack.id = "lblFeedBack_" + obj.id;
+                        lblFeedBack.className = "FeedBackLabel";
+                        obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
+                    }
                 }
-                /* -------------------------------------------------------------------
-                 * Radios se validan aparte por se diferente la lógica de validación
-                 * ------------------------------------------------------------------- */
                 var radios = content.querySelectorAll("input[type=radio]").toArray();
                 var radiosUniques = radios.Radios.FirstAtEachName();
                 for (var i = 0; i < radiosUniques.length; i++) {
@@ -790,11 +786,10 @@
                     lblFeedBack.className = "FeedBackLabel";
                     obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
                 }
-
                 this._Fiedls = objects;
             },
-            FireOn:{
-                Input:{
+            FireOn: {
+                Input: {
                     NotAllowSpecialCharactersToStartAText: function () {
                         if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowSpecialCharactersToStartAText()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
@@ -820,10 +815,10 @@
                                 };
                             }
                         }
-                    }                    
+                    }
                 },
-                Blur:{
-                    CheckRegExs:function () {
+                Blur: {
+                    CheckRegExs: function () {
                         if (_Tracert) { console.log('metodo: "App.Utils.Validation.FireOn.Blur.CheckRegExs()" ha cargado exitosamente'); }
                         var self = this;
                         var objs = this.parent.Validation._Fiedls;
@@ -844,7 +839,7 @@
                         }
                     }
                 },
-                Copy:{
+                Copy: {
                     NotAllow: function () {
                         if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandCopy()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
@@ -861,7 +856,7 @@
                         }
                     }
                 },
-                Paste:{
+                Paste: {
                     NotAllow: function () {
                         if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
@@ -878,7 +873,7 @@
                         }
                     }
                 },
-                Cut:{
+                Cut: {
                     NotAllow: function () {
                         if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
@@ -896,33 +891,33 @@
                     }
                 }
             },
-            NotAllowCommandCopy: function () {                
+            NotAllowCommandCopy: function () {
                 var self = this.parent;
                 var e = "[deprecated] App.Utils.Validation.NotAllowCommandCopy() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Copy.NotAllow(). Este metodo será removido en futuras versiones.";
-                var f=self.Validation.FireOn.Copy.NotAllow;
+                var f = self.Validation.FireOn.Copy.NotAllow;
                 if (!f) { throw (e); }
                 (this.NotAllowCommandCopy = function () {
-                    console.log(e);                                        
+                    console.log(e);
                     self.Validation.FireOn.Copy.NotAllow();
-                })();            
+                })();
             },
             NotAllowCommandPaste: function () {
                 var self = this.parent;
                 var e = "[deprecated] App.Utils.Validation.NotAllowCommandPaste() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Paste.NotAllow(). Este metodo será removido en futuras versiones.";
-                var f=self.Validation.FireOn.Paste.NotAllow;
+                var f = self.Validation.FireOn.Paste.NotAllow;
                 if (!f) { throw (e); }
                 (this.NotAllowCommandPaste = function () {
-                    console.log(e);                                        
+                    console.log(e);
                     self.Validation.FireOn.Paste.NotAllow();
-                })(); 
+                })();
             },
             NotAllowSpecialCharactersToStartAText: function () {
                 var self = this.parent;
                 var e = "[deprecated] App.Utils.Validation.NotAllowSpecialCharactersToStartAText() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText(). Este metodo será removido en futuras versiones.";
-                var f=self.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText;
+                var f = self.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText;
                 if (!f) { throw (e); }
                 (this.NotAllowSpecialCharactersToStartAText = function () {
-                    console.log(e);                                        
+                    console.log(e);
                     self.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText();
                 })();
             },
@@ -941,7 +936,7 @@
                 var validados = true;
                 for (var i = 0; i < objs.length; i++) {
                     var obj = objs[i];
-                    if (!obj.disabled) {
+                    if (!obj.disabled && obj.style.display==="") {
                         if (!obj.hasAttribute("optional")) {
                             var tieneValorOSeleccionValida = (obj.value.length === 0 || parseInt(obj.value, 0) < 0);
                             if (tieneValorOSeleccionValida) {
