@@ -1007,10 +1007,18 @@
             }            
         },
         ConfirmDeleteAction: function () {
-            var btn = document.forms[0].CPH_BODY_btnEliminar;
+            var self = this;
+            //var btn = document.forms[0].CPH_BODY_btnEliminar;
+            var btn = document.getElementById("CPH_BODY_btnEliminar");
             if (btn != undefined)
-                btn.onclick = function () {
-                    return confirm("Seguro que desea eliminar el registro?");
+                btn.onclick = function (e) {
+                    var source=e;
+                    e.preventDefault();                    
+                    var result= false;
+                    self.Notificacion.Mensaje("Seguro que desea eliminar el registro?",function () {                                                
+                        __doPostBack('ctl00$CPH_BODY$btnEliminar','');
+                    });                    
+                    
                 };
         },
         NotAllowSpecialCharactersToStartAText: function () {
@@ -1192,10 +1200,13 @@
                 this._();
                 this.Overlight.style.display = "block";   
                 this.Box.innerHTML = mensaje;
-                if(okCallback!==undefined && typeof(okCallback)==='function'){
+                if(okCallback!==undefined){
                     this.Ok.onclick= function(){
-                        okCallback();
+                        if (typeof okCallback === 'function') {
+                            okCallback();
+                        }
                         self.Cancel.click();
+                        return true;
                     }
                 }
             },
@@ -1264,7 +1275,8 @@
                     this.Cancel.innerHTML="Cancel";
                     this.Cancel.onclick=function(){                        
                         self.Overlight.style.display = "none";
-                        self.Box.innerHTML = "";                                            
+                        self.Box.innerHTML = "";     
+                        return false;                                       
                     };
                     footer.appendChild(this.Cancel);
                 }
