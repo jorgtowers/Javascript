@@ -206,8 +206,8 @@
                         }
                     }
                 },
-                Blur: {
-                    CheckRegExs: function () {
+                Blur:{
+                    CheckRegExs:function () {
                         if (_Tracert) { console.log('metodo: "App.Utils.Validation.FireOn.Blur.CheckRegExs()" ha cargado exitosamente'); }
                         var self = this;
                         var objs = this.parent.Validation._Fiedls;
@@ -215,6 +215,7 @@
                             var obj = objs[i];
                             if (obj.getAttribute("validation") !== null) {
                                 obj.onblur = function () {
+                                    this.nextElementSibling.innerHTML = "";
                                     var ex = self.parent.Validation.Pattern[this.getAttribute("validation")];
                                     var exp = new RegExp(ex.RegEx, "ig");
                                     var validado = exp.test(this.value);
