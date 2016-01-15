@@ -735,7 +735,7 @@
                 },
                 {
                     "Validation":"9",
-                    "RegEx":"^[2-9]\d{2}[2-9]\d{2}\d{4}$",
+                    "RegEx":"^[1-9]{3}-[0-9]{3}-[0-9]{4}$",
                     "Message":"No coincide el formato del n&uacute;mero telef&oacute;nico. Ej: 424-123-4567"
                 }
             ],
