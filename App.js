@@ -1049,33 +1049,13 @@
                 }            	                    
 	},
         NotAllowSpecialCharactersToStartAText: function () {
-            var txts = document.querySelectorAll("[id*=txt]");
-            for (var i = 0; i < txts.length; i++) {
-                var txt = txts[i];
-                var lblFeedBack = document.createElement("span");
-                lblFeedBack.id = "lblFeedBack_" + txt.id;
-                lblFeedBack.style.color = "green";
-                lblFeedBack.style.fontSize = ".85em";
-                txt.parentNode.insertBefore(lblFeedBack, txt.nextSibling);
-                
-                txt.onpaste = function (e) {
-                    e.preventDefault();
-                    this.nextElementSibling.innerHTML = "No se permiten usar la función de Pegar (Ctrl+V), valores sobre este campo...";
-                }
-
-                txt.oninput = function () {
-                    var firstChart = this.value.substring(0, 1);
-                    var rEx = new RegExp('[.,-@*+/_#$%&()\"\'=?!¿¡]{1}');
-                    if (rEx.test(firstChart))
-                        if(!firstChart.match(/[0-9]/))
-                            this.nextElementSibling.innerHTML = "No se permiten caracteres especiaes \" .,-@*+/_#$%&()\"'=?!¿¡ \" al inicio de este campo..";
-                        else
-                            this.nextElementSibling.innerHTML = "";
-                    else
-                        this.nextElementSibling.innerHTML = "";
-                    this.value = this.value.replace(/[^A-Za-z0-9]{0,1}/, '');
-                }
-            }
+            var self = this;
+            var e = "[deprecated] App.UI.NotAllowSpecialCharactersToStartAText() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText(). Este metodo será removido en futuras versiones.";
+            if (!this.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText) { throw (e); }
+            (this.NotAllowSpecialCharactersToStartAText = function () {
+                console.log(e);
+                self.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText();
+            })();
         },
         Paginador: {
             Contenedor: "",
@@ -1218,97 +1198,97 @@
             }
         },
         Notificacion: {                        
-            Overlight: null,
-            Box: null,
-            OK:null,
-            Cancel:null,
-            Mensaje: function (mensaje, okCallback) {
-                var self = this;
-                this._();
-                this.Overlight.style.display = "block";   
-                this.Box.innerHTML = mensaje;
-                if(okCallback!==undefined){
-                    this.Ok.onclick= function(){
-                        if (typeof okCallback === 'function') {
-                            okCallback();
-                        }
-                        self.Cancel.click();
-                        return true;
-                    }
-                }
-            },
-            Css: function (className) {
-                var estyles = document.styleSheets[0];
-                if (estyles != null) {
-                    var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules
-                    for (var x = 0; x < classes.length; x++) {
-                        if (classes[x].selectorText == className) {
-                            return classes[x].cssText;
-                        }
-                    }
-                } else {
-                    return null;
-                }
-            },
-            _: function () {                
-                var styleOverlight = this.Css("#overlight");
-                if (styleOverlight == null) {
-                    var head = document.getElementsByTagName("head");
-                    styleOverlight = document.createElement("style");
-                    styleOverlight.innerHTML = "#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;z-index:1}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;} #boxHeaderNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em .5em 0 0;text-align: center;border-bottom: 2px solid;font-weight: bold;}#boxFooterNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: 0 0 .5em .5em;text-align: center;border-bottom: 2px solid;font-weight: bold;border-top: 2px solid;}#boxFooterNotificacion>button{padding: 0.2em;margin: 2px .5em;width: 60px;}";
-                    var tagHead = head[0];
-                    tagHead.appendChild(styleOverlight);
-                }
-                this.Overlight = document.getElementById("overlight");
-                if (this.Overlight == null) {
-                    var body = document.getElementsByTagName("body");
-                    this.Overlight = document.createElement("div");
-                    this.Overlight.id = "overlight";
-                    this.Overlight.style.display = "none";                    
-                    var tagBody = body[0];
-                    tagBody.parentNode.insertBefore(this.Overlight, tagBody);
-                }
-                var header=document.getElementById("boxHeaderNotificacion");
-                if (header == null) {
-                    header = document.createElement("p");
-                    header.id="boxHeaderNotificacion";
-                    header.innerHTML="Administrador";
-                    this.Overlight.appendChild(header);
-                }
-                this.Box = document.getElementById("boxNotificacion");
-                if (this.Box == null) {
-                    this.Box = document.createElement("div");
-                    this.Box.id = "boxNotificacion";
-                    this.Overlight.appendChild(this.Box)
-                }
-                var footer=document.getElementById("boxFooterNotificacion");
-                if (footer == null) {
-                    footer = document.createElement("p");
-                    footer.id="boxFooterNotificacion";                    
-                    this.Overlight.appendChild(footer);
-                }
-                this.Ok=document.getElementById("boxOkBtnNotificacion");
-                if (this.Ok == null) {
-                    this.Ok = document.createElement("button");
-                    this.Ok.id="boxOkBtnNotificacion";
-                    this.Ok.innerHTML="Ok";
-                    footer.appendChild(this.Ok);
-                }
-                this.Cancel=document.getElementById("boxCancelBtnNotificacion");
-                if (this.Cancel == null) {
-                    var self=this;
-                    this.Cancel = document.createElement("button");
-                    this.Cancel.id="boxCancelBtnNotificacion";
-                    this.Cancel.innerHTML="Cancel";
-                    this.Cancel.onclick=function(){                        
-                        self.Overlight.style.display = "none";
-                        self.Box.innerHTML = "";     
-                        return false;                                       
-                    };
-                    footer.appendChild(this.Cancel);
-                }
-            }
-        }
+	            Overlight: null,
+	            Box: null,
+	            OK:null,
+	            Cancel:null,
+	            Mensaje: function (mensaje, okCallback) {
+	                var self = this;
+	                this._();
+	                this.Overlight.style.display = "block";   
+	                this.Box.innerHTML = mensaje;
+	                if(okCallback!==undefined){
+	                    this.Ok.onclick= function(){
+	                        if (typeof okCallback === 'function') {
+	                            okCallback();
+	                        }
+	                        self.Cancel.click();
+	                        return true;
+	                    }
+	                }
+	            },
+	            Css: function (className) {
+	                var estyles = document.styleSheets[0];
+	                if (estyles != null) {
+	                    var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules
+	                    for (var x = 0; x < classes.length; x++) {
+	                        if (classes[x].selectorText == className) {
+	                            return classes[x].cssText;
+	                        }
+	                    }
+	                } else {
+	                    return null;
+	                }
+	            },
+	            _: function () {                
+	                var styleOverlight = this.Css("#overlight");
+	                if (styleOverlight == null) {
+	                    var head = document.getElementsByTagName("head");
+	                    styleOverlight = document.createElement("style");
+	                    styleOverlight.innerHTML = "#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;z-index:1}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;} #boxHeaderNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em .5em 0 0;text-align: center;border-bottom: 2px solid;font-weight: bold;}#boxFooterNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: 0 0 .5em .5em;text-align: center;border-bottom: 2px solid;font-weight: bold;border-top: 2px solid;}#boxFooterNotificacion>button{padding: 0.2em;margin: 2px .5em;width: 60px;}";
+	                    var tagHead = head[0];
+	                    tagHead.appendChild(styleOverlight);
+	                }
+	                this.Overlight = document.getElementById("overlight");
+	                if (this.Overlight == null) {
+	                    var body = document.getElementsByTagName("body");
+	                    this.Overlight = document.createElement("div");
+	                    this.Overlight.id = "overlight";
+	                    this.Overlight.style.display = "none";                    
+	                    var tagBody = body[0];
+	                    tagBody.parentNode.insertBefore(this.Overlight, tagBody);
+	                }
+	                var header=document.getElementById("boxHeaderNotificacion");
+	                if (header === null) {
+	                    header = document.createElement("p");
+	                    header.id="boxHeaderNotificacion";
+	                    header.innerHTML="Administrador";
+	                    this.Overlight.appendChild(header);
+	                }
+	                this.Box = document.getElementById("boxNotificacion");
+	                if (this.Box === null) {
+	                    this.Box = document.createElement("div");
+	                    this.Box.id = "boxNotificacion";
+	                    this.Overlight.appendChild(this.Box)
+	                }
+	                var footer=document.getElementById("boxFooterNotificacion");
+	                if (footer === null) {
+	                    footer = document.createElement("p");
+	                    footer.id="boxFooterNotificacion";                    
+	                    this.Overlight.appendChild(footer);
+	                }
+	                this.Ok=document.getElementById("boxOkBtnNotificacion");
+	                if (this.Ok === null) {
+	                    this.Ok = document.createElement("button");
+	                    this.Ok.id="boxOkBtnNotificacion";
+	                    this.Ok.innerHTML="Ok";
+	                    footer.appendChild(this.Ok);
+	                }
+	                this.Cancel=document.getElementById("boxCancelBtnNotificacion");
+	                if (this.Cancel === null) {
+	                    var self=this;
+	                    this.Cancel = document.createElement("button");
+	                    this.Cancel.id="boxCancelBtnNotificacion";
+	                    this.Cancel.innerHTML="Cancel";
+	                    this.Cancel.onclick=function(){                        
+	                        self.Overlight.style.display = "none";
+	                        self.Box.innerHTML = "";     
+	                        return false;                                       
+	                    };
+	                    footer.appendChild(this.Cancel);
+	                }
+	            }
+	        }
     };
     App.prototype.Runtime = function (starTime) {
         if (_Tracert) { console.log('metodo: "App.Runtime(starTime)" ha cargado exitosamente'); }
