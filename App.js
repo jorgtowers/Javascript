@@ -1020,20 +1020,33 @@
             }            
         },
         ConfirmDeleteAction: function () {
-            var self = this;
-            //var btn = document.forms[0].CPH_BODY_btnEliminar;
-            var btn = document.getElementById("CPH_BODY_btnEliminar");
-            if (btn != undefined)
-                btn.onclick = function (e) {
-                    var source=e;
-                    e.preventDefault();                    
-                    var result= false;
-                    self.Notificacion.Mensaje("Seguro que desea eliminar el registro?",function () {                                                
-                        __doPostBack('ctl00$CPH_BODY$btnEliminar','');
-                    });                    
-                    
+	            var self = this;
+	            var btn = document.getElementById("CPH_BODY_btnEliminar");
+	            if (btn != undefined)
+	                btn.onclick = function (e) {
+	                    var _self=this;
+	                    e.preventDefault();    
+
+	                    /* ----------------------------------------------------------------
+	                     * Si se requiere hacer una pregunta, y que luego de responder OK 
+	                     * continue el submit, se debe implementar el siguiente codigo
+	                     * CODIGO:
+	                     *
+							self.UI.Notificacion.Mensaje("Seguro hacer submit?",function () {          
+		 						var ok = self.Utils.Validation.Validate();
+		                        if(ok){                                      
+		                        	_self.onclick=null;
+		                        	_self.click();
+		                        }	                        
+		                    });
+		                 * ---------------------------------------------------------------- */ 
+	                    self.Notificacion.Mensaje("Seguro que desea eliminar el registro?",function () {                                                
+                        	_self.onclick=null;
+                        	_self.click();
+                    	}); 
+                    });                    	                    
                 };
-        },
+        	},
         NotAllowSpecialCharactersToStartAText: function () {
             var txts = document.querySelectorAll("[id*=txt]");
             for (var i = 0; i < txts.length; i++) {
