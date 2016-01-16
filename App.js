@@ -1022,11 +1022,10 @@
         ConfirmDeleteAction: function () {
 	            var self = this;
 	            var btn = document.getElementById("CPH_BODY_btnEliminar");
-	            if (btn != undefined)
+	            if (btn !== undefined){
 	                btn.onclick = function (e) {
 	                    var _self=this;
-	                    e.preventDefault();    
-
+	                    e.preventDefault();
 	                    /* ----------------------------------------------------------------
 	                     * Si se requiere hacer una pregunta, y que luego de responder OK 
 	                     * continue el submit, se debe implementar el siguiente codigo
@@ -1035,18 +1034,20 @@
 							self.UI.Notificacion.Mensaje("Seguro hacer submit?",function () {          
 		 						var ok = self.Utils.Validation.Validate();
 		                        if(ok){                                      
-		                        	_self.onclick=null;
+		                        	_self.onclick=function(){
+										//TO-DO..
+		                        	};
 		                        	_self.click();
 		                        }	                        
 		                    });
 		                 * ---------------------------------------------------------------- */ 
 	                    self.Notificacion.Mensaje("Seguro que desea eliminar el registro?",function () {                                                
-                        	_self.onclick=null;
+                        	_self.onclick=function(){};
                         	_self.click();
-                    	}); 
-                    });                    	                    
-                };
-        	},
+                		}); 
+                	};        
+                }            	                    
+	},
         NotAllowSpecialCharactersToStartAText: function () {
             var txts = document.querySelectorAll("[id*=txt]");
             for (var i = 0; i < txts.length; i++) {
