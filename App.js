@@ -1355,6 +1355,63 @@
                 _Tracert = value;
             }
         });
+        
+        /* -------------------------------------------------------------------
+             * Extendiendo objetos propios del JavaScript, 
+             * para mejorar la programación de los métodos propios 
+             * ------------------------------------------------------------------- */
+             Object.defineProperty(Object.prototype, "type", {
+             	get: function() {
+             		return this.constructor.name;
+             	}
+             });
+             HTMLCollection.prototype.toArray=function(){
+             	var arr=[];
+             	for (var i = this.length - 1; i >= 0; i--) {
+             		arr.push(this[i]);
+             	};
+             	return arr;				
+             };
+             NodeList.prototype.toArray=function(){
+             	var arr=[];
+             	for (var i = this.length - 1; i >= 0; i--) {
+             		arr.push(this[i]);
+             	};
+             	return arr;				
+             };
+             Array.prototype.Radios={
+             	DistinctName:function(sName){
+             		var a = [];
+             		for(var i = 0, l = this.length; i < l; ++i){
+             			if(this[i].name===sName) {
+             				a.push(this[i]);
+             			}	      			
+             		}
+             		return a;
+             	},
+             	Distinct:function(){
+             		var u = {}, a = [];
+             		for(var i = 0, l = this.length; i < l; ++i){
+             			if(u.hasOwnProperty(this[i].name)) {
+             				continue;
+             			}
+             			a.push(this[i].name);
+             			u[this[i].name] = 1;
+             		}
+             		return a;
+             	},
+             	FirstAtEachName:function(){
+             		var u = {}, a = [];
+             		for(var i = 0, l = this.length; i < l; ++i){
+             			if(u.hasOwnProperty(this[i].name)) {
+             				continue;
+             			}
+             			a.push(this[i]); 
+             			u[this[i].name] = 1;
+             		}
+             		return a;
+             	}
+             };
      } catch(err) {
         console.log("this explorer no support definition the properties") ;
      }
