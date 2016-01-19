@@ -1022,7 +1022,7 @@
         ConfirmDeleteAction: function () {
 	            var self = this;
 	            var btn = document.getElementById("CPH_BODY_btnEliminar");
-	            if (btn !== undefined){
+	            if (btn !== null){
 	                btn.onclick = function (e) {
 	                    var _self=this;
 	                    e.preventDefault();
