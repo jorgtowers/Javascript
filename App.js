@@ -53,8 +53,9 @@
         var filtro = document.getElementById("filtro");
         var tabla = document.getElementById("listado");
         if (filtro != null)
+	    this.UI.Tablas.Busqueda.Init();	
             filtro.onkeyup = function () {
-                filterTable(filtro, tabla);
+                self.UI.Tablas.Busqueda.Buscar(filtro,tabla);
             };
         //Activa el paginador del dataTables.js
         try{
@@ -1288,7 +1289,129 @@
 	                    footer.appendChild(this.Cancel);
 	                }
 	            }
-	        }
+	        },
+        Tablas:{
+            Busqueda:{
+                CrearNodo:function (hijo){
+                    var node = document.createElement('span');
+                    node.setAttribute('class', 'highlighted');
+                    node.attributes['class'].value = 'highlighted';
+                    node.appendChild(hijo);
+                    return node;
+                },
+                Resaltar:function(term, container) {
+                    for (var i = 0; i < container.childNodes.length; i++) {
+                        var node = container.childNodes[i];
+                        if (node.nodeType == 3) {
+                            // Text node
+                            var data = node.data;
+                            var data_low = data.toLowerCase();
+                            if (data_low.indexOf(term) >= 0) {
+                                //term found!
+                                var new_node = document.createElement('span');
+                                node.parentNode.replaceChild(new_node, node);
+                                var result;
+                                while ((result = data_low.indexOf(term)) != -1) {
+                                    new_node.appendChild(document.createTextNode(
+                                                data.substr(0, result)));
+                                    new_node.appendChild(this.CrearNodo(
+                                                document.createTextNode(data.substr(
+                                                        result, term.length))));
+                                    data = data.substr(result + term.length);
+                                    data_low = data_low.substr(result + term.length);
+                                }
+                                new_node.appendChild(document.createTextNode(data));
+                            }
+                        } else {
+                            // Keep going onto other elements
+                            this.Resaltar(term, node);
+                        }
+                    }
+                },
+                DesResaltar:function(container) {
+                    for (var i = 0; i < container.childNodes.length; i++) {
+                        var node = container.childNodes[i];
+                        if (node.attributes && node.attributes['class']
+                            && node.attributes['class'].value == 'highlighted') {
+                            node.parentNode.parentNode.replaceChild(
+                                    document.createTextNode(
+                                        node.parentNode.innerHTML.replace(/<[^>]+>/g, "")),
+                                    node.parentNode);
+                            // Stop here and process next parent
+                            return;
+                        } else if (node.nodeType != 3) {
+                            // Keep going onto other elements
+                            this.DesResaltar(node);
+                        }
+                    }
+                },
+                Buscar:function(term, table) {
+                    this.DesResaltar(table);
+                    var terms = term.value.toLowerCase().split(" ");
+                    var finded = false;
+                    for (var r = 1; r < table.rows.length; r++) {
+                        var display = '';
+                        for (var i = 0; i < terms.length; i++) {
+                            if (table.rows[r].innerHTML.replace(/<[^>]+>/g, "").toLowerCase()
+                                .indexOf(terms[i]) < 0) {
+                                display = 'none';
+                            } else {
+                                if (terms[i].length) this.Resaltar(terms[i], table.rows[r]);
+                                finded = true;
+                            }
+                            table.rows[r].style.display = display;
+                        }
+                    }
+                    /* -----------------------------------------
+                     * Opcion de notificar al usuario cuando 
+                     * no hay un registro encontrado.
+                     * Jorge Torres: 11-01-2016
+                     * ----------------------------------------*/
+                    var obj = document.getElementById("filtro");
+                    var lblFeedBack = document.getElementById("lblFeedBack_filtro");
+                    if (lblFeedBack === null) {
+                        var lblFeedBack = document.createElement("span");
+                        lblFeedBack.id = "lblFeedBack_filtro";
+                        lblFeedBack.id = "lblFeedBack_" + obj.id;
+                        lblFeedBack.className = "FeedBackLabel";
+                        obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
+                    }
+                    lblFeedBack = document.getElementById("lblFeedBack_filtro");
+
+                    if (!finded) {
+                        lblFeedBack.innerHTML = "no hay registros que mostrar...";
+                    } else {
+                        lblFeedBack.innerHTML = "";
+                    }
+                },
+                Init:function(){
+                    var self=this;
+                    var tables = document.getElementsByTagName('table');
+                    for (var t = 0; t < tables.length; t++) {
+                        var element = tables[t];
+
+                        if (element.attributes['class']
+                            && element.attributes['class'].value == 'filterable') {
+
+                            /* Here is dynamically created a form */
+                            var form = document.createElement('form');
+                            form.setAttribute('class', 'filter');
+                            // For ie...
+                            form.attributes['class'].value = 'filter';
+                            var input = document.createElement('input');
+                            input.onkeyup = function () {
+                                self.Buscar(input, element);
+                            }
+                            form.appendChild(input);
+                            element.parentNode.insertBefore(form, element);
+                        }
+                    }
+                }
+            },
+            Ordenacion:{
+
+            }
+        }
     };
     App.prototype.Runtime = function (starTime) {
         if (_Tracert) { console.log('metodo: "App.Runtime(starTime)" ha cargado exitosamente'); }
