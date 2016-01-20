@@ -1206,7 +1206,7 @@
 	            Box: null,
 	            OK:null,
 	            Cancel:null,
-	            Mensaje: function (mensaje, okCallback) {
+	            Mensaje: function (mensaje, okCallback,hideCancel) {
 	                var self = this;
 	                this._();
 	                this.Overlight.style.display = "block";   
@@ -1219,6 +1219,9 @@
 	                        self.Cancel.click();
 	                        return true;
 	                    }
+	                }
+	                if(hideCancel!==undefined){
+	                    this.Cancel.style.display="none";
 	                }
 	            },
 	            Css: function (className) {
@@ -1903,6 +1906,15 @@
     */
     namespace.App=new App();
     //return namespace.App;
+    namespace._=function(id){
+        //Funcion que retorna un objeto a partir de su id, para no usar el document.getElementById(), por FLOJERAAAA
+        var item=$("#"+id)[0];
+        if(item!==null){
+            return item;
+        }else{
+            return null;
+        }
+    };
 })(window || {});
 
 /*document.onreadystatechange = function () {
