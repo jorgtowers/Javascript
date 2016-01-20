@@ -53,8 +53,8 @@
         var filtro = document.getElementById("filtro");
         var tabla = document.getElementById("listado");
         if (filtro != null){
-            this.UI.Tablas.Busqueda.Init();
-            this.UI.Tablas.Ordenacion.Init();
+            this.UI.Tablas.Busqueda._();
+            this.UI.Tablas.Ordenacion._();
             filtro.onkeyup = function () {
                 self.UI.Tablas.Busqueda.Buscar(filtro, tabla);
                 //filterTable(filtro, tabla);
@@ -1293,16 +1293,16 @@
 	                }
 	            }
 	        },
-        Tablas:{
-            Busqueda:{
-                CrearNodo:function (hijo){
+        Tablas: {
+            Busqueda: {
+                CrearNodo: function (hijo) {
                     var node = document.createElement('span');
                     node.setAttribute('class', 'highlighted');
                     node.attributes['class'].value = 'highlighted';
                     node.appendChild(hijo);
                     return node;
                 },
-                Resaltar:function(term, container) {
+                Resaltar: function (term, container) {
                     for (var i = 0; i < container.childNodes.length; i++) {
                         var node = container.childNodes[i];
                         if (node.nodeType == 3) {
@@ -1331,7 +1331,7 @@
                         }
                     }
                 },
-                DesResaltar:function(container) {
+                DesResaltar: function (container) {
                     for (var i = 0; i < container.childNodes.length; i++) {
                         var node = container.childNodes[i];
                         if (node.attributes && node.attributes['class']
@@ -1348,7 +1348,7 @@
                         }
                     }
                 },
-                Buscar:function(term, table) {
+                Buscar: function (term, table) {
                     this.DesResaltar(table);
                     var terms = term.value.toLowerCase().split(" ");
                     var finded = false;
@@ -1387,8 +1387,8 @@
                         lblFeedBack.innerHTML = "";
                     }
                 },
-                Init:function(){
-                    var self=this;
+                _: function () {
+                    var self = this;
                     var tables = document.getElementsByTagName('table');
                     for (var t = 0; t < tables.length; t++) {
                         var element = tables[t];
@@ -1412,12 +1412,6 @@
                 }
             },
             Ordenacion:{
-                Images:{
-                    Path:"http://www.joostdevalk.nl/code/sortable-table/",
-                    Up:"arrow-up.gif",
-                    Down:"arrow-down.gif",
-                    None:"arrow-none.gif"
-                },                
                 EuropeanDate:true,
                 AlternateRowColors:true,
                 SORT_COLUMN_INDEX:0,
@@ -1590,7 +1584,7 @@
                         }
                     }
 
-                   switch (sortfn) {
+                    switch (sortfn) {
                         case oNUMERIC:{
                             newRows.sort(function(a,b){
                                 var aa = self.InnerText(a.cells[self.SORT_COLUMN_INDEX]);
@@ -1709,7 +1703,7 @@
                         this.Alternate(t);
                     }
                 },
-                Init:function(){
+                _: function () {
                     var self=this;
                     if (!document.getElementsByTagName) {return;}
                     var tbls = document.getElementsByTagName("table");
@@ -1730,8 +1724,16 @@
                     }
                 }
             }
+        },
+        _: function () {
+            this.parent = namespace;
+            this.Tablas.parent = this;
+            this.Tablas.Busqueda.parent = this.Tablas;
+            this.Tablas.Ordenacion.parent = this.Tablas;
+            delete this._;
+            return this;
         }
-    };
+    }._();
     App.prototype.Runtime = function (starTime) {
         if (_Tracert) { console.log('metodo: "App.Runtime(starTime)" ha cargado exitosamente'); }
         return (((new Date() - starTime) / 1000).toFixed(2) + " segundos...");
