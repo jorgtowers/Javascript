@@ -661,6 +661,20 @@
                 return !isNaN(d.getTime())
             }
         },
+        Anagram:function (prefix, string) {
+            if ( string.length == 1 ) {
+                return [ prefix + string ];
+            } else {
+                var returnResult = [];
+                for (var i=0; i < string.length; i++) {
+                    var result = permutation (string[i], string.substr(0, i) + string.substr(i+1));
+                    for (var j=0; j<result.length; j++) {
+                        returnResult.push(prefix + result[j]);
+                    }
+                }
+                return returnResult;
+            }
+        },
         Validation: {
             _Container: null,
             _Fiedls: [],
