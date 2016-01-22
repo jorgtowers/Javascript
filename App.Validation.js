@@ -44,6 +44,7 @@
 	            Validation: {
             _Container: null,
             _Fiedls: [],
+            _Emptys:[],
             ClassCss: {
                 HasClass: function (elemento, App) {
                     if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.HasClass(elemento, App)" ha cargado exitosamente'); }
@@ -153,6 +154,7 @@
                 } else {
                     this._Container = document;
                 }
+                this.Fields();
                 return this._Container;
             },
             Fields: function () {
@@ -179,7 +181,7 @@
                         obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
                     }
                 }
-                var radios = content.querySelectorAll("input[type=radio]").toArray();
+                var radios = content.querySelectorAll("input[type=radio]").ToArray();
                 var radiosUniques = radios.Radios.FirstAtEachName();
                 for (var i = 0; i < radiosUniques.length; i++) {
                     var obj = radiosUniques[i];
@@ -340,10 +342,11 @@
                 for (var i = 0; i < objs.length; i++) {
                     var obj = objs[i];
                     if (!obj.disabled && obj.style.display==="") {
-                        if (!obj.hasAttribute("optional")) {
+                        if (!obj.hasAttribute("optional")) {                            
                             var tieneValorOSeleccionValida = (obj.value.length === 0 || parseInt(obj.value, 0) < 0);
                             if (tieneValorOSeleccionValida) {
                                 validados = false;
+                                this._Emptys.push(obj);
                                 var title = obj.getAttribute("title");
                                 this.ClassCss.Add(obj, "requerido");
                                 if (title !== null) {
@@ -376,7 +379,7 @@
                 /* -------------------------------------------------------------------
                  * Radios se validan aparte por se diferente la lógica de validación
                  * ------------------------------------------------------------------- */
-                var radios = document.querySelectorAll("input[type=radio]").toArray();
+                var radios = document.querySelectorAll("input[type=radio]").ToArray();
                 var radiosUniques = radios.Radios.FirstAtEachName();
                 var radiosNames = radios.Radios.DistinctName();
                 for (var i = 0; i < radios.length; i++) {
