@@ -89,6 +89,10 @@
         
     };
     
+    App.prototype.NAME_OF_PERSONAL_PROYECT={
+    	//Codigo personal
+    };
+    
     App.prototype.Utils = {
         ValidarRif:function (sRif) {
             var bResultado = false;
@@ -795,7 +799,7 @@
                         obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
                     }
                 }
-                var radios = content.querySelectorAll("input[type=radio]").toArray();
+                var radios = content.querySelectorAll("input[type=radio]").ToArray();
                 var radiosUniques = radios.Radios.FirstAtEachName();
                 for (var i = 0; i < radiosUniques.length; i++) {
                     var obj = radiosUniques[i];
@@ -992,7 +996,7 @@
                 /* -------------------------------------------------------------------
                  * Radios se validan aparte por se diferente la lógica de validación
                  * ------------------------------------------------------------------- */
-                var radios = document.querySelectorAll("input[type=radio]").toArray();
+                var radios = document.querySelectorAll("input[type=radio]").ToArray();
                 var radiosUniques = radios.Radios.FirstAtEachName();
                 var radiosNames = radios.Radios.DistinctName();
                 for (var i = 0; i < radios.length; i++) {
@@ -1807,19 +1811,19 @@
              * Extendiendo objetos propios del JavaScript, 
              * para mejorar la programación de los métodos propios 
              * ------------------------------------------------------------------- */
-             Object.defineProperty(Object.prototype, "type", {
+             Object.defineProperty(Object.prototype, "Type", {
              	get: function() {
              		return this.constructor.name;
              	}
              });
-             HTMLCollection.prototype.toArray=function(){
+             HTMLCollection.prototype.ToArray=function(){
              	var arr=[];
              	for (var i = this.length - 1; i >= 0; i--) {
              		arr.push(this[i]);
              	};
              	return arr;				
              };
-             NodeList.prototype.toArray=function(){
+             NodeList.prototype.ToArray=function(){
              	var arr=[];
              	for (var i = this.length - 1; i >= 0; i--) {
              		arr.push(this[i]);
@@ -1905,6 +1909,14 @@
         });
     */
     namespace.App=new App();
+    
+     if (typeof namespace.$ === "undefined") {
+        namespace.$ = function (id) {
+            var x = [];
+            x.push(document.getElementById(id.replace('#', '')));
+            return x;
+        }
+    }
     //return namespace.App;
     namespace._=function(id){
         //Funcion que retorna un objeto a partir de su id, para no usar el document.getElementById(), por FLOJERAAAA
