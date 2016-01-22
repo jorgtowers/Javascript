@@ -664,6 +664,7 @@
         Validation: {
             _Container: null,
             _Fiedls: [],
+            _Emptys:[],
             ClassCss: {
                 HasClass: function (elemento, App) {
                     if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.HasClass(elemento, App)" ha cargado exitosamente'); }
@@ -773,6 +774,7 @@
                 } else {
                     this._Container = document;
                 }
+                this.Fields();
                 return this._Container;
             },
             Fields: function () {
@@ -960,10 +962,11 @@
                 for (var i = 0; i < objs.length; i++) {
                     var obj = objs[i];
                     if (!obj.disabled && obj.style.display==="") {
-                        if (!obj.hasAttribute("optional")) {
+                        if (!obj.hasAttribute("optional")) {                            
                             var tieneValorOSeleccionValida = (obj.value.length === 0 || parseInt(obj.value, 0) < 0);
                             if (tieneValorOSeleccionValida) {
                                 validados = false;
+                                this._Emptys.push(obj);
                                 var title = obj.getAttribute("title");
                                 this.ClassCss.Add(obj, "requerido");
                                 if (title !== null) {
