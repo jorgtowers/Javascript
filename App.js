@@ -60,6 +60,29 @@
                 //filterTable(filtro, tabla);
             };
         }
+        
+        
+        /* -------------------------
+         *   Listeners por Pahts            
+         * ------------------------- */
+        var path = location.href.split("/")[4].substring(0, location.href.split("/")[4].indexOf("?"))
+        switch (path) {
+            case "path1.aspx": {               
+                break;
+            }
+            case "path2.aspx":{
+                break;
+            }            
+            case "path3.aspx": {
+                self.Utils.Validation.Container("editPanel");
+                  break;
+            }
+            default: {
+                break;
+            }
+
+        }
+        
         //Activa el paginador del dataTables.js
         try{
             $('#listado').dataTable({
