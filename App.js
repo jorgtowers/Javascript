@@ -65,7 +65,9 @@
         /* -------------------------
          *   Listeners por Pahts            
          * ------------------------- */
-        var path = location.href.split("/")[4].substring(0, location.href.split("/")[4].indexOf("?"))
+        var path = location.href.split("/")[4];
+        if (path.indexOf("?") > 0)
+            path = path.substring(0, location.href.split("/")[4].indexOf("?"));   
         switch (path) {
             case "path1.aspx": {               
                 break;
