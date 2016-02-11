@@ -182,7 +182,7 @@
                     }
                 }
                 var radios = content.querySelectorAll("input[type=radio]").ToArray();
-                var radiosUniques = radios.FirstAtEachName();
+                var radiosUniques = radios.Radios().FirstAtEachName();
                 for (var i = 0; i < radiosUniques.length; i++) {
                     var obj = radiosUniques[i];
                     var lblFeedBack = document.createElement("span");
@@ -380,8 +380,8 @@
                  * Radios se validan aparte por se diferente la lógica de validación
                  * ------------------------------------------------------------------- */
                 var radios = document.querySelectorAll("input[type=radio]").ToArray();
-                var radiosUniques = radios.FirstAtEachName();
-                var radiosNames = radios.DistinctName();
+                var radiosUniques = radios.Radios().FirstAtEachName();
+                var radiosNames = radios.Radios().DistinctName();
                 for (var i = 0; i < radios.length; i++) {
 
                 };
