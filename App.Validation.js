@@ -182,7 +182,7 @@
                     }
                 }
                 var radios = content.querySelectorAll("input[type=radio]").ToArray();
-                var radiosUniques = radios.Radios.FirstAtEachName();
+                var radiosUniques = radios.FirstAtEachName();
                 for (var i = 0; i < radiosUniques.length; i++) {
                     var obj = radiosUniques[i];
                     var lblFeedBack = document.createElement("span");
@@ -380,8 +380,8 @@
                  * Radios se validan aparte por se diferente la lógica de validación
                  * ------------------------------------------------------------------- */
                 var radios = document.querySelectorAll("input[type=radio]").ToArray();
-                var radiosUniques = radios.Radios.FirstAtEachName();
-                var radiosNames = radios.Radios.DistinctName();
+                var radiosUniques = radios.FirstAtEachName();
+                var radiosNames = radios.DistinctName();
                 for (var i = 0; i < radios.length; i++) {
 
                 };
@@ -405,58 +405,59 @@
              * Extendiendo objetos propios del JavaScript, 
              * para mejorar la programación de los métodos propios 
              * ------------------------------------------------------------------- */
-    		Object.defineProperty(Object.prototype, "type", {
+    		Object.defineProperty(Object.prototype, "Type", {
 			    get: function() {
 			        return this.constructor.name;
 			    }
 			});
-    		HTMLCollection.prototype.toArray=function(){
+    		HTMLCollection.prototype.ToArray=function(){
 				var arr=[];
 				for (var i = this.length - 1; i >= 0; i--) {
 					arr.push(this[i]);
 				};
 				return arr;				
     		};
-    		NodeList.prototype.toArray=function(){
+    		NodeList.prototype.ToArray=function(){
 				var arr=[];
 				for (var i = this.length - 1; i >= 0; i--) {
 					arr.push(this[i]);
 				};
 				return arr;				
     		};
-    		Array.prototype.Radios={
-    			DistinctName:function(sName){
-    				var a = [];
-		   			for(var i = 0, l = this.length; i < l; ++i){
-		      			if(this[i].name===sName) {
-		         			a.push(this[i]);
-		      			}	      			
-		   			}
-		   			return a;
-    			},
-    			Distinct:function(){
-    				var u = {}, a = [];
-		   			for(var i = 0, l = this.length; i < l; ++i){
-		      			if(u.hasOwnProperty(this[i].name)) {
-		         			continue;
-		      			}
-		      			a.push(this[i].name);
-		      			u[this[i].name] = 1;
-		   			}
-		   			return a;
-    			},
-    			FirstAtEachName:function(){
-    				var u = {}, a = [];
-		   			for(var i = 0, l = this.length; i < l; ++i){
-		      			if(u.hasOwnProperty(this[i].name)) {
-		         			continue;
-		      			}
-		      			a.push(this[i]); 
-		      			u[this[i].name] = 1;
-		   			}
-		   			return a;
-    			}
-    		};
+    		Array.prototype.DistinctName=function(sName){
+             		if (_Tracert) { console.log('metodo: "Array.DistinctName(sNanem)", retorna un arreglo de elementos Radios filtrando por la propiedad name, aplica para los Radios'); }
+             		var a = [];
+             		for(var i = 0, l = this.length; i < l; ++i){
+             			if(this[i].name===sName) {
+             				a.push(this[i]);
+             			}	      			
+             		}
+             		return a;
+             	};
+             	Array.prototype.Distinct=function(){
+             		if (_Tracert) { console.log('metodo: "Array.Distinct()", retorna un arreglo de String con los Radios ùnicos evaluando su propiedad name'); }
+             		var u = {}, a = [];
+             		for(var i = 0, l = this.length; i < l; ++i){
+             			if(u.hasOwnProperty(this[i].name)) {
+             				continue;
+             			}
+             			a.push(this[i].name);
+             			u[this[i].name] = 1;
+             		}
+             		return a;
+             	};
+             	Array.prototype.FirstAtEachName=function(){
+             		if (_Tracert) { console.log('metodo: "Array.FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
+             		var u = {}, a = [];
+             		for(var i = 0, l = this.length; i < l; ++i){
+             			if(u.hasOwnProperty(this[i].name)) {
+             				continue;
+             			}
+             			a.push(this[i]); 
+             			u[this[i].name] = 1;
+             		}
+             		return a;
+             	};
 
 	    namespace.App = new App();
 
