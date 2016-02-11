@@ -1000,8 +1000,8 @@
                 var validados = true;
                 for (var i = 0; i < objs.length; i++) {
                     var obj = objs[i];
-                    if (!obj.disabled && obj.style.display==="") {
-                        if (!obj.hasAttribute("optional")) {                            
+                    if (!obj.disabled && obj.style.display === "") {
+                        if (!obj.hasAttribute("optional")) {
                             var tieneValorOSeleccionValida = (obj.value.length === 0 || parseInt(obj.value, 0) < 0);
                             if (tieneValorOSeleccionValida) {
                                 validados = false;
@@ -1019,32 +1019,27 @@
                                 obj.nextElementSibling.innerHTML = "";
                             }
                         }
-                        /*
-                        if (obj.getAttribute("validation") !== null) {
-                            obj.onblur = function () {
-                                var ex = self.Pattern[this.getAttribute("validation")];
-                                var exp = new RegExp(ex.RegEx, "ig");
-                                var validado = exp.test(this.value);
-                                if (!validado) {
-                                    this.nextElementSibling.innerHTML = ex.Message;
-                                    this.nextElementSibling.style.color = "red";
-                                    this.value = "";
-                                }
-                            };
-                        }
-                        */
                     }
                 }
                 /* -------------------------------------------------------------------
                  * Radios se validan aparte por se diferente la lógica de validación
                  * ------------------------------------------------------------------- */
-                var radios = document.querySelectorAll("input[type=radio]").ToArray();
+                var radios = document.querySelectorAll("input[type=radio]").ToArray();                
                 var radiosUniques = radios.Radios().FirstAtEachName();
-                var radiosNames = radios.Radios().DistinctName();
-                for (var i = 0; i < radios.length; i++) {
-
-                };
-
+                for (var i = 0; i < radiosUniques.length; i++) {
+                    var radiosNames = radios.Radios().DistinctName(radiosUniques[i].name);
+                    var seleccionado = radios.Radios().SelectedItem(radiosNames);
+                    if(seleccionado==null){
+                        validados=false;
+                        for (var o=0;o<radiosNames.length;o++) {
+                            var obj=radiosNames[o];
+                            obj.nextElementSibling.style.color="red";
+                            obj.nextElementSibling.innerHTML = obj.nextElementSibling.innerHTML.replace('[Requerido]','') + "<small style='font-weight:bold;font-size:.9em'> [Requerido]</small>";
+                        };
+                    } else {
+                        break;
+                    }
+                }
                 return validados;
             }
         },
@@ -1872,44 +1867,61 @@
              	};
              	return arr;				
              };
-             Array.prototype.Radios=function(){
-             	var arr=this;
-             	this._={
-             		DistinctName:function(sName){
-             			var a = [];
-	             		for(var i = 0, l = arr.length; i < l; ++i){
-	             			if(arr[i].name===sName) {
-	             				a.push(arr[i]);
-	             			}	      			
-	             		}
-	             		return a;
-             		},
-             		Distinct:function(){
-             			var u = {}, a = [];
-	             		for(var i = 0, l = arr.length; i < l; ++i){
-	             			if(u.hasOwnProperty(arr[i].name)) {
-	             				continue;
-	             			}
-	             			a.push(arr[i].name);
-	             			u[arr[i].name] = 1;
-	             		}
-	             		return a;
-             		},
-             		FirstAtEachName:function(){
-	             		if (_Tracert) { console.log('metodo: "Array.FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
-	             		var u = {}, a = [];
-	             		for(var i = 0, l = this.length; i < l; ++i){
-	             			if(u.hasOwnProperty(this[i].name)) {
-	             				continue;
-	             			}
-	             			a.push(this[i]); 
-	             			u[this[i].name] = 1;
-	             		}
-	             		return a;
-	             	}
-             	};
-             	return this._;
-             };
+             Array.prototype.Radios = function () {
+	            var arr = this;
+	            var _ = {
+	                SelectedItem:function(arr){
+	                    if (_Tracert) { console.log('metodo: "Array.Radios().SelectedItem()", ha cargado exitosamente'); }
+	                    if (_Info) { console.log('info: "Array.Radios().SelectedItem()", retorna el elemento tipo Radios seleccionado'); }
+	                    var obj=null;
+	                    for (var i = arr.length - 1; i >= 0; i--) {
+	                        if(arr[i].checked){
+	                            obj= arr[i];
+	                            break;
+	                        }
+	                    }
+	                    return obj;
+	                },
+	                DistinctName: function (sName) {
+	                    if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(sName)", ha cargado exitosamente'); }
+	                    if (_Info) { console.log('info: "Array.Radios().DistinctName(sName)", retorna un arreglo de elementos Radios filtrados por su propiedad Name comparado por el parametro sName'); }
+	                    var a = [];
+	                    for (var i = 0, l = arr.length; i < l; ++i) {
+	                        if (arr[i].name === sName) {
+	                            a.push(arr[i]);
+	                        }
+	                    }
+	                    return a;
+	                },
+	                Distinct: function () {
+	                    if (_Tracert) { console.log('metodo: "Array.Radios().Distinct()", ha cargado exitosamente'); }
+	                    if (_Info) { console.log('info: "Array.Radios().Distinct()", retorna un arreglo de string con los nombre unicos del arreglo'); }
+	                    var u = {}, a = [];
+	                    for (var i = 0, l = arr.length; i < l; ++i) {
+	                        if (u.hasOwnProperty(arr[i].name)) {
+	                            continue;
+	                        }
+	                        a.push(arr[i].name);
+	                        u[arr[i].name] = 1;
+	                    }
+	                    return a;
+	                },
+	                FirstAtEachName: function () {
+	                    if (_Tracert) { console.log('metodo: "Array.Radios().FirstAtEachName()", ha cargado exitosamente'); }
+	                    if (_Info) { console.log('info: "Array.Radios().FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
+	                    var u = {}, a = [];
+	                    for (var i = 0, l = arr.length; i < l; ++i) {
+	                        if (u.hasOwnProperty(arr[i].name)) {
+	                            continue;
+	                        }
+	                        a.push(arr[i]);
+	                        u[arr[i].name] = 1;
+	                    }
+	                    return a;
+	                }
+	            };
+	            return _;
+	        };
              Array.prototype.DistinctName=function(sName){
              		if (_Tracert) { console.log('metodo: "Array.DistinctName(sNanem)", retorna un arreglo de elementos Radios filtrando por la propiedad name, aplica para los Radios'); }
              		var a = [];
