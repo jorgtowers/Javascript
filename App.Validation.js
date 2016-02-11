@@ -424,6 +424,44 @@
 				};
 				return arr;				
     		};
+    		Array.prototype.Radios=function(){
+	             	var arr=this;
+	             	this._={
+	             		DistinctName:function(sName){
+	             			var a = [];
+		             		for(var i = 0, l = arr.length; i < l; ++i){
+		             			if(arr[i].name===sName) {
+		             				a.push(arr[i]);
+		             			}	      			
+		             		}
+		             		return a;
+	             		},
+	             		Distinct:function(){
+	             			var u = {}, a = [];
+		             		for(var i = 0, l = arr.length; i < l; ++i){
+		             			if(u.hasOwnProperty(arr[i].name)) {
+		             				continue;
+		             			}
+		             			a.push(arr[i].name);
+		             			u[arr[i].name] = 1;
+		             		}
+		             		return a;
+	             		},
+	             		FirstAtEachName:function(){
+		             		if (_Tracert) { console.log('metodo: "Array.FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
+		             		var u = {}, a = [];
+		             		for(var i = 0, l = this.length; i < l; ++i){
+		             			if(u.hasOwnProperty(this[i].name)) {
+		             				continue;
+		             			}
+		             			a.push(this[i]); 
+		             			u[this[i].name] = 1;
+		             		}
+		             		return a;
+		             	}
+	             	};
+	             	return this._;
+	             };
     		Array.prototype.DistinctName=function(sName){
              		if (_Tracert) { console.log('metodo: "Array.DistinctName(sNanem)", retorna un arreglo de elementos Radios filtrando por la propiedad name, aplica para los Radios'); }
              		var a = [];
