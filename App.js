@@ -1872,8 +1872,8 @@
              	};
              	return arr;				
              };
-             Array.prototype.Radios={
-             	DistinctName:function(sName){
+             Array.prototype.DistinctName=function(sName){
+             		if (_Tracert) { console.log('metodo: "Array.DistinctName(sNanem)", retorna un arreglo de elementos Radios filtrando por la propiedad name, aplica para los Radios'); }
              		var a = [];
              		for(var i = 0, l = this.length; i < l; ++i){
              			if(this[i].name===sName) {
@@ -1881,8 +1881,9 @@
              			}	      			
              		}
              		return a;
-             	},
-             	Distinct:function(){
+             	};
+             	Array.prototype.Distinct=function(){
+             		if (_Tracert) { console.log('metodo: "Array.Distinct()", retorna un arreglo de String con los Radios ùnicos evaluando su propiedad name'); }
              		var u = {}, a = [];
              		for(var i = 0, l = this.length; i < l; ++i){
              			if(u.hasOwnProperty(this[i].name)) {
@@ -1892,8 +1893,9 @@
              			u[this[i].name] = 1;
              		}
              		return a;
-             	},
-             	FirstAtEachName:function(){
+             	};
+             	Array.prototype.FirstAtEachName=function(){
+             		if (_Tracert) { console.log('metodo: "Array.FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
              		var u = {}, a = [];
              		for(var i = 0, l = this.length; i < l; ++i){
              			if(u.hasOwnProperty(this[i].name)) {
@@ -1903,8 +1905,7 @@
              			u[this[i].name] = 1;
              		}
              		return a;
-             	}
-             };
+             	};
      } catch(err) {
         console.log("this explorer no support definition the properties") ;
      }
