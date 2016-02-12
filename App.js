@@ -94,7 +94,7 @@
                 "language": {
                     "paginate": {
                         "next": "Siguiente",
-                        "previous": "Anterior",
+                        "previous": "Anterior"
                     },
                     "lengthMenu": 'Mostrar <select class="\ form-control \" style="\ margin-top:0.5em \">' +
                     '<option value="10">10</option>' +
@@ -103,7 +103,7 @@
                     '<option value="40">40</option>' +
                     '<option value="50">50</option>' +
                     '<option value="-1">Todos</option>' +
-                    '</select> Registros',
+                    '</select> Registros'
                 }
             });
         }catch(ex){
@@ -1932,7 +1932,7 @@
              		}
              		return a;
              	};
-             	Array.prototype.Distinct=function(){
+             Array.prototype.Distinct=function(){
              		if (_Tracert) { console.log('metodo: "Array.Distinct()", retorna un arreglo de String con los Radios ùnicos evaluando su propiedad name'); }
              		var u = {}, a = [];
              		for(var i = 0, l = this.length; i < l; ++i){
@@ -1944,7 +1944,7 @@
              		}
              		return a;
              	};
-             	Array.prototype.FirstAtEachName=function(){
+             Array.prototype.FirstAtEachName=function(){
              		if (_Tracert) { console.log('metodo: "Array.FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
              		var u = {}, a = [];
              		for(var i = 0, l = this.length; i < l; ++i){
@@ -2001,33 +2001,43 @@
             }
         });
     */
-    namespace.App=new App();
-    
-     if (typeof namespace.$ === "undefined") {
+    namespace.App = new App();
+    //return namespace.App;
+    if (typeof namespace.$ === "undefined") {
         namespace.$ = function (id) {
             var x = [];
             x.push(document.getElementById(id.replace('#', '')));
             return x;
         }
     }
-    //return namespace.App;
-    namespace._=function(id){
-        //Funcion que retorna un objeto a partir de su id, para no usar el document.getElementById(), por FLOJERAAAA
-        var item=$("#"+id)[0];
-        if(item!==null){
-            return item;
-        }else{
-            return null;
-        }
-    };
-})(window || {});
-
-/*document.onreadystatechange = function () {
-    if (document.readyState == "interactive") {
-        this.app = new jt.App();
+    if (typeof namespace.console === "undefined") {
+        //Funcion que permite activar la consola para IE7, pero mostrará una alerta en lugar de escribir en la consola
+        namespace.console={
+            log: function (msj) {
+                alert(msj);
+            }
+        };
     }
-    if (document.readyState == "complete") {
-        if (this.app.Tracert) { console.log("App finalmente correctamente..." + this.app.Runtime(this.app.StartTime)); }
-        //TO DO...
+    if (typeof document.getElementsByClassName === "undefined") {
+        //Funcion que permite activar la consola para IE7, pero mostrará una alerta en lugar de escribir en la consola
+        document.getElementsByClassName = function (cl) {
+            var retnode = [];
+            var elem = this.getElementsByTagName('*');
+            for (var i = 0; i < elem.length; i++) {
+                if((' ' + elem[i].className + ' ').indexOf(' ' + cl + ' ') > -1) retnode.push(elem[i]);
+            }
+            return retnode;
+        }; 
     }
-}*/
+    if (typeof namespace._ === "undefined") {
+        namespace._ = function (id) {
+            //Funcion que retorna un objeto a partir de su id, para no usar el document.getElementById(), por FLOJERAAAA
+            var item = $("#" + id)[0];
+            if (item !== null) {
+                return item;
+            } else {
+                return null;
+            }
+        };
+    }
+})(window || {});   
