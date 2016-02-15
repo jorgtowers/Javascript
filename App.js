@@ -67,10 +67,14 @@
          *   Listeners por Pahts            
          * ------------------------- */
         var path = location.href.split("/")[4];
+        if(path===undefined)
+            path="\\";
         if (path.indexOf("?") > 0)
             path = path.substring(0, location.href.split("/")[4].indexOf("?"));   
+
         switch (path) {
-            case "\\": {               
+            case "\\": {
+                this.Utils.SKL();               
                 break;
             }
             case "path1.aspx": {               
@@ -80,7 +84,7 @@
                 break;
             }            
             case "path3.aspx": {
-                self.Utils.Validation.Container("editPanel");
+                this.Utils.Validation.Container("editPanel");
                   break;
             }
             default: {
@@ -1741,8 +1745,7 @@
                     },
                     DistinctName: function (sName) {
                         if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(sName)", ha cargado exitosamente'); }
-                        if (_Info) { console.log('info: "Array.Radios().DistinctName(sName)", retorna un arreglo de elementos Radios \ 
-                                                        filtrados por su propiedad Name comparado por el parametro sName'); }
+                        if (_Info) { console.log('info: "Array.Radios().DistinctName(sName)", retorna un arreglo de elementos Radios filtrados por su propiedad Name comparado por el parametro sName'); }
                         var a = [];
                         for (var i = 0, l = arr.length; i < l; ++i) {
                             if (arr[i].name === sName) {
@@ -1766,8 +1769,7 @@
                     },
                     FirstAtEachName: function () {
                         if (_Tracert) { console.log('metodo: "Array.Radios().FirstAtEachName()", ha cargado exitosamente'); }
-                        if (_Info) { console.log('info: "Array.Radios().FirstAtEachName()", retorna un arreglo de elementos Radios \ 
-                                                        tomando el primer elemento de cada sub arreglo'); }
+                        if (_Info) { console.log('info: "Array.Radios().FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
                         var u = {}, a = [];
                         for (var i = 0, l = arr.length; i < l; ++i) {
                             if (u.hasOwnProperty(arr[i].name)) {
@@ -1866,8 +1868,7 @@
     }
     if (typeof namespace.console === "undefined") {
         if (_Tracert) { console.log('metodo: "namespace.console.log(msj)", ha cargado exitosamente'); }
-        if (_Info) { console.log('info: "namespace.console.log(msj)", permite activar la consola para IE7, \
-                                        pero mostrará una alerta en lugar de escribir en la consola'); }        
+        if (_Info) { console.log('info: "namespace.console.log(msj)", permite activar la consola para IE7, pero mostrará una alerta en lugar de escribir en la consola'); }        
         namespace.console={
             log: function (msj) {
                 alert(msj);
@@ -1876,8 +1877,7 @@
     }
     if (typeof document.getElementsByClassName === "undefined") {
         if (_Tracert) { console.log('metodo: "document.getElementsByClassName(cl)", ha cargado exitosamente'); }
-        if (_Info) { console.log('info: "document.getElementsByClassName(cl)", retorna una HTMLCollection de objetos a partir de una class, \
-                                        fix para IE7, ya que no cuenta IE7 con este metodo nativo'); } 
+        if (_Info) { console.log('info: "document.getElementsByClassName(cl)", retorna una HTMLCollection de objetos a partir de una class, fix para IE7, ya que no cuenta IE7 con este metodo nativo'); } 
         document.getElementsByClassName = function (cl) {
             var retnode = [];
             var elem = this.getElementsByTagName('*');
