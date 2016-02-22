@@ -1619,7 +1619,7 @@
                     var tbls = document.getElementsByTagName("table");
                     for (var ti = 0; ti < tbls.length; ti++) {
                         var thisTbl = tbls[ti];
-                        if (((' ' + thisTbl.className + ' ').indexOf("sortable") != -1) && (thisTbl.id)) {
+                        if (((' ' + thisTbl.className + ' ').indexOf("sortable") != -1) ) {
                             this.MakeSortable(thisTbl);
                         }
                     }
