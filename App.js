@@ -1753,7 +1753,7 @@
 
             // Certain minor words should be left lowercase unless 
             // they are the first or last words in the string
-            lowers = ['el', 'en', 'lo', 'con', 'un', 'la', 'los', 'de', 'desde', 'hasta', 'De', 'En', 'La', 'Un'];
+            lowers = ['El', 'En', 'Lo', 'Con', 'Un', 'La', 'Los', 'De', 'Desde', 'Hasta', 'Del', 'Las'];
             for (i = 0, j = lowers.length; i < j; i++)
                 str = str.replace(new RegExp('\\s' + lowers[i] + '\\s', 'g'),
                   function (txt) {
