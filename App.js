@@ -3,7 +3,7 @@
  * CREADOR......: Jorge L. Torres A.
  * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
- * ACTUALIZADO..: 21-12-2015 01:46PM
+ * ACTUALIZADO..: 03-04-2016 01:46PM
  * CREADO.......: 20-03-2015 11:53PM
  * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
  *                Se agrega App.Utils.CheckImagen()
@@ -213,11 +213,13 @@
                     if (request.readyState == 4 && request.status == 200) {
                         var type = request.getResponseHeader('content-type');
                         var data = null;
-                        switch (type) {
+                        switch (type.substring(0, type.indexOf(";") > 0 ? type.indexOf(";") : type.lenght)) {
                             case "text/xml":
                                 data = request.responseXML;
+                                break;
                             case "application/json":
                                 data = JSON.parse(request.responseText);
+                                break;
                             default:
                                 data = request.responseText;
                         }
@@ -1221,6 +1223,51 @@
                 }
         },
         Tablas: {
+            Crear: function (arrJSON,elemento) {
+
+            var _table_ = document.createElement('table'),
+            _tr_ = document.createElement('tr'),
+            _th_ = document.createElement('th'),
+            _td_ = document.createElement('td');
+
+                _table_.classList.add("table", "table-condensed", "listado", "sortable");
+                _table_.id = "listado";
+                var table = _table_.cloneNode(false),
+                    columns = addHeaders(arrJSON, table);
+                var tbody = document.createElement('tbody');
+                for (var i = 0, maxi = arrJSON.length; i < maxi; ++i) {
+                    var tr = _tr_.cloneNode(false);
+                    for (var j = 0, maxj = columns.length; j < maxj ; ++j) {
+                        var td = _td_.cloneNode(false);
+                       var cellValue = arrJSON[i][columns[j]];
+                        td.appendChild(document.createTextNode(arrJSON[i][columns[j]] || ''));
+                        tr.appendChild(td);
+                    }
+                    tbody.appendChild(tr);
+                }
+                table.appendChild(tbody);
+
+                function addHeaders(arrJSON, table) {
+                    var thead = document.createElement('thead');
+                    var columnSet = [],
+                        tr = _tr_.cloneNode(false);
+                    for (var i = 0, l = arrJSON.length; i < l; i++) {
+                        for (var key in arrJSON[i]) {
+                            if (arrJSON[i].hasOwnProperty(key) && columnSet.indexOf(key) === -1) {
+                                columnSet.push(key);
+                                var th = _th_.cloneNode(false);
+                                th.appendChild(document.createTextNode(key));
+                                tr.appendChild(th);
+                            }
+                        }
+                    }
+                    thead.appendChild(tr);
+                    table.appendChild(thead);
+                    return columnSet;
+                };
+                //return table;
+                elemento.appendChild(table);
+            },
             Busqueda: {
                 CrearNodo: function (hijo) {
                     var node = document.createElement('span');
@@ -1338,19 +1385,19 @@
                     }
                 }
             },
-            Ordenacion:{
-                EuropeanDate:true,
-                AlternateRowColors:true,
-                SORT_COLUMN_INDEX:0,
-                THead:false,
-                Compare:function(a,b){
+            Ordenacion: {
+                EuropeanDate: true,
+                AlternateRowColors: true,
+                SORT_COLUMN_INDEX: 0,
+                THead: false,
+                Compare: function (a, b) {
                     var a = parseFloat(a);
                     a = (isNaN(a) ? 0 : a);
                     var b = parseFloat(b);
                     b = (isNaN(b) ? 0 : b);
                     return a - b;
                 },
-                Alternate:function(table){
+                Alternate: function (table) {
                     // Take object table and get all it's tbodies.
                     var tableBodies = table.getElementsByTagName("tbody");
                     // Loop through these tbodies
@@ -1360,7 +1407,7 @@
                         // Loop through these rows
                         // Start at 1 because we want to leave the heading row untouched
                         for (var j = 0; j < tableRows.length; j++) {
-                            var item=tableRows[j];
+                            var item = tableRows[j];
                             // Check if j is even, and apply classes for both possible results
                             if ((j % 2) == 0) {
                                 if (!(item.className.indexOf('odd') == -1)) {
@@ -1380,17 +1427,17 @@
                                 }
                             }
                         }
-                    }                    
+                    }
                 },
-                Trim:function(s){
+                Trim: function (s) {
                     //Retorna un String con sin espacios en blanco innesarios
                     return s.replace(/^\s+|\s+$/g, "");
                 },
-                CleanNum:function(str){
+                CleanNum: function (str) {
                     str = str.replace(new RegExp(/[^-?0-9.]/g), "");
                     return str;
                 },
-                SortDefault:function(a,b){
+                SortDefault: function (a, b) {
                     var aa = this.InnerText(a.cells[this.SORT_COLUMN_INDEX]);
                     var bb = this.InnerText(b.cells[this.SORT_COLUMN_INDEX]);
                     if (aa == bb) {
@@ -1401,7 +1448,7 @@
                     }
                     return 1;
                 },
-                SortDate:function(date){
+                SortDate: function (date) {
                     // y2k notes: two digit years less than 50 are treated as 20XX, greater than 50 are treated as 19XX
                     var dt = "00000000";
                     if (date.length == 11) {
@@ -1449,7 +1496,7 @@
                     }
                     return dt;
                 },
-                Parent:function(el,pTagName){
+                Parent: function (el, pTagName) {
                     if (el == null) {
                         return null;
                     } else if (el.nodeType == 1 && el.tagName.toLowerCase() == pTagName.toLowerCase()) {
@@ -1458,8 +1505,8 @@
                         return this.Parent(el.parentNode, pTagName);
                     }
                 },
-                ResortTable:function(lnk,clid){
-                    var self=this;
+                ResortTable: function (lnk, clid) {
+                    var self = this;
                     var span;
                     for (var ci = 0; ci < lnk.childNodes.length; ci++) {
                         if (lnk.childNodes[ci].tagName && lnk.childNodes[ci].tagName.toLowerCase() == 'span') {
@@ -1483,12 +1530,12 @@
                         i++;
                     }
                     if (itm == "") return;
-                    var oCASEINSENTITIVE=0,oDATE=1,oNUMERIC=2;
+                    var oCASEINSENTITIVE = 0, oDATE = 1, oNUMERIC = 2;
                     var sortfn = oCASEINSENTITIVE;
-                    if (itm.match(/^\d\d[\/\.-][a-zA-z][a-zA-Z][a-zA-Z][\/\.-]\d\d\d\d$/)) {sortfn = oDATE;}
-                    if (itm.match(/^\d\d[\/\.-]\d\d[\/\.-]\d\d\d{2}?$/)) {sortfn = oDATE;}
-                    if (itm.match(/^-?[£$€Û¢´]\d/)) {sortfn = oNUMERIC;}
-                    if (itm.match(/^-?(\d+[,\.]?)+(E[-+][\d]+)?%?$/)) {sortfn = oNUMERIC;}
+                    if (itm.match(/^\d\d[\/\.-][a-zA-z][a-zA-Z][a-zA-Z][\/\.-]\d\d\d\d$/)) { sortfn = oDATE; }
+                    if (itm.match(/^\d\d[\/\.-]\d\d[\/\.-]\d\d\d{2}?$/)) { sortfn = oDATE; }
+                    if (itm.match(/^-?[£$€Û¢´]\d/)) { sortfn = oNUMERIC; }
+                    if (itm.match(/^-?(\d+[,\.]?)+(E[-+][\d]+)?%?$/)) { sortfn = oNUMERIC; }
                     this.SORT_COLUMN_INDEX = column;
                     var firstRow = new Array();
                     var newRows = new Array();
@@ -1512,8 +1559,8 @@
                     }
 
                     switch (sortfn) {
-                        case oNUMERIC:{
-                            newRows.sort(function(a,b){
+                        case oNUMERIC: {
+                            newRows.sort(function (a, b) {
                                 var aa = self.InnerText(a.cells[self.SORT_COLUMN_INDEX]);
                                 aa = self.CleanNum(aa);
                                 var bb = self.InnerText(b.cells[self.SORT_COLUMN_INDEX]);
@@ -1521,8 +1568,8 @@
                                 return self.Compare(aa, bb);
                             });
                             break;
-                        } 
-                        case oDATE:{
+                        }
+                        case oDATE: {
                             newRows.sort(function (a, b) {
                                 var dt1 = self.SortDate(self.InnerText(a.cells[self.SORT_COLUMN_INDEX]));
                                 var dt2 = self.SortDate(self.InnerText(b.cells[self.SORT_COLUMN_INDEX]));
@@ -1536,8 +1583,8 @@
                             });
                             break;
                         }
-                        default:{
-                            newRows.sort(function(a,b){
+                        default: {
+                            newRows.sort(function (a, b) {
                                 var aa = self.InnerText(a.cells[self.SORT_COLUMN_INDEX]).toLowerCase();
                                 var bb = self.InnerText(b.cells[self.SORT_COLUMN_INDEX]).toLowerCase();
                                 if (aa == bb) {
@@ -1547,11 +1594,11 @@
                                     return -1;
                                 }
                                 return 1;
-                            });    
+                            });
                         }
-        
+
                     }
-                    
+
                     if (span.getAttribute("sortdir") == 'down') {
                         this.ARROW = '&nbsp;&nbsp;<b class="fa fa-caret-down"></b>';
                         //ARROW = '&nbsp;&nbsp;<img src="' + image_path + image_down + '" alt="&darr;"/>';
@@ -1587,10 +1634,10 @@
                     span.innerHTML = this.ARROW;
                     this.Alternate(t);
                 },
-                InnerText:function(el){
-                    if (typeof el == "string") {return el;}
+                InnerText: function (el) {
+                    if (typeof el == "string") { return el; }
                     if (typeof el == "undefined") { return el };
-                    if (el.innerText) {return el.innerText;  }
+                    if (el.innerText) { return el.innerText; }
                     var str = "";
                     var cs = el.childNodes;
                     var l = cs.length;
@@ -1606,7 +1653,7 @@
                     }
                     return str;
                 },
-                MakeSortable:function(t){
+                MakeSortable: function (t) {
                     if (t.rows && t.rows.length > 0) {
                         if (t.tHead && t.tHead.rows.length > 0) {
                             var firstRow = t.tHead.rows[t.tHead.rows.length - 1];
@@ -1615,14 +1662,14 @@
                             var firstRow = t.rows[0];
                         }
                     }
-                    if (!firstRow) {return;}
+                    if (!firstRow) { return; }
                     // We have a first row: assume it's the header, and make its contents clickable links
                     for (var i = 0; i < firstRow.cells.length; i++) {
                         var cell = firstRow.cells[i];
                         var txt = this.InnerText(cell);
                         if (cell.className != "unsortable" && cell.className.indexOf("unsortable") == -1) {
                             //cell.innerHTML = '<a href="#" class="sortheader" onclick="App.UI.Tablas.Ordenacion.ResortTable(this, ' + i + ');return false;">' + txt + '<span class="sortarrow">&nbsp;&nbsp;</span></a>';
-                            cell.innerHTML = '<a href="#" class="sortheader" sort="'+i+'">' + txt + '<span class="sortarrow">&nbsp;&nbsp;</span></a>';
+                            cell.innerHTML = '<a href="#" class="sortheader" sort="' + i + '">' + txt + '<span class="sortarrow">&nbsp;&nbsp;</span></a>';
                             //cell.innerHTML = '<a href="#" class="sortheader" onclick="ts_resortTable(this, ' + i + ');return false;">' + txt + '<span class="sortarrow">&nbsp;&nbsp;<img src="' + image_path + image_none + '" alt="&darr;"/></span></a>';
                         }
                     }
@@ -1631,8 +1678,8 @@
                     }
                 },
                 _: function () {
-                    var self=this;
-                    if (!document.getElementsByTagName) {return;}
+                    var self = this;
+                    if (!document.getElementsByTagName) { return; }
                     var tbls = document.getElementsByTagName("table");
                     for (var ti = 0; ti < tbls.length; ti++) {
                         var thisTbl = tbls[ti];
@@ -1640,11 +1687,11 @@
                             this.MakeSortable(thisTbl);
                         }
                     }
-                    var trSort=document.getElementsByClassName("sortheader");
-                    if(trSort!==null){
+                    var trSort = document.getElementsByClassName("sortheader");
+                    if (trSort !== null) {
                         for (var i = 0; i < trSort.length; i++) {
-                            trSort[i].onclick=function(){
-                                self.ResortTable(this,this.getAttribute("sort"));
+                            trSort[i].onclick = function () {
+                                self.ResortTable(this, this.getAttribute("sort"));
                                 return false;
                             }
                         }
