@@ -41,65 +41,20 @@
      * Métodos Públicos
      *----------------------------*/   
     App.prototype.Constructor = function () {
-        this.myVariable = null;        
-        this.Utils.DisplayWhenEditing();
-        this.Utils.KeyBoard();
-        this.UI.CheckBoxAsToogle();        
-        
-        if (this.UI.Draggable) {
-            document.onmousedown = this.UI.Draggable.Iniciar;
-            document.onmouseup = this.UI.Draggable.Detener;
-        }
-        //Activa el buscador del filterTable.js y sortTable.js
-        var filtro = document.getElementById("filtro");
-        var tabla = document.getElementById("listado");
-        if (filtro != null){
-            this.UI.Tablas.Busqueda._();
-            this.UI.Tablas.Ordenacion._();
-            filtro.onkeyup = function () {
-                self.UI.Tablas.Busqueda.Buscar(filtro, tabla);
-                //filterTable(filtro, tabla);
-            };
-        }
-        
-        var txtAsunto = _("CPH_BODY_txtAsunto");
-            txtAsunto.onblur = function () {
-                this.value = this.value.ToTitleCase();
-            };
-        
+        this.myVariable = null;
+        this.NAMESPACE_PROJECT_PERSONAL.Sitio();
         this.Utils.Paths();
-        
-        //Activa el paginador del dataTables.js
-        try{
-            $('#listado').dataTable({
-                "ordering": false,
-                "info": false,
-                "searching": false,
-                "language": {
-                    "paginate": {
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    },
-                    "lengthMenu": 'Mostrar <select class="\ form-control \" style="\ margin-top:0.5em \">' +
-                    '<option value="10">10</option>' +
-                    '<option value="20">20</option>' +
-                    '<option value="30">30</option>' +
-                    '<option value="40">40</option>' +
-                    '<option value="50">50</option>' +
-                    '<option value="-1">Todos</option>' +
-                    '</select> Registros'
-                }
-            });
-        }catch(ex){
-            console.log("no esta creado el objeto JQuery");
-        }
-            
         if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
         
     };
     
-    App.prototype.NAME_OF_PERSONAL_PROYECT={
-        //Codigo personal
+    App.prototype.NAMESPACE_PROJECT_PERSONAL={
+        Sitio: function () {
+            var items = ['0078D7', '5C2D91', '008272', '107C10', '00188F', 'A80000', '002050', '004B50', '004B1C'];
+            var bg = items[Math.floor(Math.random() * items.length)];
+            var body = document.getElementsByTagName("body")[0];
+            body.style.backgroundColor = "#" + bg;
+        }
     };
     
     App.prototype.Utils = {
@@ -110,25 +65,77 @@
             if(path === undefined){ path = "\\"; }
             if (path.indexOf("?") > 0){
                 path = path.substring(0, location.href.split("/")[4].indexOf("?"));
-                switch (path) {
-                    case "\\": {
-                        this.Utils.SKL();               
-                        break;
-                    }
-                    case "path1.aspx": {               
-                        break;
-                    }
-                    case "path2.aspx":{
-                        break;
-                    }            
-                    case "path3.aspx": {
-                        this.Utils.Validation.Container("editPanel");
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
+            }
+            switch (path) {
+                case "\\": {
+                    //this.Utils.SKL();               
+                    break;
                 }
+                case "path1.aspx": {
+                    break;
+                }
+                case "path2.aspx": {
+                    this.Utils.DisplayWhenEditing();
+                    this.Utils.KeyBoard();
+                    this.UI.CheckBoxAsToogle();
+
+                    //if (this.UI.Draggable) {
+                    //    document.onmousedown = this.UI.Draggable.Iniciar;
+                    //    document.onmouseup = this.UI.Draggable.Detener;
+                    //}
+                    //Activa el buscador del filterTable.js y sortTable.js
+                    var filtro = document.getElementById("filtro");
+                    var tabla = document.getElementById("listado");
+                    if (filtro != null) {
+                        this.UI.Tablas.Busqueda._();
+                        this.UI.Tablas.Ordenacion._();
+                        filtro.onkeyup = function () {
+                            self.UI.Tablas.Busqueda.Buscar(filtro, tabla);
+                            //filterTable(filtro, tabla);
+                        };
+                    }
+
+                    var txtAsunto = _("CPH_BODY_txtAsunto");
+                    txtAsunto.onblur = function () {
+                        this.value = this.value.ToTitleCase();
+                    };
+
+
+                    //Activa el paginador del dataTables.js
+                    try {
+                        $('#listado').dataTable({
+                            "ordering": false,
+                            "info": false,
+                            "searching": false,
+                            "language": {
+                                "paginate": {
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                },
+                                "lengthMenu": 'Mostrar <select class="\ form-control \" style="\ margin-top:0.5em \">' +
+                                '<option value="10">10</option>' +
+                                '<option value="20">20</option>' +
+                                '<option value="30">30</option>' +
+                                '<option value="40">40</option>' +
+                                '<option value="50">50</option>' +
+                                '<option value="-1">Todos</option>' +
+                                '</select> Registros'
+                            }
+                        });
+                    } catch (ex) {
+                        console.log("no esta creado el objeto JQuery");
+                    }
+                    break;
+                }
+                case "path3.aspx": {
+
+                    break;
+                }
+                default: {
+                    this.Utils.Validation.Container("formContacto");
+                    break;
+                }
+
             }
         },
         SKL:function(){
