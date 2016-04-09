@@ -945,6 +945,7 @@
             }
         },
         _: function () {
+            this.parent=namespace;
             this.Validation.parent = this;
             this.Validation.FireOn.Input.parent =this;
             this.Validation.FireOn.Blur.parent =this;
