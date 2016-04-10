@@ -154,6 +154,97 @@
                 x.remove();
             }, 10000);
         },
+        KeyWords: {
+            Obtener:function (a,output) {
+                var b = 2; // Minimo de veces que aparece una palabra
+                var c = 3; // Bloque de palabras agrupadas, muestra palabras de 1, de 2 y de 3
+                var d = 5; // Maximo resultado por bloque encontrado
+                var e = true;
+                var f = /\b\w{1,3}\b/g;
+                var g = /para|como|deben|lugar|debes|que|los|las|por|una|hoy|pero|despues|segun|sobre|horas|ahora|tres|lunes|martes|miercoles|jueves|viernes|sabado|domino|entre|varios|parte|tratar|base|tambien|este|hacia|desde/g;
+                var i, j, k, textlen, len, s;
+                var h = [null];
+                var l = [];
+                c++;
+                for (i = 1; i <= c; i++) {
+                    h.push({})
+                }
+                a = NormalizeString(a);
+                a = a.replace(f, " ");
+                a = a.replace(g, " ");
+                if (e)
+                    a = a.toLowerCase();
+                a = a.split(/\s+/);
+                for (i = 0,
+                textlen = a.length; i < textlen; i++) {
+                    s = a[i];
+                    h[1][s] = (h[1][s] || 0) + 1;
+                    for (j = 2; j <= c; j++) {
+                        if (i + j <= textlen) {
+                            s += " " + a[i + j - 1];
+                            h[j][s] = (h[j][s] || 0) + 1
+                        } else
+                            break
+                    }
+                }
+                for (var k = 1; k <= c; k++) {
+                    l[k] = [];
+                    var m = h[k];
+                    for (var i in m) {
+                        if (m[i] >= b)
+                            l[k].push({
+                                "word": i,
+                                "count": m[i]
+                            })
+                    }
+                }
+                var n = [];
+                var o = function (x, y) {
+                    return y.count - x.count
+                }
+                ;
+                for (k = 1; k < c; k++) {
+                    l[k].sort(o);
+                    var p = l[k];
+                    if (p.length)
+                        n.push('<td colSpan="3" class="num-words-header">' + k + ' Palabra' + (k == 1 ? "" : "s") + '</td>');
+                    var q = 0;
+                    for (i = 0,
+                    len = p.length; i < (d > len ? len : d) ; i++) {
+                        q += p[i].count
+                    }
+                    for (i = 0,
+                    len = p.length; i < (d > len ? len : d) ; i++) {
+                        n.push("<td><a class='kw' href=\"javascript:App.Utils.KeyWords.Agregar('" + p[i].word + "')\"> + " + p[i].word + "</a></td><td>" + p[i].count + "</td><td>" + (p[i].count / q * 100).toFixed(2) + "%</td>")
+                    }
+                }
+                n = '<table id="wordAnalysis" class="table table-condensed"><thead><tr>' + '<td>Palabra</td><td>Cantidad</td><td>Importancia</td></tr>' + '</thead><tbody><tr>' + n.join("</tr><tr>") + "</tr></tbody></table>";
+                _(output).innerHTML = n;
+                function NormalizeString(s) {
+                    if (s !== null && s !== undefined) {
+                        var r = s.toLowerCase();
+                        r = r.replace(new RegExp("\\s", 'g'), " ");
+                        r = r.replace(new RegExp("[àáâãäå]", 'g'), "a");
+                        r = r.replace(new RegExp("æ", 'g'), "ae");
+                        r = r.replace(new RegExp("ç", 'g'), "c");
+                        r = r.replace(new RegExp("[èéêë]", 'g'), "e");
+                        r = r.replace(new RegExp("[ìíîï]", 'g'), "i");
+                        r = r.replace(new RegExp("ñ", 'g'), "n");
+                        r = r.replace(new RegExp("[òóôõö]", 'g'), "o");
+                        r = r.replace(new RegExp("œ", 'g'), "oe");
+                        r = r.replace(new RegExp("[ùúûü]", 'g'), "u");
+                        r = r.replace(new RegExp("[ýÿ]", 'g'), "y");
+                        r = r.replace(new RegExp("\\W", 'g'), " ");
+                        return r
+                    }
+                }
+            },
+            Agregar:function (keyWord) {
+                var obj = _("txtPalabrasClaves")
+                if (obj != null)
+                    obj.value = obj.value + ", " + keyWord;
+            }
+        },
         ValidarRif:function (sRif) {
             var bResultado = false;
             var iFactor = 0;
