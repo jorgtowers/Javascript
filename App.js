@@ -2086,4 +2086,35 @@
             }
         };
     }
+    if (typeof namespace.__ === "undefined") {
+        if (_Tracert) { console.log('metodo: "namespace._(id)", ha cargado exitosamente'); }
+        if (_Info) { console.log('info: "namespace._(id)", metodo abreviado de getElementById(), retorna un objeto a partir de su Id'); } 
+        namespace.__ = function (selector) {
+            //Funcion que retorna un objeto a partir de su id, para no usar el document.getElementById(), por FLOJERAAAA
+            var items = document.querySelectorAll(selector);
+            if(items.length==1){
+                return items[0];
+            } else if(items.length>1){
+            var _={
+                ForEach:function(callback){         
+                    for (var i = 0; i < items.length; i++) {
+                        callback(items[i]);
+                    };
+                },
+                First:function(){
+                    return items[0];
+                },
+                Last:function(){
+                    return items[items.length-1];
+                },
+                Items:function(){
+                    return items;
+                }
+            }
+            return _;
+        } else {
+            return null;
+        }
+        };
+    }
 })(window || {});   
