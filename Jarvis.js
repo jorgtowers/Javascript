@@ -141,18 +141,23 @@
                     var filtro = _("filtro");
                     if(btnAgregar!==null){
                     btnAgregar.onclick=function(){
-                        var sinHora=undefined;
-                        var date = new Date();
-                        var fecha=self.LPad(date.getDate(), 2) + "-" + self.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + self.LPad(date.getHours(), 2) + ":" + self.LPad(date.getMinutes(), 2) + ":" + self.LPad(date.getSeconds(), 2) : "");
-                        var item= {"Id": Math.floor((Math.random() * 9999) + 1) , "Fecha": fecha, "Observacion": txtObservacion.value };
-                        data.Add(item);
-                        self.parent.Jarvis.UI.Tablas.Crear(data,divResult);
-                        var tabla = _("listado");
-                        self.parent.Jarvis.UI.Tablas.Ordenacion._();
-                        self.parent.Jarvis.UI.Tablas.Busqueda._();
-                        filtro.onkeyup = function () {
-                            self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
-                        };
+                        var validado=self.parent.Jarvis.Utils.Validation.Validate();
+                        if(validado){
+                            var sinHora=undefined;
+                            var date = new Date();
+                            var fecha=self.LPad(date.getDate(), 2) + "-" + self.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + self.LPad(date.getHours(), 2) + ":" + self.LPad(date.getMinutes(), 2) + ":" + self.LPad(date.getSeconds(), 2) : "");
+                            var item= {"Id": Math.floor((Math.random() * 9999) + 1) , "Fecha": fecha, "Observacion": txtObservacion.value };
+                            data.Add(item);
+                            self.parent.Jarvis.UI.Tablas.Crear(data,divResult);
+                            var tabla = _("listado");
+                            self.parent.Jarvis.UI.Tablas.Ordenacion._();
+                            self.parent.Jarvis.UI.Tablas.Busqueda._();
+                            filtro.onkeyup = function () {                            
+                                self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
+                            };
+                        } else {
+                            self.parent.Jarvis.UI.Notificacion.Mensaje("No puede ingresar registros en blanco",null);
+                        }
                     };
                    }
                     break;
@@ -1274,11 +1279,15 @@
                 Css: function (className) {
                     var estyles = document.styleSheets[0];
                     if (estyles != null) {
-                        var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules
-                        for (var x = 0; x < classes.length; x++) {
-                            if (classes[x].selectorText == className) {
-                                return classes[x].cssText;
+                        var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
+                        if (classes !== null && classes.length > 0) {
+                            for (var x = 0; x < classes.length; x++) {
+                                if (classes[x].selectorText == className) {
+                                    return classes[x].cssText;
+                                }
                             }
+                        } else {
+                            return null;
                         }
                     } else {
                         return null;
