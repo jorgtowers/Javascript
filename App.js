@@ -1996,6 +1996,40 @@
                         self.Radios().FirstAtEachName();
                     })();
                 };
+            Array.prototype.Add=function(item){
+                this.push(item);
+            };
+            Array.prototype.First=function(){
+                return this[0];
+            };
+            Array.prototype.Last=function(){
+                return this[this.length-1];
+            };
+            Array.prototype.Delete=function(index){
+                this.splice(index,1);       
+            };
+            Array.prototype.Item=function(index){
+                return this[index];
+            }
+            Array.prototype.Query=function(expresion){
+                var terminos=expresion.match(/([A-Z]{1}\w+)([>=|<=|>|<|==]{1,2})(\w+)/);
+                if(!terminos){
+                    throw "La Condicion de busqueda no coincide con el patron requerido, por favor verifique que la expresion este correcta, y vuelva a intentarlo.";
+                }
+                var index=this.Find(terminos[1],terminos[3],terminos[2]);
+                return this.Item(index);
+            };
+            Array.prototype.Find=function(columnName,keyToFind,condition){
+                for (var i = 0; i < this.length; i++) {
+                    var item=this[i];
+                    if(!item.hasOwnProperty(columnName)){
+                        return false;
+                    }
+                    if(item[columnName]==keyToFind){
+                        return i
+                    }
+                }           
+            };
      } catch(err) {
         console.log("this explorer no support definition the properties") ;
      }
