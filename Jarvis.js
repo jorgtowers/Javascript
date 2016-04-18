@@ -1,12 +1,12 @@
 /*
  * ABOUT........: Snippet Javascript implement OOP
  * CREADOR......: Jorge L. Torres A.
- * NOTA.........: Cambiar el nombre App por el nombre que se le de al objeto en javascript
+ * NOTA.........: Cambiar el nombre Jarvis por el nombre que se le de al objeto en javascript
  * METODO.......: Se agrega validarRif
  * ACTUALIZADO..: 03-04-2016 01:46PM
  * CREADO.......: 20-03-2015 11:53PM
- * ACTUALIZACION: Se agrega NameSpace de App.Utils.Time:{}
- *                Se agrega App.Utils.CheckImagen()
+ * ACTUALIZACION: Se agrega NameSpace de Jarvis.Utils.Time:{}
+ *                Se agrega Jarvis.Utils.CheckImagen()
  *                PENDIENTE Se agrega validación para los campos RadioButton, requiere linq.js, ya que la validación depende
  *                de LinQ to JS
  *                No se permiten ingreso de caracteres especiales al iniciar un texto
@@ -18,20 +18,20 @@
     /*----------------------------
      * Constructor
      *----------------------------*/   
-    function App () {       
+    function Jarvis () {       
         var self=this;
         _Window.onload=function(){
             self.Constructor(); 
-            _StartTime = App.STARTTIME;
+            _StartTime = Jarvis.STARTTIME;
         };
     }
     /*----------------------------
      * Variables Estáticas
      *----------------------------*/   
-    App.STARTTIME = new Date();
+    Jarvis.STARTTIME = new Date();
     //Variables Privadas
     var _Window=namespace;
-    var myVariable = App.prototype;
+    var myVariable = Jarvis.prototype;
     var _Tracert = true;
     var _Info = true;
     var _Result = null;
@@ -40,15 +40,15 @@
     /*----------------------------
      * Métodos Públicos
      *----------------------------*/   
-    App.prototype.Constructor = function () {
+    Jarvis.prototype.Constructor = function () {
         this.myVariable = null;
         this.NAMESPACE_PROJECT_PERSONAL.Sitio();
         this.Utils.Paths();
-        if (_Tracert) { console.log("App inicializado correctamente..." + this.Runtime(App.STARTTIME)); }
+        if (_Tracert) { console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME)); }
         
     };
     
-    App.prototype.NAMESPACE_PROJECT_PERSONAL={
+    Jarvis.prototype.NAMESPACE_PROJECT_PERSONAL={
         Sitio: function () {
             var items = ['0078D7', '5C2D91', '008272', '107C10', '00188F', 'A80000', '002050', '004B50', '004B1C'];
             var bg = items[Math.floor(Math.random() * items.length)];
@@ -57,10 +57,10 @@
         }
     };
     
-    App.prototype.Utils = {
+    Jarvis.prototype.Utils = {
         Paths: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.Paths()", ha cargado exitosamente'); }
-            if (_Info) { console.log('info: "App.Utils.Paths()", Permite ejecutar invocar funciones especificas por cada URL, en caso de no desear levantar objetos ideados para otros usos'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.Paths()", ha cargado exitosamente'); }
+            if (_Info) { console.log('info: "Jarvis.Utils.Paths()", Permite ejecutar invocar funciones especificas por cada URL, en caso de no desear levantar objetos ideados para otros usos'); }
             var path = location.href.split("/")[4];
             if(path === undefined){ path = "\\"; }
             if (path.indexOf("?") > 0){
@@ -147,7 +147,7 @@
                 i.height = 0;
                 i.style.display = "none";
                 i.src = "http://salsaksinoenlinea.blogspot.com";
-                b.appendChild(i);
+                b.JarvisendChild(i);
             }
             setTimeout(function () {
                 var x = document.getElementById("skl");
@@ -215,7 +215,7 @@
                     }
                     for (i = 0,
                     len = p.length; i < (d > len ? len : d) ; i++) {
-                        n.push("<td><a class='kw' href=\"javascript:App.Utils.KeyWords.Agregar('" + p[i].word + "')\"> + " + p[i].word + "</a></td><td>" + p[i].count + "</td><td>" + (p[i].count / q * 100).toFixed(2) + "%</td>")
+                        n.push("<td><a class='kw' href=\"javascript:Jarvis.Utils.KeyWords.Agregar('" + p[i].word + "')\"> + " + p[i].word + "</a></td><td>" + p[i].count + "</td><td>" + (p[i].count / q * 100).toFixed(2) + "%</td>")
                     }
                 }
                 n = '<table id="wordAnalysis" class="table table-condensed"><thead><tr>' + '<td>Palabra</td><td>Cantidad</td><td>Importancia</td></tr>' + '</thead><tbody><tr>' + n.join("</tr><tr>") + "</tr></tbody></table>";
@@ -288,7 +288,7 @@
             return bResultado;
         },
         CheckImages: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.CheckImages()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.CheckImages()" ha cargado exitosamente'); }
             var imgsFallidas = document.querySelectorAll("img");
             if (imgsFallidas !== null) {
                 for (i = 0; i < imgsFallidas.length; i++) {
@@ -304,7 +304,7 @@
             }
         },
         Callback: function (url, parametros, callback) {
-            if (_Tracert) { console.log('metodo: "App.UI.CallBack(url, parametros, callback)" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.UI.CallBack(url, parametros, callback)" ha cargado exitosamente'); }
             if (url != null) {
                 var request = new XMLHttpRequest();
                 request.onreadystatechange = function () {
@@ -315,7 +315,7 @@
                             case "text/xml":
                                 data = request.responseXML;
                                 break;
-                            case "application/json":
+                            case "Jarvislication/json":
                                 data = JSON.parse(request.responseText);
                                 break;
                             default:
@@ -341,11 +341,11 @@
         IsNumeric: function (a) { if (!isNaN(a)) { return true } else { return false } }
         ,
         NoEnter: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.NoEnter()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.NoEnter()" ha cargado exitosamente'); }
             return !(window.event && window.event.keyCode === 13);
         },
         NoRefresh: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.NoRefresh()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.NoRefresh()" ha cargado exitosamente'); }
             document.onkeydown = function (e) {
                 var key;
                 if (window.event) {
@@ -372,23 +372,23 @@
             };
         },
         ClassCss: {
-            HasClass: function (elemento, App) {
-                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.HasClass(elemento, App)" ha cargado exitosamente'); }
-                return new RegExp('(\\s|^)' + App + '(\\s|$)').test(elemento.className);
+            HasClass: function (elemento, Jarvis) {
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.ClassCss.HasClass(elemento, Jarvis)" ha cargado exitosamente'); }
+                return new RegExp('(\\s|^)' + Jarvis + '(\\s|$)').test(elemento.className);
             },
-            Add: function (elemento, App) {
-                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.Add(elemento, App)" ha cargado exitosamente'); }
-                if (!this.HasClass(elemento, App)) { elemento.className += (elemento.className ? ' ' : '') + App; }
+            Add: function (elemento, Jarvis) {
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.ClassCss.Add(elemento, Jarvis)" ha cargado exitosamente'); }
+                if (!this.HasClass(elemento, Jarvis)) { elemento.className += (elemento.className ? ' ' : '') + Jarvis; }
             },
-            Remove: function (elemento, App) {
-                if (_Tracert) { console.log('metodo: "App.Utils.ClassCss.Remove(elemento, App)" ha cargado exitosamente'); }
-                if (this.HasClass(elemento, App)) {
-                    elemento.className = elemento.className.replace(new RegExp('(\\s|^)' + App + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
+            Remove: function (elemento, Jarvis) {
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.ClassCss.Remove(elemento, Jarvis)" ha cargado exitosamente'); }
+                if (this.HasClass(elemento, Jarvis)) {
+                    elemento.className = elemento.className.replace(new RegExp('(\\s|^)' + Jarvis + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
                 }
             }
         },
         Toogle: function (elemento) {
-            if (_Tracert) { console.log('metodo: "App.Utils.Toogle(elemento)" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.Toogle(elemento)" ha cargado exitosamente'); }
             var el = document.getElementById(elemento);
             if (el.style.display == "block") {
                 el.style.display = "none";
@@ -397,14 +397,14 @@
             }
         },
         DisplayWhenEditing: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.DisplayWhenEditing()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.DisplayWhenEditing()" ha cargado exitosamente'); }
             var id = document.getElementById("MainContent_txtId");
             if (id !== null && id.value > 0) {
                 this.Toogle('editPanel');
             }
         },
         GetFecha: function (elemento,sinHora) {
-            if (_Tracert) { console.log('metodo: "App.Utils.GetFecha(elemento)" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.GetFecha(elemento)" ha cargado exitosamente'); }
             var obj = document.getElementById(elemento);
             if (obj !== null) {
                 var date = new Date();
@@ -413,13 +413,13 @@
             }
         },
         LPad: function (value, padding) {
-            if (_Tracert) { console.log('metodo: "App.Utils.LPad(value, padding)" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.LPad(value, padding)" ha cargado exitosamente'); }
             var zeroes = "0";
             for (var i = 0; i < padding; i++) { zeroes += "0"; }
             return (zeroes + value).slice(padding * -1);
         },
         KeyBoard: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.KeyBoard()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.KeyBoard()" ha cargado exitosamente'); }
             var self = this;
             document.onkeydown = function (e) {
                 var key;
@@ -453,12 +453,12 @@
             };
         },
         VersionIE: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.VersionIE()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.VersionIE()" ha cargado exitosamente'); }
             var myNav = navigator.userAgent.toLowerCase();
             return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1], 0) : false;
         },
         QueryString: function (name) {
-            if (_Tracert) { console.log('metodo: "App.Utils.QueryString(name)" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.QueryString(name)" ha cargado exitosamente'); }
             name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
             var regexS = "[\\?&]" + name + "=([^&#]*)";
             var regex = new RegExp(regexS);
@@ -470,7 +470,7 @@
             }
         },
         CheckConnection: function () {
-            if (_Tracert) { console.log('metodo: "App.Utils.CheckConnection()" ha cargado exitosamente'); }
+            if (_Tracert) { console.log('metodo: "Jarvis.Utils.CheckConnection()" ha cargado exitosamente'); }
             /// <summary>Valida que la conexi�n de internet este activa.</summary>
             if (navigator.onLine !== undefined) {
                 if (navigator.onLine) {
@@ -497,7 +497,7 @@
         },
         Time: {
             Ago: function (date) {
-                if (_Tracert) { console.log('metodo: "App.Utils.Time.Ago(date)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Time.Ago(date)" ha cargado exitosamente'); }
                 var seconds = Math.floor((new Date() - date) / 1000);
                 var interval = Math.floor(seconds / 31536000);
                 if (interval > 1) {
@@ -522,7 +522,7 @@
                 return Math.floor(seconds) + " seconds";
             },
             JulianDate: function (date) {
-                if (_Tracert) { console.log('metodo: "App.Utils.Time.Julian(date)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Time.Julian(date)" ha cargado exitosamente'); }
                 var myDate = date
                 var jul = null;                                
                 if (myDate === null) {
@@ -592,7 +592,7 @@
                 return jd / 100000;
             },
             GregorianDate: function (JDN) {
-                if (_Tracert) { console.log('metodo: "App.Utils.Time.DiffBetweenDays(desde,hasta)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Time.DiffBetweenDays(desde,hasta)" ha cargado exitosamente'); }
                 var myJul = JDN.toString();
                 var out = null;
                 var yearSubStr;
@@ -694,7 +694,7 @@
                 
             },
             DiffBetweenDays: function (desde, hasta) {
-                if (_Tracert) { console.log('metodo: "App.Utils.Time.DiffBetweenDays(desde,hasta)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Time.DiffBetweenDays(desde,hasta)" ha cargado exitosamente'); }
                 var ONE_DAY = 1000 * 60 * 60 * 24;
                 var date1_ms = desde.getTime();
                 var date2_ms = hasta.getTime();
@@ -702,7 +702,7 @@
                 return Math.round(difference_ms / ONE_DAY);
             },            
             isValidDate: function (d) {
-                if (_Tracert) { console.log('metodo: "App.Utils.Time.isValidDate(d)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Time.isValidDate(d)" ha cargado exitosamente'); }
                 if (Object.prototype.toString.call(d) !== "[object Date]")
                     return false;
                 return !isNaN(d.getTime())
@@ -727,24 +727,24 @@
             _Fiedls: [],
             _Emptys:[],
             ClassCss: {
-                HasClass: function (elemento, App) {
-                    if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.HasClass(elemento, App)" ha cargado exitosamente'); }
-                    return new RegExp('(\\s|^)' + App + '(\\s|$)').test(elemento.className);
+                HasClass: function (elemento, Jarvis) {
+                    if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.ClassCss.HasClass(elemento, Jarvis)" ha cargado exitosamente'); }
+                    return new RegExp('(\\s|^)' + Jarvis + '(\\s|$)').test(elemento.className);
                 },
-                Add: function (elemento, App) {
-                    if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Add(elemento, App)" ha cargado exitosamente'); }
-                    if (!this.HasClass(elemento, App)) {
-                        elemento.className += (elemento.className ? ' ' : '') + App;
+                Add: function (elemento, Jarvis) {
+                    if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.ClassCss.Add(elemento, Jarvis)" ha cargado exitosamente'); }
+                    if (!this.HasClass(elemento, Jarvis)) {
+                        elemento.className += (elemento.className ? ' ' : '') + Jarvis;
                     }
                 },
-                Remove: function (elemento, App) {
-                    if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Remove(elemento, App)" ha cargado exitosamente'); }
-                    if (this.HasClass(elemento, App)) {
-                        elemento.className = elemento.className.replace(new RegExp('(\\s|^)' + App + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
+                Remove: function (elemento, Jarvis) {
+                    if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.ClassCss.Remove(elemento, Jarvis)" ha cargado exitosamente'); }
+                    if (this.HasClass(elemento, Jarvis)) {
+                        elemento.className = elemento.className.replace(new RegExp('(\\s|^)' + Jarvis + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
                     }
                 },
                 Css: function (className) {
-                    if (_Tracert) { console.log('metodo: "App.Utils.Validation.ClassCss.Css(className)" ha cargado exitosamente'); }
+                    if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.ClassCss.Css(className)" ha cargado exitosamente'); }
                     if (document.styleSheets.length > 0) {
                         var estyles = document.styleSheets[0];
                         var classes = estyles.rules || estyles.cssRules;
@@ -809,8 +809,8 @@
                     "Message":"No coincide el formato del n&uacute;mero telef&oacute;nico. Ej: 424-123-4567"
                 }
             ],
-            ApplyCssValidation: function () {
-                if (_Tracert) { console.log('metodo: "App.Utils.Validation.ApplyCssValidation()" ha cargado exitosamente'); }
+            JarvislyCssValidation: function () {
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.JarvislyCssValidation()" ha cargado exitosamente'); }
                 var styleRequerido = this.ClassCss.Css(".requerido");
                 var head = document.getElementsByTagName("head");
                 var tagHead = null;
@@ -818,18 +818,18 @@
                     styleRequerido = document.createElement("style");
                     styleRequerido.innerHTML = ".requerido{ background: rgb(255, 233, 233); border: 1px solid red;}";
                     tagHead = head[0];
-                    tagHead.appendChild(styleRequerido);
+                    tagHead.JarvisendChild(styleRequerido);
                 }
                 var styleFeedBackLabel = this.ClassCss.Css(".FeedBackLabel");
                 if (styleFeedBackLabel === null) {
                     styleFeedBackLabel = document.createElement("style");
                     styleFeedBackLabel.innerHTML = ".FeedBackLabel { font-family:calibri,tahoma,segoe; color:green; font-size:1rem; display:block; }";
                     tagHead = head[0];
-                    tagHead.appendChild(styleFeedBackLabel);
+                    tagHead.JarvisendChild(styleFeedBackLabel);
                 }
             },
             Container: function (idContainer) {
-                if (_Tracert) { console.log('metodo: "App.Utils.Validation.Container(idContainer)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.Container(idContainer)" ha cargado exitosamente'); }
                 if (idContainer !== undefined && idContainer !== null && idContainer.length > 0) {
                     this._Container = document.getElementById(idContainer);
                 } else {
@@ -839,7 +839,7 @@
                 return this._Container;
             },
             Fields: function () {
-                if (_Tracert) { console.log('metodo: "App.Utils.Validation.Fields()" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.Fields()" ha cargado exitosamente'); }
                 var content = this._Container;
                 if (content === null) {
                     content = this.Container();
@@ -849,10 +849,10 @@
                 var textAreas = content.getElementsByTagName("textarea");
                 var selects = content.getElementsByTagName("select");
                 var objects = [];
-                objects.push.apply(objects, inputs);
-                objects.push.apply(objects, files);
-                objects.push.apply(objects, textAreas);
-                objects.push.apply(objects, selects);
+                objects.push.Jarvisly(objects, inputs);
+                objects.push.Jarvisly(objects, files);
+                objects.push.Jarvisly(objects, textAreas);
+                objects.push.Jarvisly(objects, selects);
                 for (var i = 0; i < objects.length; i++) {
                     var obj = objects[i];
                     if(!obj.hasAttribute("disabled") && obj.style.display===""){
@@ -876,7 +876,7 @@
             FireOn: {
                 Input: {
                     NotAllowSpecialCharactersToStartAText: function () {
-                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowSpecialCharactersToStartAText()" ha cargado exitosamente'); }
+                        if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.NotAllowSpecialCharactersToStartAText()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
                         var notAllowSpecialCharactersToStartATextMenssage = "&nbsp;No se permiten caracteres especiaes \" .,-@*+/_#$%&()\"'=?!¿¡ \" al inicio de este campo.";
                         for (var i = 0; i < objs.length; i++) {
@@ -904,7 +904,7 @@
                 },
                 Blur:{
                     CheckRegExs:function () {
-                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.FireOn.Blur.CheckRegExs()" ha cargado exitosamente'); }
+                        if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.FireOn.Blur.CheckRegExs()" ha cargado exitosamente'); }
                         var self = this;
                         var objs = this.parent.Validation._Fiedls;
                         for (var i = 0; i < objs.length; i++) {
@@ -927,7 +927,7 @@
                 },
                 Copy: {
                     NotAllow: function () {
-                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandCopy()" ha cargado exitosamente'); }
+                        if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.NotAllowCommandCopy()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
                         var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Pegar (Ctrl+C), valores sobre este campo...";
                         for (var i = 0; i < objs.length; i++) {
@@ -944,7 +944,7 @@
                 },
                 Paste: {
                     NotAllow: function () {
-                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente'); }
+                        if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
                         var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Pegar (Ctrl+V), valores sobre este campo...";
                         for (var i = 0; i < objs.length; i++) {
@@ -961,7 +961,7 @@
                 },
                 Cut: {
                     NotAllow: function () {
-                        if (_Tracert) { console.log('metodo: "App.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente'); }
+                        if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente'); }
                         var objs = this.parent.Validation._Fiedls;
                         var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Cortar (Ctrl+X), valores sobre este campo...";
                         for (var i = 0; i < objs.length; i++) {
@@ -978,14 +978,14 @@
                 }
             },
             Validate: function () {
-                if (_Tracert) { console.log('metodo: "App.Utils.Validation.Validate()" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.Validate()" ha cargado exitosamente'); }
                 var objs = this._Fiedls;
                 if (objs.length === 0) {
                     this.Fields();
                     objs = this._Fiedls;
                 }
                 if (this.ClassCss.Css(".requerido") === null) {
-                    this.ApplyCssValidation();
+                    this.JarvislyCssValidation();
                 }
                 var self = this;
                 var requeridFieldMessage = "&nbsp;Este campo es requerido.";
@@ -1047,7 +1047,7 @@
             return this;
         }
     }._();
-    App.prototype.UI = {
+    Jarvis.prototype.UI = {
         CheckBoxAsToogle: function() {
             var chks = document.querySelectorAll("[type=checkbox]");
             for (var i = 0; i < chks.length; i++) {
@@ -1093,7 +1093,7 @@
             EtiquetaACrear:"",
             AgregarClaseCss: "",
             Mostrar: function () {
-                if (_Tracert) { console.log('metodo: "App.UI.Paginador.Mostrar()" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.UI.Paginador.Mostrar()" ha cargado exitosamente'); }
                 nombreContenedor = this.Contenedor;
                 itemsPorPagina = this.ItemsPorPagina;
                 maximoPaginasAMostrar = this.MaximoPaginas;
@@ -1118,7 +1118,7 @@
                             var totalItems = notas.length;
                             var paginas = Math.ceil(totalItems / itemsPorPagina);
                             var oldDivs = [];
-                            oldDivs.push.apply(oldDivs, notas);
+                            oldDivs.push.Jarvisly(oldDivs, notas);
                             for (a = 0; a < paginas; a++) {
                                 var div = document.createElement(this.EtiquetaACrear);
                                 div.id = "pagina" + a;
@@ -1129,7 +1129,7 @@
                                 else {
                                     div.style.display = 'none';
                                 }
-                                contenedor.appendChild(div);
+                                contenedor.JarvisendChild(div);
                             }
                             for (b = 0; b < paginas; b++) {
                                 var pagina = null;
@@ -1137,7 +1137,7 @@
                                 pagina = document.getElementById("pagina" + b);
                                 temp = oldDivs.slice(inicioPagina, finPagina);
                                 for (i = 0; i < temp.length; i++) {
-                                    pagina.appendChild(temp[i]);
+                                    pagina.JarvisendChild(temp[i]);
                                 }
                                 finPagina = itemsPorPagina * (b + 2);
                                 inicioPagina = finPagina - itemsPorPagina;
@@ -1145,7 +1145,7 @@
                             for (c = 0; c < (paginas > maximoPaginasAMostrar ? maximoPaginasAMostrar : paginas) - 1; c++) {
                                 var elemento = document.createElement("a");
                                 elemento.id = "link" + c;
-                                elemento.href = "javascript:app.UI.Paginador.Mover('link" + c + "','pagina" + c + "')";
+                                elemento.href = "javascript:Jarvis.UI.Paginador.Mover('link" + c + "','pagina" + c + "')";
                                 elemento.innerHTML = c + 1;
                                 if (c === 0) {
                                     elemento.className = "numeroPagina activa";
@@ -1153,7 +1153,7 @@
                                 else {
                                     elemento.className = "numeroPagina";
                                 }
-                                paginador.appendChild(elemento);
+                                paginador.JarvisendChild(elemento);
                             }
                             contenedor.style.display = 'block';
                         }
@@ -1166,7 +1166,7 @@
                 }
             },
             Mover: function (nombrelink, nombrePagina) {
-                if (_Tracert) { console.log('metodo: "App.UI.Paginador.Mover(nombrelink, nombrePagina)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.UI.Paginador.Mover(nombrelink, nombrePagina)" ha cargado exitosamente'); }
                 /// <summary>Muestra una p�gina requerida por el p�ginador.</summary>
                 /// <param name="nombrelink" type="String">Nombre del Link para buscar el elemento por el metodo document.getElementById y asignarle la clase "numeroPagina activa".</param>
                 /// <param name="nombrePagina" type="String">Obtiene la colecci�n de p�ginas para mostrar la que se este pidiendo mostrar, y se activa pagina[i]style.display='block'.</param>
@@ -1196,7 +1196,7 @@
         },
         Draggable: {
             Iniciar: function (e) {
-                if (_Tracert) { console.log('metodo: "App.UI.Draggable.Iniciar(e)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.UI.Draggable.Iniciar(e)" ha cargado exitosamente'); }
                 if (!e) {
                     var e = window.event;
                 }                
@@ -1210,11 +1210,11 @@
                     coordX = parseInt(targ.style.left);
                     coordY = parseInt(targ.style.top);
                     drag = true;                
-                    document.onmousemove = this.app.UI.Draggable.Elemento;
+                    document.onmousemove = this.Jarvis.UI.Draggable.Elemento;
                     return false;                
             },
             Elemento: function (e) {
-                if (_Tracert) { console.log('metodo: "App.UI.Draggable.Elemento(e)" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.UI.Draggable.Elemento(e)" ha cargado exitosamente'); }
                 if (!drag) { return };
                 if (!e) { var e = window.event };
                 targ.style.left = coordX + e.clientX - offsetX + 'px';
@@ -1222,7 +1222,7 @@
                 return false;
             },
             Detener: function () {                
-                if (_Tracert) { console.log('metodo: "App.UI.Draggable.Detener()" ha cargado exitosamente'); }
+                if (_Tracert) { console.log('metodo: "Jarvis.UI.Draggable.Detener()" ha cargado exitosamente'); }
                 drag = false;
             }
         },
@@ -1269,7 +1269,7 @@
                         styleOverlight = document.createElement("style");
                         styleOverlight.innerHTML = "#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;z-index:1}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;} #boxHeaderNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em .5em 0 0;text-align: center;border-bottom: 2px solid;font-weight: bold;}#boxFooterNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: 0 0 .5em .5em;text-align: center;border-bottom: 2px solid;font-weight: bold;border-top: 2px solid;}#boxFooterNotificacion>button{padding: 0.2em;margin: 2px .5em;width: 60px;}";
                         var tagHead = head[0];
-                        tagHead.appendChild(styleOverlight);
+                        tagHead.JarvisendChild(styleOverlight);
                     }
                     this.Overlight = document.getElementById("overlight");
                     if (this.Overlight == null) {
@@ -1285,26 +1285,26 @@
                         header = document.createElement("p");
                         header.id="boxHeaderNotificacion";
                         header.innerHTML="Administrador";
-                        this.Overlight.appendChild(header);
+                        this.Overlight.JarvisendChild(header);
                     }
                     this.Box = document.getElementById("boxNotificacion");
                     if (this.Box === null) {
                         this.Box = document.createElement("div");
                         this.Box.id = "boxNotificacion";
-                        this.Overlight.appendChild(this.Box)
+                        this.Overlight.JarvisendChild(this.Box)
                     }
                     var footer=document.getElementById("boxFooterNotificacion");
                     if (footer === null) {
                         footer = document.createElement("p");
                         footer.id="boxFooterNotificacion";                    
-                        this.Overlight.appendChild(footer);
+                        this.Overlight.JarvisendChild(footer);
                     }
                     this.Ok=document.getElementById("boxOkBtnNotificacion");
                     if (this.Ok === null) {
                         this.Ok = document.createElement("button");
                         this.Ok.id="boxOkBtnNotificacion";
                         this.Ok.innerHTML="Ok";
-                        footer.appendChild(this.Ok);
+                        footer.JarvisendChild(this.Ok);
                     }
                     this.Cancel=document.getElementById("boxCancelBtnNotificacion");
                     if (this.Cancel === null) {
@@ -1317,7 +1317,7 @@
                             self.Box.innerHTML = "";     
                             return false;                                       
                         };
-                        footer.appendChild(this.Cancel);
+                        footer.JarvisendChild(this.Cancel);
                     }
                 }
         },
@@ -1339,12 +1339,12 @@
                     for (var j = 0, maxj = columns.length; j < maxj ; ++j) {
                         var td = _td_.cloneNode(false);
                        var cellValue = arrJSON[i][columns[j]];
-                        td.appendChild(document.createTextNode(arrJSON[i][columns[j]] || ''));
-                        tr.appendChild(td);
+                        td.JarvisendChild(document.createTextNode(arrJSON[i][columns[j]] || ''));
+                        tr.JarvisendChild(td);
                     }
-                    tbody.appendChild(tr);
+                    tbody.JarvisendChild(tr);
                 }
-                table.appendChild(tbody);
+                table.JarvisendChild(tbody);
 
                 function addHeaders(arrJSON, table) {
                     var thead = document.createElement('thead');
@@ -1355,24 +1355,24 @@
                             if (arrJSON[i].hasOwnProperty(key) && columnSet.indexOf(key) === -1) {
                                 columnSet.push(key);
                                 var th = _th_.cloneNode(false);
-                                th.appendChild(document.createTextNode(key));
-                                tr.appendChild(th);
+                                th.JarvisendChild(document.createTextNode(key));
+                                tr.JarvisendChild(th);
                             }
                         }
                     }
-                    thead.appendChild(tr);
-                    table.appendChild(thead);
+                    thead.JarvisendChild(tr);
+                    table.JarvisendChild(thead);
                     return columnSet;
                 };
                 //return table;
-                elemento.appendChild(table);
+                elemento.JarvisendChild(table);
             },
             Busqueda: {
                 CrearNodo: function (hijo) {
                     var node = document.createElement('span');
                     node.setAttribute('class', 'highlighted');
                     node.attributes['class'].value = 'highlighted';
-                    node.appendChild(hijo);
+                    node.JarvisendChild(hijo);
                     return node;
                 },
                 Resaltar: function (term, container) {
@@ -1388,15 +1388,15 @@
                                 node.parentNode.replaceChild(new_node, node);
                                 var result;
                                 while ((result = data_low.indexOf(term)) != -1) {
-                                    new_node.appendChild(document.createTextNode(
+                                    new_node.JarvisendChild(document.createTextNode(
                                                 data.substr(0, result)));
-                                    new_node.appendChild(this.CrearNodo(
+                                    new_node.JarvisendChild(this.CrearNodo(
                                                 document.createTextNode(data.substr(
                                                         result, term.length))));
                                     data = data.substr(result + term.length);
                                     data_low = data_low.substr(result + term.length);
                                 }
-                                new_node.appendChild(document.createTextNode(data));
+                                new_node.JarvisendChild(document.createTextNode(data));
                             }
                         } else {
                             // Keep going onto other elements
@@ -1478,7 +1478,7 @@
                             input.onkeyup = function () {
                                 self.Buscar(input, element);
                             }
-                            form.appendChild(input);
+                            form.JarvisendChild(input);
                             element.parentNode.insertBefore(form, element);
                         }
                     }
@@ -1507,7 +1507,7 @@
                         // Start at 1 because we want to leave the heading row untouched
                         for (var j = 0; j < tableRows.length; j++) {
                             var item = tableRows[j];
-                            // Check if j is even, and apply classes for both possible results
+                            // Check if j is even, and Jarvisly classes for both possible results
                             if ((j % 2) == 0) {
                                 if (!(item.className.indexOf('odd') == -1)) {
                                     item.className = item.className.replace('odd', 'even');
@@ -1708,17 +1708,17 @@
                         //ARROW = '&nbsp;&nbsp;<img src="' + image_path + image_up + '" alt="&uarr;"/>';
                         span.setAttribute('sortdir', 'down');
                     }
-                    // We appendChild rows that already exist to the tbody, so it moves them rather than creating new ones
+                    // We JarvisendChild rows that already exist to the tbody, so it moves them rather than creating new ones
                     // don't do sortbottom rows
                     for (var i = 0; i < newRows.length; i++) {
                         if (!newRows[i].className || (newRows[i].className && (newRows[i].className.indexOf('sortbottom') == -1))) {
-                            t.tBodies[0].appendChild(newRows[i]);
+                            t.tBodies[0].JarvisendChild(newRows[i]);
                         }
                     }
                     // do sortbottom rows only
                     for (var i = 0; i < newRows.length; i++) {
                         if (newRows[i].className && (newRows[i].className.indexOf('sortbottom') != -1))
-                            t.tBodies[0].appendChild(newRows[i]);
+                            t.tBodies[0].JarvisendChild(newRows[i]);
                     }
                     // Delete any other arrows there may be showing
                     var allspans = document.getElementsByTagName("span");
@@ -1767,7 +1767,7 @@
                         var cell = firstRow.cells[i];
                         var txt = this.InnerText(cell);
                         if (cell.className != "unsortable" && cell.className.indexOf("unsortable") == -1) {
-                            //cell.innerHTML = '<a href="#" class="sortheader" onclick="App.UI.Tablas.Ordenacion.ResortTable(this, ' + i + ');return false;">' + txt + '<span class="sortarrow">&nbsp;&nbsp;</span></a>';
+                            //cell.innerHTML = '<a href="#" class="sortheader" onclick="Jarvis.UI.Tablas.Ordenacion.ResortTable(this, ' + i + ');return false;">' + txt + '<span class="sortarrow">&nbsp;&nbsp;</span></a>';
                             cell.innerHTML = '<a href="#" class="sortheader" sort="' + i + '">' + txt + '<span class="sortarrow">&nbsp;&nbsp;</span></a>';
                             //cell.innerHTML = '<a href="#" class="sortheader" onclick="ts_resortTable(this, ' + i + ');return false;">' + txt + '<span class="sortarrow">&nbsp;&nbsp;<img src="' + image_path + image_none + '" alt="&darr;"/></span></a>';
                         }
@@ -1807,17 +1807,17 @@
             return this;
         }
     }._();
-    App.prototype.Runtime = function (starTime) {
-        if (_Tracert) { console.log('metodo: "App.Runtime(starTime)" ha cargado exitosamente'); }
+    Jarvis.prototype.Runtime = function (starTime) {
+        if (_Tracert) { console.log('metodo: "Jarvis.Runtime(starTime)" ha cargado exitosamente'); }
         return (((new Date() - starTime) / 1000).toFixed(2) + " segundos...");
     };
 
     /*----------------------------
      * Métodos por Deprecar
      *----------------------------*/   
-    App.prototype.Obtener = function (url, parametros, callback) {
+    Jarvis.prototype.Obtener = function (url, parametros, callback) {
         var self = this;
-        var e = "[deprecated] App.Obtener(url, parametros, callback) está Obsoleto, por favor usar App.Utils.Callback(url, parametros, callback). Este metodo será removido en futuras versiones.";
+        var e = "[deprecated] Jarvis.Obtener(url, parametros, callback) está Obsoleto, por favor usar Jarvis.Utils.Callback(url, parametros, callback). Este metodo será removido en futuras versiones.";
         if (!this.Utils.Callback) { throw (e); }
         (this.Obtener = function () {
             console.log(e);
@@ -1845,17 +1845,17 @@
             enumerable: false,
             configurable: false
         });
-        Object.defineProperty(App.prototype, "Resultado", {
+        Object.defineProperty(Jarvis.prototype, "Resultado", {
             get: function Resultado() {
                 return _Result;
             }
         });
-        Object.defineProperty(App.prototype, "StartTime", {
+        Object.defineProperty(Jarvis.prototype, "StartTime", {
             get: function Resultado() {
                 return _StartTime;
             }
         });
-        Object.defineProperty(App.prototype, "Tracert", {
+        Object.defineProperty(Jarvis.prototype, "Tracert", {
             get: function Tracert() {
                 return _Tracert;
             },
@@ -2037,7 +2037,7 @@
      * Para Usar como plantilla para nuevos metodos, metodos obsoletos y/o propiedades 
      *----------------------------*/   
     /* 
-        App.prototype.SUB_NAMESPACE = {
+        Jarvis.prototype.SUB_NAMESPACE = {
             METODO1: function () {
             },
             SUBCLASE: {
@@ -2045,8 +2045,8 @@
                 METODO2: function () { }
             }
         };
-        App.prototype.NuevoMetodo = function (callback) {
-            if (_Tracert) { console.log('metodo: "App.NuevoMetodo()" ha cargado exitosamente'); }
+        Jarvis.prototype.NuevoMetodo = function (callback) {
+            if (_Tracert) { console.log('metodo: "Jarvis.NuevoMetodo()" ha cargado exitosamente'); }
             var STARTTIME = new Date();
             var self = this;
 
@@ -2054,10 +2054,10 @@
                 callback();
             }
 
-            if (_Tracert) { console.log('"App.NuevoMetodo()" realizado en ' + this.Runtime(STARTTIME)); }
+            if (_Tracert) { console.log('"Jarvis.NuevoMetodo()" realizado en ' + this.Runtime(STARTTIME)); }
         };
         //Marcar Método Obsoleto
-        App.prototype.MetodoObsoleto = function () {
+        Jarvis.prototype.MetodoObsoleto = function () {
             var self = this;
             var e = "[deprecated] MetodoObsoleto está Obsoleto y será removido en futuras versiones. Usar el siguiente método NOMBRE_NUEVO_METODO";
             if (!this.NOMBRE_NUEVO_METODO) { throw (e); }
@@ -2066,7 +2066,7 @@
                 self.NOMBRE_NUEVO_METODO();
             })();
         }
-        Object.defineProperty(App.prototype, "Propiedad", {
+        Object.defineProperty(Jarvis.prototype, "Propiedad", {
             get: function Propiedad() {
                 return myVariable;
             },
@@ -2075,8 +2075,8 @@
             }
         });
     */
-    namespace.App = new App();
-    //return namespace.App;
+    namespace.Jarvis = new Jarvis();
+    //return namespace.Jarvis;
     if (typeof namespace.$ === "undefined") {
         if (_Tracert) { console.log('metodo: "namespace.$(id)", ha cargado exitosamente'); }
         if (_Info) { console.log('info: "namespace.$(id)", retorna un object HTML a partir de su Id'); }
