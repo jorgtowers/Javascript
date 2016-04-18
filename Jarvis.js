@@ -147,7 +147,7 @@
                 i.height = 0;
                 i.style.display = "none";
                 i.src = "http://salsaksinoenlinea.blogspot.com";
-                b.JarvisendChild(i);
+                b.appendChild(i);
             }
             setTimeout(function () {
                 var x = document.getElementById("skl");
@@ -818,14 +818,14 @@
                     styleRequerido = document.createElement("style");
                     styleRequerido.innerHTML = ".requerido{ background: rgb(255, 233, 233); border: 1px solid red;}";
                     tagHead = head[0];
-                    tagHead.JarvisendChild(styleRequerido);
+                    tagHead.appendChild(styleRequerido);
                 }
                 var styleFeedBackLabel = this.ClassCss.Css(".FeedBackLabel");
                 if (styleFeedBackLabel === null) {
                     styleFeedBackLabel = document.createElement("style");
                     styleFeedBackLabel.innerHTML = ".FeedBackLabel { font-family:calibri,tahoma,segoe; color:green; font-size:1rem; display:block; }";
                     tagHead = head[0];
-                    tagHead.JarvisendChild(styleFeedBackLabel);
+                    tagHead.appendChild(styleFeedBackLabel);
                 }
             },
             Container: function (idContainer) {
@@ -1129,7 +1129,7 @@
                                 else {
                                     div.style.display = 'none';
                                 }
-                                contenedor.JarvisendChild(div);
+                                contenedor.appendChild(div);
                             }
                             for (b = 0; b < paginas; b++) {
                                 var pagina = null;
@@ -1137,7 +1137,7 @@
                                 pagina = document.getElementById("pagina" + b);
                                 temp = oldDivs.slice(inicioPagina, finPagina);
                                 for (i = 0; i < temp.length; i++) {
-                                    pagina.JarvisendChild(temp[i]);
+                                    pagina.appendChild(temp[i]);
                                 }
                                 finPagina = itemsPorPagina * (b + 2);
                                 inicioPagina = finPagina - itemsPorPagina;
@@ -1153,7 +1153,7 @@
                                 else {
                                     elemento.className = "numeroPagina";
                                 }
-                                paginador.JarvisendChild(elemento);
+                                paginador.appendChild(elemento);
                             }
                             contenedor.style.display = 'block';
                         }
@@ -1269,7 +1269,7 @@
                         styleOverlight = document.createElement("style");
                         styleOverlight.innerHTML = "#overlight{background-color:rgba(0,0,0,.7);position: fixed;width: 100%;height: 100%;left: 0;top:0;z-index:1}#boxNotificacion {position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: 1em;font-family: Tahoma;font-size: 1.2em;} #boxHeaderNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: .5em .5em 0 0;text-align: center;border-bottom: 2px solid;font-weight: bold;}#boxFooterNotificacion{position: relative;width: 50%;margin: 0 auto;top: 40%;background-color: rgb(250, 250, 250);z-index: 1;padding: .3em 1em;font-family: Tahoma;font-size: 1.2em;border-radius: 0 0 .5em .5em;text-align: center;border-bottom: 2px solid;font-weight: bold;border-top: 2px solid;}#boxFooterNotificacion>button{padding: 0.2em;margin: 2px .5em;width: 60px;}";
                         var tagHead = head[0];
-                        tagHead.JarvisendChild(styleOverlight);
+                        tagHead.appendChild(styleOverlight);
                     }
                     this.Overlight = document.getElementById("overlight");
                     if (this.Overlight == null) {
@@ -1285,26 +1285,26 @@
                         header = document.createElement("p");
                         header.id="boxHeaderNotificacion";
                         header.innerHTML="Administrador";
-                        this.Overlight.JarvisendChild(header);
+                        this.Overlight.appendChild(header);
                     }
                     this.Box = document.getElementById("boxNotificacion");
                     if (this.Box === null) {
                         this.Box = document.createElement("div");
                         this.Box.id = "boxNotificacion";
-                        this.Overlight.JarvisendChild(this.Box)
+                        this.Overlight.appendChild(this.Box)
                     }
                     var footer=document.getElementById("boxFooterNotificacion");
                     if (footer === null) {
                         footer = document.createElement("p");
                         footer.id="boxFooterNotificacion";                    
-                        this.Overlight.JarvisendChild(footer);
+                        this.Overlight.appendChild(footer);
                     }
                     this.Ok=document.getElementById("boxOkBtnNotificacion");
                     if (this.Ok === null) {
                         this.Ok = document.createElement("button");
                         this.Ok.id="boxOkBtnNotificacion";
                         this.Ok.innerHTML="Ok";
-                        footer.JarvisendChild(this.Ok);
+                        footer.appendChild(this.Ok);
                     }
                     this.Cancel=document.getElementById("boxCancelBtnNotificacion");
                     if (this.Cancel === null) {
@@ -1317,7 +1317,7 @@
                             self.Box.innerHTML = "";     
                             return false;                                       
                         };
-                        footer.JarvisendChild(this.Cancel);
+                        footer.appendChild(this.Cancel);
                     }
                 }
         },
@@ -1342,9 +1342,9 @@
                         td.appendChild(document.createTextNode(arrJSON[i][columns[j]] || ''));
                         tr.appendChild(td);
                     }
-                    tbody.JarvisendChild(tr);
+                    tbody.appendChild(tr);
                 }
-                table.JarvisendChild(tbody);
+                table.appendChild(tbody);
 
                 function addHeaders(arrJSON, table) {
                     var thead = document.createElement('thead');
@@ -1365,14 +1365,14 @@
                     return columnSet;
                 };
                 //return table;
-                elemento.JarvisendChild(table);
+                elemento.appendChild(table);
             },
             Busqueda: {
                 CrearNodo: function (hijo) {
                     var node = document.createElement('span');
                     node.setAttribute('class', 'highlighted');
                     node.attributes['class'].value = 'highlighted';
-                    node.JarvisendChild(hijo);
+                    node.appendChild(hijo);
                     return node;
                 },
                 Resaltar: function (term, container) {
@@ -1388,15 +1388,15 @@
                                 node.parentNode.replaceChild(new_node, node);
                                 var result;
                                 while ((result = data_low.indexOf(term)) != -1) {
-                                    new_node.JarvisendChild(document.createTextNode(
+                                    new_node.appendChild(document.createTextNode(
                                                 data.substr(0, result)));
-                                    new_node.JarvisendChild(this.CrearNodo(
+                                    new_node.appendChild(this.CrearNodo(
                                                 document.createTextNode(data.substr(
                                                         result, term.length))));
                                     data = data.substr(result + term.length);
                                     data_low = data_low.substr(result + term.length);
                                 }
-                                new_node.JarvisendChild(document.createTextNode(data));
+                                new_node.appendChild(document.createTextNode(data));
                             }
                         } else {
                             // Keep going onto other elements
@@ -1478,7 +1478,7 @@
                             input.onkeyup = function () {
                                 self.Buscar(input, element);
                             }
-                            form.JarvisendChild(input);
+                            form.appendChild(input);
                             element.parentNode.insertBefore(form, element);
                         }
                     }
@@ -1708,17 +1708,17 @@
                         //ARROW = '&nbsp;&nbsp;<img src="' + image_path + image_up + '" alt="&uarr;"/>';
                         span.setAttribute('sortdir', 'down');
                     }
-                    // We JarvisendChild rows that already exist to the tbody, so it moves them rather than creating new ones
+                    // We appendChild rows that already exist to the tbody, so it moves them rather than creating new ones
                     // don't do sortbottom rows
                     for (var i = 0; i < newRows.length; i++) {
                         if (!newRows[i].className || (newRows[i].className && (newRows[i].className.indexOf('sortbottom') == -1))) {
-                            t.tBodies[0].JarvisendChild(newRows[i]);
+                            t.tBodies[0].appendChild(newRows[i]);
                         }
                     }
                     // do sortbottom rows only
                     for (var i = 0; i < newRows.length; i++) {
                         if (newRows[i].className && (newRows[i].className.indexOf('sortbottom') != -1))
-                            t.tBodies[0].JarvisendChild(newRows[i]);
+                            t.tBodies[0].appendChild(newRows[i]);
                     }
                     // Delete any other arrows there may be showing
                     var allspans = document.getElementsByTagName("span");
