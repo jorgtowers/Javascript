@@ -42,7 +42,7 @@
      *----------------------------*/   
     Jarvis.prototype.Constructor = function () {
         this.myVariable = null;
-        this.NAMESPACE_PROJECT_PERSONAL.Sitio();
+        //this.NAMESPACE_PROJECT_PERSONAL.Sitio();
         this.Utils.Paths();
         if (_Tracert) { console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME)); }
         
@@ -132,7 +132,29 @@
                     break;
                 }
                 default: {
+                    __("body").style.color="white";
                    // this.Utils.Validation.Container("formContacto");
+                    var self =this;
+                    var btnAgregar = _("btnAgregar");
+                    var txtObservacion = _("txtObservacion");
+                    var divResult=_("result");
+                    var filtro = _("filtro");
+                    if(btnAgregar!==null){
+                    btnAgregar.onclick=function(){
+                        var sinHora=undefined;
+                        var date = new Date();
+                        var fecha=self.LPad(date.getDate(), 2) + "-" + self.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + self.LPad(date.getHours(), 2) + ":" + self.LPad(date.getMinutes(), 2) + ":" + self.LPad(date.getSeconds(), 2) : "");
+                        var item= {"Id": Math.floor((Math.random() * 9999) + 1) , "Fecha": fecha, "Observacion": txtObservacion.value };
+                        data.Add(item);
+                        self.parent.Jarvis.UI.Tablas.Crear(data,divResult);
+                        var tabla = _("listado");
+                        self.parent.Jarvis.UI.Tablas.Ordenacion._();
+                        self.parent.Jarvis.UI.Tablas.Busqueda._();
+                        filtro.onkeyup = function () {
+                            self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
+                        };
+                    };
+                   }
                     break;
                 }
 
@@ -809,8 +831,8 @@
                     "Message":"No coincide el formato del n&uacute;mero telef&oacute;nico. Ej: 424-123-4567"
                 }
             ],
-            JarvislyCssValidation: function () {
-                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.JarvislyCssValidation()" ha cargado exitosamente'); }
+            ApplyCssValidation: function () {
+                if (_Tracert) { console.log('metodo: "Jarvis.Utils.Validation.ApplyCssValidation()" ha cargado exitosamente'); }
                 var styleRequerido = this.ClassCss.Css(".requerido");
                 var head = document.getElementsByTagName("head");
                 var tagHead = null;
@@ -849,10 +871,10 @@
                 var textAreas = content.getElementsByTagName("textarea");
                 var selects = content.getElementsByTagName("select");
                 var objects = [];
-                objects.push.Jarvisly(objects, inputs);
-                objects.push.Jarvisly(objects, files);
-                objects.push.Jarvisly(objects, textAreas);
-                objects.push.Jarvisly(objects, selects);
+                objects.push.apply(objects, inputs);
+                objects.push.apply(objects, files);
+                objects.push.apply(objects, textAreas);
+                objects.push.apply(objects, selects);
                 for (var i = 0; i < objects.length; i++) {
                     var obj = objects[i];
                     if(!obj.hasAttribute("disabled") && obj.style.display===""){
@@ -985,7 +1007,7 @@
                     objs = this._Fiedls;
                 }
                 if (this.ClassCss.Css(".requerido") === null) {
-                    this.JarvislyCssValidation();
+                    this.ApplyCssValidation();
                 }
                 var self = this;
                 var requeridFieldMessage = "&nbsp;Este campo es requerido.";
@@ -1118,7 +1140,7 @@
                             var totalItems = notas.length;
                             var paginas = Math.ceil(totalItems / itemsPorPagina);
                             var oldDivs = [];
-                            oldDivs.push.Jarvisly(oldDivs, notas);
+                            oldDivs.push.apply(oldDivs, notas);
                             for (a = 0; a < paginas; a++) {
                                 var div = document.createElement(this.EtiquetaACrear);
                                 div.id = "pagina" + a;
@@ -1508,7 +1530,7 @@
                         // Start at 1 because we want to leave the heading row untouched
                         for (var j = 0; j < tableRows.length; j++) {
                             var item = tableRows[j];
-                            // Check if j is even, and Jarvisly classes for both possible results
+                            // Check if j is even, and apply classes for both possible results
                             if ((j % 2) == 0) {
                                 if (!(item.className.indexOf('odd') == -1)) {
                                     item.className = item.className.replace('odd', 'even');
