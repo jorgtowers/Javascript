@@ -132,7 +132,7 @@
                     break;
                 }
                 default: {
-                    this.Utils.Validation.Container("formContacto");
+                   // this.Utils.Validation.Container("formContacto");
                     break;
                 }
 
@@ -1339,8 +1339,8 @@
                     for (var j = 0, maxj = columns.length; j < maxj ; ++j) {
                         var td = _td_.cloneNode(false);
                        var cellValue = arrJSON[i][columns[j]];
-                        td.JarvisendChild(document.createTextNode(arrJSON[i][columns[j]] || ''));
-                        tr.JarvisendChild(td);
+                        td.appendChild(document.createTextNode(arrJSON[i][columns[j]] || ''));
+                        tr.appendChild(td);
                     }
                     tbody.JarvisendChild(tr);
                 }
@@ -1355,13 +1355,13 @@
                             if (arrJSON[i].hasOwnProperty(key) && columnSet.indexOf(key) === -1) {
                                 columnSet.push(key);
                                 var th = _th_.cloneNode(false);
-                                th.JarvisendChild(document.createTextNode(key));
-                                tr.JarvisendChild(th);
+                                th.appendChild(document.createTextNode(key));
+                                tr.appendChild(th);
                             }
                         }
                     }
-                    thead.JarvisendChild(tr);
-                    table.JarvisendChild(thead);
+                    thead.appendChild(tr);
+                    table.appendChild(thead);
                     return columnSet;
                 };
                 //return table;
