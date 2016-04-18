@@ -1365,6 +1365,7 @@
                     return columnSet;
                 };
                 //return table;
+                elemento.innerHTML="";
                 elemento.appendChild(table);
             },
             Busqueda: {
