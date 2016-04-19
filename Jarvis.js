@@ -144,6 +144,7 @@
                     var txtFecha = _("txtFecha");
                     var txtProyecto = _("txtProyecto");
                     var txtObservacion = _("txtObservacion");
+                    var lblLeyenda = _("lblLeyenda");
                     var divResult=_("result");
                     var filtro = _("filtro");
 
@@ -163,7 +164,6 @@
                             localStorage.setItem("bbdd",JSON.stringify(self.data));
                         } 
                     };
-
                     var limpiarCampos=function(){
                         txtId.value="";
                         txtFecha.value="";
@@ -172,7 +172,7 @@
                     };
                     var llenarCampos=function(item){
                         txtId.value=item.Id;
-                        txtFecha.value=item.Fecha;
+                        txtFecha.value=item.Dia+"/"+item.Mes+"/" + item.Año + " " + item.Horas +":" +item.Minutos;
                         txtProyecto.value=item.Proyecto;
                         txtObservacion.value=item.Observacion;
                     };
@@ -205,7 +205,13 @@
                                 activarBotones();                  
                             };
                         };                                      
-                        activarBotones();                                                
+                        activarBotones();  
+                        var desde = self.data.First();
+                        var hasta = self.data.Last();
+                        desde = self.LPad(desde.Horas, 2) + ":" + self.LPad(desde.Minutos, 2);
+                        hasta = self.LPad(hasta.Horas, 2) + ":" + self.LPad(hasta.Minutos, 2)
+                        var tiempoTotal=self.parent.Jarvis.Utils.Time.RestarHoras(desde,hasta);
+                        lblLeyenda.innerHTML="Tiempo empleado "+tiempoTotal + " horas";
                     };
                     
                     guardarDatos();
@@ -229,8 +235,13 @@
                         btnGuardar.onclick=function(){
                             var item = self.data.Query("Id==" + txtId.value);
                             if(item!==null){
+                                var date = new Date();
                                 item.Id=txtId.value;
-                                item.Fecha=txtFecha.value;
+                                item.Año= date.getFullYear(); 
+                                item.Mes= date.getMonth() + 1;
+                                item.Dia= date.getDate();
+                                item.Horas= date.getHours();
+                                item.Minutos= date.getMinutes();
                                 item.Proyecto=txtProyecto.value;
                                 item.Observacion=txtObservacion.value;                                
                                 self.parent.Jarvis.UI.Notificacion.Mensaje("El registro se ha actualizado correctamente...",function(){
@@ -262,10 +273,15 @@
                                 var sinHora=undefined;
                                 var date = new Date();
                                 var fecha=self.LPad(date.getDate(), 2) + "-" + self.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + self.LPad(date.getHours(), 2) + ":" + self.LPad(date.getMinutes(), 2) + ":" + self.LPad(date.getSeconds(), 2) : "");
-                                var item= { "Id": Math.floor((Math.random() * 9999) + 1) , 
-                                            "Fecha": fecha, 
+                                var item= { "Id": Math.floor((Math.random() * 9999) + 1) ,                                             
                                             "Proyecto": txtProyecto.value, 
-                                            "Observacion": txtObservacion.value };
+                                            "Observacion": txtObservacion.value,
+                                            "Año": date.getFullYear(), 
+                                            "Mes": date.getMonth() + 1,
+                                            "Dia":date.getDate(),
+                                            "Horas":date.getHours(),
+                                            "Minutos":date.getMinutes()
+                                        };
                                 self.data.Add(item);
                                 actualizarListado();                                
 
@@ -851,6 +867,37 @@
                 if (Object.prototype.toString.call(d) !== "[object Date]")
                     return false;
                 return !isNaN(d.getTime())
+            },
+            RestarHoras:function(inicio,fin){
+  
+                  var inicioMinutos = parseInt(inicio.substr(3,2));
+                  var inicioHoras = parseInt(inicio.substr(0,2));
+                  
+                  var finMinutos = parseInt(fin.substr(3,2));
+                  var finHoras = parseInt(fin.substr(0,2));
+
+                  var transcurridoMinutos = finMinutos - inicioMinutos;
+                  var transcurridoHoras = finHoras - inicioHoras;
+                  
+                  if (transcurridoMinutos < 0) {
+                    transcurridoHoras--;
+                    transcurridoMinutos = 60 + transcurridoMinutos;
+                  }
+                  
+                  var horas = transcurridoHoras.toString();
+                  var minutos = transcurridoMinutos.toString();
+                  
+                  if (horas.length < 2) {
+                    horas = "0"+horas;
+                  }
+                  
+                  if (horas.length < 2) {
+                    horas = "0"+horas;
+                  }
+                  
+                  return horas+":"+minutos;
+
+
             }
         },
         Anagram:function (prefix, string) {
