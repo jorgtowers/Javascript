@@ -61,6 +61,7 @@
         Paths: function () {
             if (_Tracert) { console.log('metodo: "Jarvis.Utils.Paths()", ha cargado exitosamente'); }
             if (_Info) { console.log('info: "Jarvis.Utils.Paths()", Permite ejecutar invocar funciones especificas por cada URL, en caso de no desear levantar objetos ideados para otros usos'); }
+            this.data=[];
             var path = location.href.split("/")[4];
             if(path === undefined){ path = "\\"; }
             if (path.indexOf("?") > 0){
@@ -132,30 +133,47 @@
                     break;
                 }
                 default: {
-                    __("body").style.color="white";
-                    var data=[];                   
-                    var self =this;
+                    __("body").style.color="white";                    
+                    var self =this;                    
                     var btnAgregar = _("btnAgregar");
                     var btnGuardar = _("btnGuardar");
                     var btnEliminar = _("btnEliminar");
                     var btnLimpiar = _("btnLimpiar");
+                    var btnBorrarBBDD=_("btnBorrarBBDD");
                     var txtId = _("txtId");
                     var txtFecha = _("txtFecha");
+                    var txtProyecto = _("txtProyecto");
                     var txtObservacion = _("txtObservacion");
                     var divResult=_("result");
                     var filtro = _("filtro");
 
                     btnEliminar.style.display="none";
                     btnGuardar.style.display="none";
+                    
+
+                    var guardarDatos=function(){
+                        if(localStorage.getItem("bbdd")!=null){ 
+                            var datos= JSON.parse(localStorage.getItem("bbdd"));
+                            if(self.data.length>datos.length){
+                                localStorage.setItem("bbdd",JSON.stringify(self.data));
+                            } else {
+                                self.data = datos;
+                            }                           
+                        } else {
+                            localStorage.setItem("bbdd",JSON.stringify(self.data));
+                        } 
+                    };
 
                     var limpiarCampos=function(){
                         txtId.value="";
                         txtFecha.value="";
+                        txtProyecto.value="";
                         txtObservacion.value="";
                     };
                     var llenarCampos=function(item){
                         txtId.value=item.Id;
                         txtFecha.value=item.Fecha;
+                        txtProyecto.value=item.Proyecto;
                         txtObservacion.value=item.Observacion;
                     };
                     var activarBotones=function(){
@@ -169,37 +187,51 @@
                             btnGuardar.style.display="none";
                         }
                     };
-                    var actualizarListado=function(){
-                        self.parent.Jarvis.UI.Tablas.Crear(data,divResult);
+                    var actualizarListado=function(){                        
+                        self.parent.Jarvis.UI.Tablas.Crear(self.data,divResult);
                         var tabla = _("listado");
                         self.parent.Jarvis.UI.Tablas.Ordenacion._();
                         self.parent.Jarvis.UI.Tablas.Busqueda._();
                         filtro.onkeyup = function () {                            
                             self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
                         };          
+                        guardarDatos();
                         var items=document.querySelectorAll("td[trigger]");
                         for (var i = items.length - 1; i >= 0; i--) {
                             var trigger= items[i];
                             trigger.onclick=function(){
-                                var selectedItem= data.Query("Id==" +this.innerHTML);
+                                var selectedItem= self.data.Query("Id==" +this.innerHTML);
                                 llenarCampos(selectedItem);              
                                 activarBotones();                  
                             };
                         };                                      
-                        activarBotones();
+                        activarBotones();                                                
                     };
-                     if(btnLimpiar!==null){
+                    
+                    guardarDatos();
+
+                    if(btnLimpiar!==null){
                         btnLimpiar.onclick=function(){
                             limpiarCampos();
-                            activarBotones();
+                            activarBotones();                                                        
+                            actualizarListado();
+                        };
+                    }
+                    if(btnBorrarBBDD!==null){
+                        btnBorrarBBDD.onclick=function(){
+                            self.parent.Jarvis.UI.Notificacion.Mensaje("¿Seguro de eliminar la BBDD?",function(){
+                                localStorage.clear();
+                                self.data=[];
+                            });
                         };
                     }
                     if(btnGuardar!==null){
                         btnGuardar.onclick=function(){
-                            var item = data.Query("Id==" + txtId.value);
+                            var item = self.data.Query("Id==" + txtId.value);
                             if(item!==null){
                                 item.Id=txtId.value;
                                 item.Fecha=txtFecha.value;
+                                item.Proyecto=txtProyecto.value;
                                 item.Observacion=txtObservacion.value;                                
                                 self.parent.Jarvis.UI.Notificacion.Mensaje("El registro se ha actualizado correctamente...",function(){
                                     limpiarCampos();
@@ -210,17 +242,17 @@
                     }
                     if(btnEliminar!==null){
                         btnEliminar.onclick=function(){
-                            var index = data.Find("Id",txtId.value);
+                            var index = self.data.Find("Id",txtId.value);
                             if(index>-1){                                
                                 self.parent.Jarvis.UI.Notificacion.Mensaje("¿Seguro de eliminar el registro?",function(){
-                                    data.Delete(index);
+                                    self.data.Delete(index);
                                     self.parent.Jarvis.UI.Notificacion.Mensaje("El registro se ha eliminado correctamente...",function(callback){
                                         limpiarCampos();
                                         actualizarListado();
                                         callback();
                                     },true);
                                 });
-                            } 
+                            }                             
                         };
                     }
                     if(btnAgregar!==null){
@@ -230,8 +262,11 @@
                                 var sinHora=undefined;
                                 var date = new Date();
                                 var fecha=self.LPad(date.getDate(), 2) + "-" + self.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + self.LPad(date.getHours(), 2) + ":" + self.LPad(date.getMinutes(), 2) + ":" + self.LPad(date.getSeconds(), 2) : "");
-                                var item= {"Id": Math.floor((Math.random() * 9999) + 1) , "Fecha": fecha, "Observacion": txtObservacion.value };
-                                data.Add(item);
+                                var item= { "Id": Math.floor((Math.random() * 9999) + 1) , 
+                                            "Fecha": fecha, 
+                                            "Proyecto": txtProyecto.value, 
+                                            "Observacion": txtObservacion.value };
+                                self.data.Add(item);
                                 actualizarListado();                                
 
                             } else {
@@ -239,9 +274,10 @@
                                     txtObservacion.focus();
                                 },false);
                             }
-                            limpiarCampos();
+                            limpiarCampos();                            
                         };
                    }
+                   actualizarListado();
                     break;
                 }
 
