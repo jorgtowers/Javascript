@@ -133,32 +133,114 @@
                 }
                 default: {
                     __("body").style.color="white";
-                   // this.Utils.Validation.Container("formContacto");
+                    var data=[];                   
                     var self =this;
                     var btnAgregar = _("btnAgregar");
+                    var btnGuardar = _("btnGuardar");
+                    var btnEliminar = _("btnEliminar");
+                    var btnLimpiar = _("btnLimpiar");
+                    var txtId = _("txtId");
+                    var txtFecha = _("txtFecha");
                     var txtObservacion = _("txtObservacion");
                     var divResult=_("result");
                     var filtro = _("filtro");
-                    if(btnAgregar!==null){
-                    btnAgregar.onclick=function(){
-                        var validado=self.parent.Jarvis.Utils.Validation.Validate();
-                        if(validado){
-                            var sinHora=undefined;
-                            var date = new Date();
-                            var fecha=self.LPad(date.getDate(), 2) + "-" + self.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + self.LPad(date.getHours(), 2) + ":" + self.LPad(date.getMinutes(), 2) + ":" + self.LPad(date.getSeconds(), 2) : "");
-                            var item= {"Id": Math.floor((Math.random() * 9999) + 1) , "Fecha": fecha, "Observacion": txtObservacion.value };
-                            data.Add(item);
-                            self.parent.Jarvis.UI.Tablas.Crear(data,divResult);
-                            var tabla = _("listado");
-                            self.parent.Jarvis.UI.Tablas.Ordenacion._();
-                            self.parent.Jarvis.UI.Tablas.Busqueda._();
-                            filtro.onkeyup = function () {                            
-                                self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
-                            };
+
+                    btnEliminar.style.display="none";
+                    btnGuardar.style.display="none";
+
+                    var limpiarCampos=function(){
+                        txtId.value="";
+                        txtFecha.value="";
+                        txtObservacion.value="";
+                    };
+                    var llenarCampos=function(item){
+                        txtId.value=item.Id;
+                        txtFecha.value=item.Fecha;
+                        txtObservacion.value=item.Observacion;
+                    };
+                    var activarBotones=function(){
+                        if(txtId.value.length!==0){
+                            btnAgregar.style.display="none";
+                            btnEliminar.style.display="inline";
+                            btnGuardar.style.display="inline";
                         } else {
-                            self.parent.Jarvis.UI.Notificacion.Mensaje("No puede ingresar registros en blanco",null);
+                            btnAgregar.style.display="inline";
+                            btnEliminar.style.display="none";
+                            btnGuardar.style.display="none";
                         }
                     };
+                    var actualizarListado=function(){
+                        self.parent.Jarvis.UI.Tablas.Crear(data,divResult);
+                        var tabla = _("listado");
+                        self.parent.Jarvis.UI.Tablas.Ordenacion._();
+                        self.parent.Jarvis.UI.Tablas.Busqueda._();
+                        filtro.onkeyup = function () {                            
+                            self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
+                        };          
+                        var items=document.querySelectorAll("td[trigger]");
+                        for (var i = items.length - 1; i >= 0; i--) {
+                            var trigger= items[i];
+                            trigger.onclick=function(){
+                                var selectedItem= data.Query("Id==" +this.innerHTML);
+                                llenarCampos(selectedItem);              
+                                activarBotones();                  
+                            };
+                        };                                      
+                        activarBotones();
+                    };
+                     if(btnLimpiar!==null){
+                        btnLimpiar.onclick=function(){
+                            limpiarCampos();
+                            activarBotones();
+                        };
+                    }
+                    if(btnGuardar!==null){
+                        btnGuardar.onclick=function(){
+                            var item = data.Query("Id==" + txtId.value);
+                            if(item!==null){
+                                item.Id=txtId.value;
+                                item.Fecha=txtFecha.value;
+                                item.Observacion=txtObservacion.value;                                
+                                self.parent.Jarvis.UI.Notificacion.Mensaje("El registro se ha actualizado correctamente...",function(){
+                                    limpiarCampos();
+                                    actualizarListado();                                                                        
+                                },false);
+                            }
+                        };
+                    }
+                    if(btnEliminar!==null){
+                        btnEliminar.onclick=function(){
+                            var index = data.Find("Id",txtId.value);
+                            if(index>-1){                                
+                                self.parent.Jarvis.UI.Notificacion.Mensaje("¿Seguro de eliminar el registro?",function(){
+                                    data.Delete(index);
+                                    self.parent.Jarvis.UI.Notificacion.Mensaje("El registro se ha eliminado correctamente...",function(callback){
+                                        limpiarCampos();
+                                        actualizarListado();
+                                        callback();
+                                    },true);
+                                });
+                            } 
+                        };
+                    }
+                    if(btnAgregar!==null){
+                        btnAgregar.onclick=function(){
+                            var validado=self.parent.Jarvis.Utils.Validation.Validate();
+                            if(validado){
+                                var sinHora=undefined;
+                                var date = new Date();
+                                var fecha=self.LPad(date.getDate(), 2) + "-" + self.LPad((date.getMonth() + 1), 2) + "-" + date.getFullYear() + (sinHora == undefined ? " " + self.LPad(date.getHours(), 2) + ":" + self.LPad(date.getMinutes(), 2) + ":" + self.LPad(date.getSeconds(), 2) : "");
+                                var item= {"Id": Math.floor((Math.random() * 9999) + 1) , "Fecha": fecha, "Observacion": txtObservacion.value };
+                                data.Add(item);
+                                actualizarListado();                                
+
+                            } else {
+                                self.parent.Jarvis.UI.Notificacion.Mensaje("No puede ingresar registros en blanco",function(){
+                                    txtObservacion.focus();
+                                },false);
+                            }
+                            limpiarCampos();
+                        };
                    }
                     break;
                 }
@@ -1266,14 +1348,24 @@
                     if(okCallback!==undefined){
                         this.Ok.onclick= function(){
                             if (typeof okCallback === 'function') {
-                                okCallback();
-                            }
-                            self.Cancel.click();
-                            return true;
+                                var containCallback = okCallback.prototype.constructor.toString().indexOf("(callback)")>-1;
+                                if(containCallback){
+                                    okCallback(function(){
+                                        self.Cancel.click();
+                                        return true;        
+                                    });
+                                } else{
+                                    okCallback();
+                                    self.Cancel.click();
+                                        return true;        
+                                }
+                            }                             
                         }
                     }
-                    if(hideCancel!==undefined){
+                    if(typeof hideCancel !== "undefined"){
                         this.Cancel.style.display="none";
+                    } else {
+                        this.Cancel.style.display="inline";
                     }
                 },
                 Css: function (className) {
@@ -1369,8 +1461,11 @@
                     var tr = _tr_.cloneNode(false);
                     for (var j = 0, maxj = columns.length; j < maxj ; ++j) {
                         var td = _td_.cloneNode(false);
-                       var cellValue = arrJSON[i][columns[j]];
-                        td.appendChild(document.createTextNode(arrJSON[i][columns[j]] || ''));
+                        var cellValue = arrJSON[i][columns[j]];
+                        if(j===0){
+                            td.setAttribute("trigger",cellValue);
+                        }
+                        td.appendChild(document.createTextNode(cellValue || ''));
                         tr.appendChild(td);
                     }
                     tbody.appendChild(tr);
