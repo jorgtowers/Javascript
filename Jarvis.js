@@ -57,6 +57,26 @@
         }
     };
     
+    Jarvis.prototype.JSource={ 
+        UL:function(){
+            var model = document.querySelectorAll("ul[JSource]")[0];
+            var estruct=model.children[0];
+            model.innerText="";
+            for (var i = 0; i < datos.length; i++) {
+                var item =datos[i];
+                var targets=estruct.innerHTML.match(/{[a-zA-Z]+}/g);
+                var string=estruct.innerHTML;
+                for (var o = 0; o < targets.length; o++) {
+                    var columna = targets[o].replace(/{|}/g,"");
+                    string=string.replace(columna,item[columna]);
+                };
+                var li= document.createElement("li");       
+                li.innerHTML =  string.replace(/{|}/g,"") ;
+                model.appendChild(li);
+            };
+        }
+    };
+
     Jarvis.prototype.Projects={
         WebTimeline:function(){
             this.data=[];
