@@ -43,6 +43,7 @@
     Jarvis.prototype.Constructor = function () {
         this.myVariable = null;
         //this.NAMESPACE_PROJECT_PERSONAL.Sitio();
+        this.Projects.Github();
         this.Utils.Paths();
         if (_Tracert) { console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME)); }
         
@@ -54,30 +55,68 @@
             var bg = items[Math.floor(Math.random() * items.length)];
             var body = document.getElementsByTagName("body")[0];
             body.style.backgroundColor = "#" + bg;
+            body.style.color="white";
         }
     };
     
     Jarvis.prototype.JSource={ 
-        UL:function(){
+        UL:function(datos){
             var model = document.querySelectorAll("ul[JSource]")[0];
-            var estruct=model.children[0];
-            model.innerText="";
+            var estruct=model.children[0];            
+            model.innerHTML="";
             for (var i = 0; i < datos.length; i++) {
                 var item =datos[i];
                 var targets=estruct.innerHTML.match(/{[a-zA-Z]+}/g);
                 var string=estruct.innerHTML;
+                var internalDataSource=[];
                 for (var o = 0; o < targets.length; o++) {
                     var columna = targets[o].replace(/{|}/g,"");
+                    var object = item[columna];
+                    if(typeof object !=="undefined" && object.constructor.name ==="Array"){
+                        internalDataSource=object;
+                    }
                     string=string.replace(columna,item[columna]);
                 };
-                var li= document.createElement("li");       
-                li.innerHTML =  string.replace(/{|}/g,"") ;
+                var li= document.createElement("li");  
+                /* -------------------------------
+                 * Examina los desendientes
+                 * -------------------------------*/
+                if(internalDataSource.length>0){
+                    li.innerHTML =  string.replace(/{|}/g,"") ;
+                    var ul=estruct.querySelectorAll("ul[JDesendant]")[0];
+                    var estructHijo=ul.children[0];
+                    ul.innerHTML="";
+                    for (var a = 0; a < internalDataSource.length; a++) {
+                        var internalItem=internalDataSource[a];
+                        var internalTargets=estructHijo.innerHTML.match(/{[a-zA-Z]+}/g);
+                        var internalString=estructHijo.innerHTML;
+                        for (var b = 0; b < internalTargets.length; b++) {
+                            var internalColumna = internalTargets[b].replace(/{|}/g,"");
+                            var object = internalItem[internalColumna];
+                            internalString=internalString.replace(internalColumna,internalItem[internalColumna]);
+                        };
+                        var internalLi= document.createElement("li");       
+                        internalLi.innerHTML =  internalString.replace(/{|}/g,"") ;
+                        ul.appendChild(internalLi);
+                    };
+                    li.appendChild(ul);
+                } else {
+                    li.innerHTML =  string.replace(/{|}/g,"") ;
+                }
+
                 model.appendChild(li);
             };
         }
     };
 
     Jarvis.prototype.Projects={
+        Github:function(){
+            var items = ['0078D7', '5C2D91', '008272', '107C10', '00188F', 'A80000', '002050', '004B50', '004B1C'];
+            var bg = items[Math.floor(Math.random() * items.length)];
+            var body = document.getElementsByTagName("body")[0];
+            body.style.backgroundColor = "#" + bg;
+            body.style.color="white";
+        },
         WebTimeline:function(){
             this.data=[];
             var self =this;                    
@@ -96,15 +135,15 @@
             btnEliminar.style.display="none";
             btnGuardar.style.display="none";
             var guardarDatos=function(){
-                if(localStorage.getItem("bbdd")!=null){ 
+                if(localStorage.getItem("bbdd_webtimeline")!=null){ 
                     var datos= JSON.parse(localStorage.getItem("bbdd"));
                     if(self.data.length>datos.length){
-                        localStorage.setItem("bbdd",JSON.stringify(self.data));
+                        localStorage.setItem("bbdd_webtimeline",JSON.stringify(self.data));
                     } else {
                         self.data = datos;
                     }                           
                 } else {
-                    localStorage.setItem("bbdd",JSON.stringify(self.data));
+                    localStorage.setItem("bbdd_webtimeline",JSON.stringify(self.data));
                 } 
             };
             var limpiarCampos=function(){
@@ -284,23 +323,23 @@
             btnEliminar.style.display="none";
             btnGuardar.style.display="none";
             var guardarDatos=function(){
-                if(localStorage.getItem("bbdd")!=null){ 
-                    var datos= JSON.parse(localStorage.getItem("bbdd"));
+                if(localStorage.getItem("bbdd_checklist")!=null){ 
+                    var datos= JSON.parse(localStorage.getItem("bbdd_checklist"));
                     if(self.data.length>datos.length){
-                        localStorage.setItem("bbdd",JSON.stringify(self.data));
+                        localStorage.setItem("bbdd_checklist",JSON.stringify(self.data));
                     } else {
                         self.data = datos;
                     }                           
                 } else {
-                    localStorage.setItem("bbdd",JSON.stringify(self.data));
+                    localStorage.setItem("bbdd_checklist",JSON.stringify(self.data));
                 } 
             };
             var actualizarDatos=function(){
-                if(localStorage.getItem("bbdd")!=null){ 
+                if(localStorage.getItem("bbdd_checklist")!=null){ 
                     var datos= JSON.parse(localStorage.getItem("bbdd"));                    
-                    localStorage.setItem("bbdd",JSON.stringify(self.data));                                               
+                    localStorage.setItem("bbdd_checklist",JSON.stringify(self.data));                                               
                 } else {
-                    localStorage.setItem("bbdd",JSON.stringify(self.data));
+                    localStorage.setItem("bbdd_checklist",JSON.stringify(self.data));
                 } 
             };
             var limpiarCampos=function(){
@@ -335,8 +374,9 @@
                 self.parent.Jarvis.UI.Tablas.Busqueda._();
                 filtro.onkeyup = function () {                            
                     self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
-                };          
+                };         
                 guardarDatos();
+                //self.parent.Jarvis.JSource.UL(self.data);                
                 var items=document.querySelectorAll("td[trigger]");
                 for (var i = items.length - 1; i >= 0; i--) {
                     var trigger= items[i];
@@ -345,7 +385,7 @@
                         llenarCampos(selectedItem);              
                         activarBotones();                  
                     };
-                };                        
+                };                     
                 activarBotones();  
                 graficar();                
             };
@@ -515,7 +555,44 @@
             }
             switch (path) {
                 case "\\": {
-                    //this.Utils.SKL();               
+                    //this.Utils.SKL();
+                     var self = this;
+
+                    /* --------------------------------------------
+                     * Validation
+                     * -------------------------------------------- */
+                    this.Validation.Container("formContacto");
+                    this.Validation.FireOn.Blur.CheckRegExs();
+                    this.Validation.FireOn.Input.NotAllowSpecialCharactersToStartAText();
+                    this.Validation.FireOn.Copy.NotAllow();
+                    this.Validation.ApplyCssValidation();
+                    var btnValidar = _("btnValidar");
+                    if (btnValidar != null) {
+                        btnValidar.onclick = function () {
+                            self.Validation.Validate();
+                        }
+                    }
+                    /* --------------------------------------------
+                     * Tablas
+                     * -------------------------------------------- */
+                    var filtro = _("filtro");
+                    var tabla = _("listado");
+                    if (filtro != null) {
+                        self.parent.Jarvis.UI.Tablas.Busqueda._();
+                        self.parent.Jarvis.UI.Tablas.Ordenacion._();
+                        filtro.onkeyup = function () {
+                            self.parent.Jarvis.UI.Tablas.Busqueda.Buscar(filtro, tabla);
+                        };
+                    }
+                   /* --------------------------------------------
+                    * Palabras Claves
+                    * -------------------------------------------- */
+                    var txtTexto = _("txtTexto");
+                    if (txtTexto != null) {
+                        txtTexto.onblur = function () {
+                            self.KeyWords.Obtener(this.value,"PalabrasEncontradas");
+                        };
+                    }              
                     break;
                 }
                 case "path1.aspx": {
