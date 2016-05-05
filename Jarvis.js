@@ -65,8 +65,12 @@
             var liP=ulP.children[0];            
             ulP.innerHTML="";
             var ulC=liP.querySelectorAll("ul[JDesendant]")[0];
-            var liC=ulC.children[0];
-            ulC.innerHTML="";
+            var liC=null;
+            if(ulC!==null){
+                liC=ulC.children[0];    
+                ulC.innerHTML="";
+            }           
+            
             for (var i = 0; i < datos.length; i++) {
                 var item =datos[i];
                 var targets=liP.innerHTML.match(/{[a-zA-Z]+}/g);
@@ -104,7 +108,7 @@
                 ulP.appendChild(newLiP);
             };
             ulP.removeAttribute("JSource");
-            var uls=document.querySelectorAll("ul[JDesendant]");
+            var uls=document.querySelectorAll("ul[JDesendant]");            
             for (var c = 0; c < uls.length; c++) {
                 uls[c].remove(this);
             };
