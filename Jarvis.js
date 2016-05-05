@@ -43,12 +43,30 @@
     Jarvis.prototype.Constructor = function () {
         this.myVariable = null;
         //this.NAMESPACE_PROJECT_PERSONAL.Sitio();
-        this.Projects.Github();
-        this.Utils.Paths();
+        //this.Projects.Github();
+        //this.Utils.Paths();
+        this.MCSD.Noticias();
         if (_Tracert) { console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME)); }
         
     };
     
+
+    Jarvis.prototype.MCSD={
+        Noticias:function(){
+            var self=this.parent;
+            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=20",null,function(){
+                var data=JSON.parse(self.Jarvis.Resultado);
+                self.Jarvis.JSource.UL(data.noticias);
+            })
+        },
+        _: function () {
+            this.parent=namespace;
+            this.Noticias.parent =this;
+            delete this._;
+            return this;
+        }
+    }._();
+
     Jarvis.prototype.NAMESPACE_PROJECT_PERSONAL={
         Sitio: function () {
             var items = ['0078D7', '5C2D91', '008272', '107C10', '00188F', 'A80000', '002050', '004B50', '004B1C'];
@@ -66,7 +84,7 @@
             ulP.innerHTML="";
             var ulC=liP.querySelectorAll("ul[JDesendant]")[0];
             var liC=null;
-            if(ulC!==null){
+            if(typeof ulC!=="undefined"){
                 liC=ulC.children[0];    
                 ulC.innerHTML="";
             }           
@@ -160,7 +178,7 @@
             };
             var llenarCampos=function(item){
                 txtId.value=item.Id;
-                txtFecha.value=item.Dia+"/"+item.Mes+"/" + item.Año + " " + item.Horas +":" +item.Minutos;
+                txtFecha.value=item.Dia+"/"+item.Mes+"/" + item.Anio + " " + item.Horas +":" +item.Minutos;
                 txtProyecto.value=item.Proyecto;
                 txtObservacion.value=item.Observacion;
             };
@@ -226,7 +244,7 @@
                     if(item!==null){
                         var date = new Date();
                         item.Id=txtId.value;
-                        item.Año= date.getFullYear(); 
+                        item.Anio= date.getFullYear(); 
                         item.Mes= date.getMonth() + 1;
                         item.Dia= date.getDate();
                         item.Horas= date.getHours();
@@ -265,7 +283,7 @@
                         var item= { "Id": Math.floor((Math.random() * 9999) + 1) ,                                             
                                     "Proyecto": txtProyecto.value, 
                                     "Observacion": txtObservacion.value,
-                                    "Año": date.getFullYear(), 
+                                    "Anio": date.getFullYear(), 
                                     "Mes": date.getMonth() + 1,
                                     "Dia":date.getDate(),
                                     "Horas":date.getHours(),
