@@ -54,9 +54,16 @@
     Jarvis.prototype.MCSD={
         Noticias:function(){
             var self=this.parent;
-            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=20",null,function(){
+            var lblStatus=document.getElementById("lblStatus");
+            var desde = new Date();
+            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=100",null,function(){
                 var data=JSON.parse(self.Jarvis.Resultado);
                 self.Jarvis.JSource.UL(data.noticias);
+                var hasta = new Date();                
+                if(desde!=null && hasta!=null){
+                    var c = ((desde-hasta)/1000);                                        
+                    lblStatus.innerHTML="Tiempo empleado "+c ;    
+                }
             })
         },
         _: function () {
@@ -2632,26 +2639,26 @@
                     }
                 }           
             };
-            Array.prototype.Distinct= function () {
+            Array.prototype.Distinct= function (column) {
                 if (_Tracert) { console.log('metodo: "Array.Radios().Distinct()", ha cargado exitosamente'); }
                 if (_Info) { console.log('info: "Array.Radios().Distinct()", retorna un arreglo de string con los nombre unicos del arreglo'); }
                 var u = {}, a = [];
-                for (var i = 0, l = arr.length; i < l; ++i) {
-                    if (u.hasOwnProperty(arr[i].name)) {
+                for (var i = 0, l = this.length; i < l; ++i) {
+                    if (u.hasOwnProperty(this[i][column])) {
                         continue;
                     }
-                    a.push(arr[i].name);
-                    u[arr[i].name] = 1;
+                    a.push(this[i][column]);
+                    u[this[i][column]] = 1;
                 }
                 return a;
             };
-            Array.prototype.DistinctName= function (sName) {
-                if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(sName)", ha cargado exitosamente'); }
-                if (_Info) { console.log('info: "Array.Radios().DistinctName(sName)", retorna un arreglo de elementos Radios filtrados por su propiedad Name comparado por el parametro sName'); }
+            Array.prototype.DistinctValue= function (column,value) {
+                if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(column,value)", ha cargado exitosamente'); }
+                if (_Info) { console.log('info: "Array.Radios().DistinctName(column,value)", retorna un arreglo de elementos Radios filtrados por su propiedad Name comparado por el parametro sName'); }
                 var a = [];
-                for (var i = 0, l = arr.length; i < l; ++i) {
-                    if (arr[i].name === sName) {
-                        a.push(arr[i]);
+                for (var i = 0, l = this.length; i < l; ++i) {
+                    if (this[i][column] === value) {
+                        a.push(this[i]);
                     }
                 }
                 return a;
