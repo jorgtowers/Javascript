@@ -61,6 +61,7 @@
 
 
                 var data=JSON.parse(self.Jarvis.Resultado);
+
                 var datos=[];
                 var categorias=data.noticias.Distinct("categoria");
                 for (var i = 0 ; i<categorias.length; i ++) {
@@ -73,7 +74,7 @@
                 };
                 
                 self.Jarvis.JSource.UL(datos);
-
+                //self.Jarvis.JSource.UL(datos,{"MaxLenght":500});
 
                 var hasta = new Date();                
                 if(desde!=null && hasta!=null){
@@ -101,7 +102,7 @@
     };
     
     Jarvis.prototype.JSource={ 
-        UL:function(datos){
+        UL:function(datos,opciones){            
             var ulP = document.querySelectorAll("ul[JSource]")[0];
             var liP=ulP.children[0];            
             ulP.innerHTML="";
@@ -123,7 +124,11 @@
                     if(typeof object !=="undefined" && object.constructor.name ==="Array"){
                         iData=object;
                     }
-                    string=string.replace(columna,item[columna]);
+                    if(typeof opciones !== "undefined" && typeof opciones["MaxLenght"] !=="undefined"){
+                        string=string.replace(columna,item[columna]).substring(0,parseInt(opciones["MaxLenght"]))+"...";                        
+                    } else {
+                        string=string.replace(columna,item[columna]);
+                    }
                 };
                 var newLiP= document.createElement("li");  
                 if(iData.length>0){
@@ -136,7 +141,16 @@
                         for (var b = 0; b < internalTargets.length; b++) {
                             var internalColumna = internalTargets[b].replace(/{|}/g,"");
                             var object = internalItem[internalColumna];
-                            internalString=internalString.replace(internalColumna,internalItem[internalColumna]);
+
+                            if(typeof opciones !== "undefined" && typeof opciones["MaxLenght"] !=="undefined"){
+                                internalString=internalString.replace(internalColumna,internalItem[internalColumna]).substring(0,parseInt(opciones["MaxLenght"]))+"...";
+                            } else {
+                                internalString=internalString.replace(internalColumna,internalItem[internalColumna]);
+                                
+                            }
+
+
+                            
                         };
                         var newLiC= document.createElement("li");       
                         newLiC.innerHTML =  internalString.replace(/{|}/g,"") ;
