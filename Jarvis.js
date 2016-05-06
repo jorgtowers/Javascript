@@ -56,8 +56,7 @@
             var self=this.parent;
             var lblStatus=document.getElementById("lblStatus");
             var desde = new Date();
-            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=100",null,function(){
-                
+            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=100",null,function(){               
 
 
                 var data=JSON.parse(self.Jarvis.Resultado);
@@ -75,6 +74,15 @@
                 
                 self.Jarvis.JSource.UL(datos);
                 //self.Jarvis.JSource.UL(datos,{"MaxLenght":500});
+
+                __("h2[item]").ForEach(function(e){
+                    e.onclick=function(){
+                        var item = data.noticias.Item(data.noticias.Find("id",parseInt(e.getAttribute("item"))));
+                        self.Jarvis.UI.Notificacion.Mensaje(item.texto);
+                    };                    
+                });
+
+
 
                 var hasta = new Date();                
                 if(desde!=null && hasta!=null){
@@ -2693,17 +2701,7 @@
                     return a;
                 }
             };
-            Array.prototype.DistinctValue= function (column,value) {
-                if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(column,value)", ha cargado exitosamente'); }
-                if (_Info) { console.log('info: "Array.Radios().DistinctName(column,value)", retorna un arreglo de elementos Radios filtrados por su propiedad Name comparado por el parametro sName'); }
-                var a = [];
-                for (var i = 0, l = this.length; i < l; ++i) {
-                    if (this[i][column] === value) {
-                        a.push(this[i]);
-                    }
-                }
-                return a;
-            };            
+          
      } catch(err) {
         console.log("this explorer no support definition the properties") ;
      }
@@ -2800,6 +2798,7 @@
         namespace.__ = function (selector) {
             //Funcion que retorna un objeto a partir de su id, para no usar el document.getElementById(), por FLOJERAAAA
             var items = document.querySelectorAll(selector);
+            var arreglo = items.ToArray();
             if(items.length==1){
                 return items[0];
             } else if(items.length>1){
