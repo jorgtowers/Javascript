@@ -57,8 +57,24 @@
             var lblStatus=document.getElementById("lblStatus");
             var desde = new Date();
             this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=100",null,function(){
+                
+
+
                 var data=JSON.parse(self.Jarvis.Resultado);
-                self.Jarvis.JSource.UL(data.noticias);
+                var datos=[];
+                var categorias=data.noticias.Distinct("categoria");
+                for (var i = 0 ; i<categorias.length; i ++) {
+                    var categoria = categorias[i];
+                    var obj={
+                        "categoria":categoria,
+                        "noticias":data.noticias.Distinct("categoria",categoria)
+                    };
+                    datos.push(obj);
+                };
+                
+                self.Jarvis.JSource.UL(datos);
+
+
                 var hasta = new Date();                
                 if(desde!=null && hasta!=null){
                     var c = ((desde-hasta)/1000);                                        
@@ -2639,18 +2655,29 @@
                     }
                 }           
             };
-            Array.prototype.Distinct= function (column) {
+            Array.prototype.Distinct= function (column,value) {
                 if (_Tracert) { console.log('metodo: "Array.Radios().Distinct()", ha cargado exitosamente'); }
                 if (_Info) { console.log('info: "Array.Radios().Distinct()", retorna un arreglo de string con los nombre unicos del arreglo'); }
-                var u = {}, a = [];
-                for (var i = 0, l = this.length; i < l; ++i) {
-                    if (u.hasOwnProperty(this[i][column])) {
-                        continue;
+                
+                if(typeof value ==="undefined"){
+                    var u = {}, a = [];
+                    for (var i = 0, l = this.length; i < l; ++i) {
+                        if (u.hasOwnProperty(this[i][column])) {
+                            continue;
+                        }
+                        a.push(this[i][column]);
+                        u[this[i][column]] = 1;
                     }
-                    a.push(this[i][column]);
-                    u[this[i][column]] = 1;
+                    return a;
+                } else {
+                    var a = [];
+                    for (var i = 0, l = this.length; i < l; ++i) {
+                        if (this[i][column] === value) {
+                            a.push(this[i]);
+                        }
+                    }
+                    return a;
                 }
-                return a;
             };
             Array.prototype.DistinctValue= function (column,value) {
                 if (_Tracert) { console.log('metodo: "Array.Radios().DistinctName(column,value)", ha cargado exitosamente'); }
