@@ -56,7 +56,7 @@
             var self=this.parent;
             var lblStatus=document.getElementById("lblStatus");
             var desde = new Date();
-            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=100",null,function(){               
+            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=5",null,function(){               
 
 
                 var data=JSON.parse(self.Jarvis.Resultado);
