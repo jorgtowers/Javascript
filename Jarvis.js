@@ -43,9 +43,9 @@
     Jarvis.prototype.Constructor = function () {
         this.myVariable = null;
         //this.NAMESPACE_PROJECT_PERSONAL.Sitio();
-        //this.Projects.Github();
-        //this.Utils.Paths();
-        this.MCSD.Noticias();
+        this.Projects.Github();
+        this.Utils.Paths();
+        //this.MCSD.Noticias();
         if (_Tracert) { console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME)); }
         
     };
@@ -72,8 +72,8 @@
                     datos.push(obj);
                 };
                 
-                self.Jarvis.JSource.UL(datos);
-                //self.Jarvis.JSource.UL(datos,{"MaxLenght":500});
+                //self.Jarvis.JSource.UL(datos);
+                self.Jarvis.JSource.UL(datos,{"MaxLenght":1000});
 
                 __("h2[item]").ForEach(function(e){
                     e.onclick=function(){
@@ -661,7 +661,12 @@
                         txtTexto.onblur = function () {
                             self.KeyWords.Obtener(this.value,"PalabrasEncontradas");
                         };
-                    }              
+                    }  
+                   /* --------------------------------------------
+                    * JSource
+                    * -------------------------------------------- */
+                    self.parent.Jarvis.MCSD.Noticias();
+
                     break;
                 }
                 case "path1.aspx": {
@@ -2702,8 +2707,8 @@
                 }
             };
             Array.prototype.ForEach = function (callback) {
-            for (var i = 0; i < items.length; i++) {
-                callback(items[i]);
+            for (var i = 0; i < this.length; i++) {
+                callback(this[i]);
             };
         };
           
