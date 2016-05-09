@@ -1866,23 +1866,27 @@
                     this._();
                     this.Overlight.style.display = "block";   
                     this.Box.innerHTML = mensaje;
-                    if(okCallback!==undefined){
-                        this.Ok.onclick= function(){
-                            if (typeof okCallback === 'function') {
-                                var containCallback = okCallback.prototype.constructor.toString().indexOf("(callback)")>-1;
-                                if(containCallback){
-                                    okCallback(function(){
-                                        self.Cancel.click();
-                                        return true;        
-                                    });
-                                } else{
-                                    okCallback();
-                                    self.Cancel.click();
-                                        return true;        
-                                }
-                            }                             
-                        }
-                    }
+                     if (okCallback !== undefined && okCallback!==null) {
+                         this.Ok.onclick = function () {
+                             if (typeof okCallback === 'function') {
+                                 var containCallback = okCallback.prototype.constructor.toString().indexOf("(callback)") > -1;
+                                 if (containCallback) {
+                                     okCallback(function () {
+                                         self.Cancel.click();
+                                         return true;
+                                     });
+                                 } else {
+                                     okCallback();
+                                     self.Cancel.click();
+                                     return true;
+                                 }
+                             }
+                         }
+                     } else {
+                         this.Ok.onclick = function () {
+                             self.Cancel.click();
+                         };
+                     }
                     if(typeof hideCancel !== "undefined"){
                         this.Cancel.style.display="none";
                     } else {
