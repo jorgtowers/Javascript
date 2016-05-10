@@ -37,15 +37,28 @@
     var _Result = null;
     var _StartTime = new Date();
 
+    var solicitud=null;
+
     /*----------------------------
      * Métodos Públicos
      *----------------------------*/   
     Jarvis.prototype.Constructor = function () {
         this.myVariable = null;
+        var self=this;
         //this.NAMESPACE_PROJECT_PERSONAL.Sitio();
-        this.Projects.Github();
-        this.Utils.Paths();
+//        this.Projects.Github();
+ //       this.Utils.Paths();
         //this.MCSD.Noticias();
+
+        var autoguarado=function(){
+            setTimeout(function(){
+                self.Utils.Autoguardado.Guardar();
+                autoguarado();
+            },10000);
+        };
+
+         
+        
         if (_Tracert) { console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME)); }
         
     };
@@ -614,6 +627,34 @@
     }._();
 
     Jarvis.prototype.Utils = {
+        Autoguardado : {
+            TextBoxs:{},            
+            Guardar: function(){                
+                this._();
+                localStorage.setItem("autoguardado",JSON.stringify(this.TextBoxs));                
+                console.log("autoguardado ejecutado...");
+            },
+            Recuerpar: function(){                
+                this._();
+                var data = JSON.parse(localStorage.getItem("autoguardado"));
+                if(data!==null){
+                    var campos = __("input");                                
+                    for (var i = 0; i < campos.length; i++) {
+                        var campo=campos[i];
+                        if(typeof this.TextBoxs[campo.id] !== "undefined"){
+                           campo.value = data[campo.id];
+                        }                        
+                    }
+                }
+            },
+            _:function(){
+                var campos =__("input");                                
+                for (var i = 0; i < campos.length; i++) {
+                    var campo=campos[i];
+                    this.TextBoxs[campo.id]=campo.value;
+                }
+            }
+        },
         Paths: function () {
             if (_Tracert) { console.log('metodo: "Jarvis.Utils.Paths()", ha cargado exitosamente'); }
             if (_Info) { console.log('info: "Jarvis.Utils.Paths()", Permite ejecutar invocar funciones especificas por cada URL, en caso de no desear levantar objetos ideados para otros usos'); }            
@@ -914,7 +955,7 @@
                             case "text/xml":
                                 data = request.responseXML;
                                 break;
-                            case "Jarvislication/json":
+                            case "application/json":
                                 data = JSON.parse(request.responseText);
                                 break;
                             default:
@@ -1071,13 +1112,13 @@
         CheckConnection: function () {
             if (_Tracert) { console.log('metodo: "Jarvis.Utils.CheckConnection()" ha cargado exitosamente'); }
             /// <summary>Valida que la conexi�n de internet este activa.</summary>
-            if (navigator.onLine !== undefined) {
+            /*if (navigator.onLine !== undefined) {
                 if (navigator.onLine) {
                     return true;
                 } else {
                     return false;
                 }
-            } else {
+            } else {*/
                 var xhr = new XMLHttpRequest();
                 var file = "http://" + window.location.host + "/";
                 var r = Math.round(Math.random() * 10000);
@@ -1092,7 +1133,7 @@
                 } catch (e) {
                     return false;
                 }
-            }
+            /*}*/
         },
         Time: {
             Ago: function (date) {
@@ -2839,3 +2880,4 @@
         };
     }
 })(window || {});   
+
