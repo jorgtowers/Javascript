@@ -42,8 +42,8 @@
      *----------------------------*/
     Jarvis.prototype.Constructor = function() {
         //this.NAMESPACE_PROJECT_PERSONAL.Sitio();
-        this.Projects.Github();
-        this.Utils.Paths();
+        //this.Projects.Github();
+        //this.Utils.Paths();
         //this.MCSD.Noticias();
         if (_Tracert) {
             console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME));
@@ -56,41 +56,40 @@
             var desde = new Date();
             this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=5", null , function() {
                 
-                
-                var data = JSON.parse(self.Jarvis.Resultado);
-                
-                var datos = [];
-                var categorias = data.noticias.Distinct("categoria");
-                for (var i = 0; i < categorias.length; i++) {
-                    var categoria = categorias[i];
-                    var obj = {
-                        "categoria": categoria,
-                        "noticias": data.noticias.Distinct("categoria", categoria)
-                    };
-                    datos.push(obj);
-                }
-                ;
-                
-                //self.Jarvis.JSource.UL(datos);
-                self.Jarvis.JSource.UL(datos, {
-                    "MaxLenght": 1000
-                });
-                
-                __("h2[item]").ForEach(function(e) {
-                    e.onclick = function() {
-                        var item = data.noticias.Item(data.noticias.Find("id", parseInt(e.getAttribute("item"))));
-                        self.Jarvis.UI.Notificacion.Mensaje(item.texto);
+                try{
+                    var data = JSON.parse(self.Jarvis.Resultado);                
+                    var datos = [];
+                    var categorias = data.noticias.Distinct("categoria");
+                    for (var i = 0; i < categorias.length; i++) {
+                        var categoria = categorias[i];
+                        var obj = {
+                            "categoria": categoria,
+                            "noticias": data.noticias.Distinct("categoria", categoria)
+                        };
+                        datos.push(obj);
+                    };                    
+                    //self.Jarvis.JSource.UL(datos);
+                    self.Jarvis.JSource.UL(datos, {
+                        "MaxLenght": 1000
+                    });                    
+                    __("h2[item]").ForEach(function(e) {
+                        e.onclick = function() {
+                            var item = data.noticias.Item(data.noticias.Find("id", parseInt(e.getAttribute("item"))));
+                            self.Jarvis.UI.Notificacion.Mensaje(item.texto);
+                        };
+                    });                    
+                    var hasta = new Date();
+                    if (desde != null  && hasta != null ) {
+                        var c = ((desde - hasta) / 1000);
+                        lblStatus.innerHTML = "Tiempo empleado " + c;
                     }
-                    ;
-                });
-                
-                
-                
-                var hasta = new Date();
-                if (desde != null  && hasta != null ) {
-                    var c = ((desde - hasta) / 1000);
-                    lblStatus.innerHTML = "Tiempo empleado " + c;
+    
                 }
+                catch(ex){
+
+                }
+                
+
             })
         },
         _: function() {
