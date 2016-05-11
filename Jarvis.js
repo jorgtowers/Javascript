@@ -3080,7 +3080,7 @@
             console.log('info: "namespace._(id)", metodo abreviado de getElementById(), retorna un objeto a partir de su Id');
         }
         namespace._ = function(id) {
-            var item = __(id).First();
+            var item = $(id);
             if (item !== null ) {
                 return item;
             } else {
