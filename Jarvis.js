@@ -57,7 +57,7 @@
             this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=5", null , function() {
                 
                 try{
-                    var data = JSON.parse(self.Jarvis.Resultado);                
+                    var data = self.Jarvis.Resultado;                
                     var datos = [];
                     var categorias = data.noticias.Distinct("categoria");
                     for (var i = 0; i < categorias.length; i++) {
