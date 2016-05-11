@@ -2560,6 +2560,16 @@
                 _Tracert = value;
             }
         });
+        Object.defineProperty(Object.prototype, "Fields", {
+             get: function Fields() {
+                 if (_Info) { console.log('info: "Fields", crea una instancia de cada objet de tipo Text, Select, TextArea, y almacena su valor'); }
+               		var fields=__("input,textarea,select");		
+               		for(var i=0;i<fields.length;i++){
+               			this[fields[i].id]=fields[i].value;
+               		}
+               		return this;
+             }
+        });
         
         /* -------------------------------------------------------------------
              * Extendiendo objetos propios del JavaScript, 
