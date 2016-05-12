@@ -669,12 +669,12 @@
                 var self=this.parent.parent;
                 localStorage.setItem("autoguardado", JSON.stringify(self.Jarvis.AutoGuardadoFields));
             },
-            Recuerpar: function() {
+            Recuperar: function() {
                 if (_Tracert) {
-                    console.log('metodo: "Jarvis.Utils.Autoguardado.Recuerpar()", ha cargado exitosamente');
+                    console.log('metodo: "Jarvis.Utils.Autoguardado.Recuperar()", ha cargado exitosamente');
                 }
                 if (_Info) {
-                    console.log('info: "Jarvis.Utils.Autoguardado.Recuerpar()", Permite recuperar del localStorage, la informaciÃ³n escrita y/o seleccionada en los campos de tipo Text, TextArea y Select');
+                    console.log('info: "Jarvis.Utils.Autoguardado.Recuperar()", Permite recuperar del localStorage, la informaciÃ³n escrita y/o seleccionada en los campos de tipo Text, TextArea y Select');
                 }
                 var self=this.parent.parent;
                 var data = JSON.parse(localStorage.getItem("autoguardado"));
