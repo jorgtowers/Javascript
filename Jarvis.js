@@ -54,10 +54,11 @@
             var self = this.parent;
             var lblStatus = document.getElementById("lblStatus");
             var desde = new Date();
-            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=5", null , function() {
+            this.parent.Jarvis.Utils.Callback("http://webservice.notitarde.com/site/binary/json.aspx?idcat=20&cantidad=5", null , function(datos) {
                 
                 try{
-                    var data = self.Jarvis.Resultado;                
+                    var data = datos;
+                    // self.Jarvis.Resultado;                
                     var datos = [];
                     var categorias = data.noticias.Distinct("categoria");
                     for (var i = 0; i < categorias.length; i++) {
@@ -916,7 +917,7 @@
                     if (s !== null  && s !== undefined) {
                         var r = s.toLowerCase();
                         r = r.replace(new RegExp("\\s",'g'), " ");
-                        r = r.replace(new RegExp("[Ã Ã¡Ã¢Ã£Ã¤Ã¥]",'g'), "a");
+                        r = r.replace(new RegExp("[Ã Ã¡Ã¢Ã£Ã¤Ã¥]",'g'), "a");
                         r = r.replace(new RegExp("Ã¦",'g'), "ae");
                         r = r.replace(new RegExp("Ã§",'g'), "c");
                         r = r.replace(new RegExp("[Ã¨Ã©ÃªÃ«]",'g'), "e");
@@ -1027,16 +1028,11 @@
                             break;
                         default:
                             data = request.responseText;
-                        }
-                        if (data != null ) {
-                            _Result = data;
-                        } 
-                        else {
-                            _Result = null ;
-                        }
+                        }                        
                         if (typeof callback === 'function') {
-                            callback();
+                            callback(data);
                         }
+                        _Result=data;
                     }
                 }
                 ;
