@@ -42,9 +42,9 @@
      *----------------------------*/
     Jarvis.prototype.Constructor = function() {
         //this.NAMESPACE_PROJECT_PERSONAL.Sitio();
-        //this.Projects.Github();
-        //this.Utils.Paths();
-        //this.MCSD.Noticias();
+        this.Projects.Github();
+        this.Utils.Paths();
+        this.MCSD.Noticias();
         if (_Tracert) {
             console.log("Jarvis inicializado correctamente..." + this.Runtime(Jarvis.STARTTIME));
         }    
@@ -659,6 +659,13 @@
         }
     }._();    
     Jarvis.prototype.Utils = {
+        GUID:function(){
+            function S4() {
+                return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
+            }
+            var guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toUpperCase();               
+            return guid;
+        },
         Autoguardado: {
             Guardar: function() {
                 if (_Tracert) {
