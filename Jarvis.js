@@ -2864,6 +2864,105 @@
             ;
             return arr;
         };
+         String.prototype.Formato = function (controlAValidar) {
+            var texto = this.toString();
+            function _LimpiarYNotificar(mensaje) {
+                controlAValidar.value = "";
+                controlAValidar.focus();
+                var lblFeedBack = controlAValidar.nextSibling;
+                if (lblFeedBack !== null) {
+                    lblFeedBack.innerHTML = mensaje;
+                    lblFeedBack.style.color = "red";
+                }                
+            }
+            var _ = {
+                Cedula: function () {
+                    var cedula = texto.replace(/\W/g, '').toUpperCase();
+                    var chkPatronCorrecto = cedula.match("[VEJPG]-[0-9]{2}.[0-9]{3}.[0-9]{3}");
+                    if (chkPatronCorrecto === null) {
+                        var match = cedula.match(/[0-9]+/);
+                        if (match !== null) {
+                            var numero = match[0];
+                            var isLetra = isNaN(cedula.substring(0, 1));
+                            var letra = "V";
+                            if (isLetra) {
+                                letra = cedula.substring(0, 1);
+                            }
+                            if (numero.length < 8) {
+                                numero = "0" + numero;
+                            }
+                            var tmp = letra + numero;
+                            var toFix = tmp.match("([0-9]{2})([0-9]{3})([0-9]{3})");
+                            if (toFix !== null) {
+                                var newCedula = letra + "-" + toFix[1] + "." + toFix[2] + "." + toFix[3];
+                                var chk = newCedula.match("[VEJPG]-[0-9]{2}.[0-9]{3}.[0-9]{3}");
+                                if (chk !== null) {
+                                    return chk[0];
+                                } else {
+                                    _LimpiarYNotificar("El formato de cédula no coincide... Ej. V-12.345.678");
+                                    return "";
+                                }
+                            } else {
+                                _LimpiarYNotificar("El formato de cédula no coincide... Ej. V-12.345.678");
+                                return "";
+                            }                            
+                        }
+                        else {
+                            _LimpiarYNotificar("El formato de cédula no coincide... Ej. V-12.345.678");
+                            return "";
+                        }
+                    } else {
+                        return chkPatronCorrecto[0];
+                    }
+                },
+                Fecha: function () {
+                    var fecha = texto;
+                    var chkPatronCorrecto = fecha.match("[0-9]{2}/[0-9]{2}/[0-9]{4}");
+                    if (chkPatronCorrecto === null) {
+                        var match = fecha.match(/[0-9]+/);
+                        if (match !== null) {
+                            var chk = match[0].match("([0-9]{2})([0-9]{2})([0-9]{4})");
+                            if (chk !== null) {
+                                var toFix = chk;
+                                return toFix[1] + "/" + toFix[2] + "/" + toFix[3];
+                            } else {
+                                _LimpiarYNotificar("El formato de fecha no coincide... Ej. 01/01/2016");
+                                return "";
+                            }
+
+                        } else {
+                            _LimpiarYNotificar("El formato de fecha no coincide... Ej. 01/01/2016");
+                            return "";
+                        }
+                    } else {
+                        return chkPatronCorrecto[0];
+                    }
+                },
+                Telefono: function () {
+                    var telefono = texto;
+                    var chkPatronCorrecto = telefono.match("[0-9]{4}-[0-9]{3}-[0-9]{4}");
+                    if (chkPatronCorrecto === null) {
+                        var match = telefono.match(/[0-9]+/);
+                        if (match !== null) {
+                            var chk = match[0].match("([0-9]{4})([0-9]{3})([0-9]{4})");
+                            if (chk !== null) {
+                                var toFix = chk;
+                                return toFix[1] + "-" + toFix[2] + "-" + toFix[3];
+                            } else {
+                                _LimpiarYNotificar("El formato de telefono no coincide... Ej. 0424-123-4567");
+                                return "";
+                            }
+                        } else {
+                            _LimpiarYNotificar("El formato de telefono no coincide... Ej. 0424-123-4567");
+                            return "";
+                        }
+                    } else {
+                        return chkPatronCorrecto[0];
+                    }
+                }
+            }
+            return _;
+        };
         String.prototype.ToTitleCase = function() {
             var i, j, str, lowers, uppers;
             str = this.replace(/([^\W_]+[^\s-]*) */g, function(txt) {
