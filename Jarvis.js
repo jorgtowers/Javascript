@@ -1920,6 +1920,312 @@
                     this.ApplyCssValidation();
                 }
                 var self = this;
+Validation: {
+            _Container: null,
+            _Fiedls: [],
+            _Emptys: [],
+            ClassCss: {
+                HasClass: function (elemento, Jarvis) {
+                    if (_Tracert) {
+                        console.log('metodo: "Jarvis.Utils.Validation.ClassCss.HasClass(elemento, Jarvis)" ha cargado exitosamente');
+                    }
+                    return new RegExp('(\\s|^)' + Jarvis + '(\\s|$)').test(elemento.className);
+                },
+                Add: function (elemento, Jarvis) {
+                    if (_Tracert) {
+                        console.log('metodo: "Jarvis.Utils.Validation.ClassCss.Add(elemento, Jarvis)" ha cargado exitosamente');
+                    }
+                    if (!this.HasClass(elemento, Jarvis)) {
+                        elemento.className += (elemento.className ? ' ' : '') + Jarvis;
+                    }
+                },
+                Remove: function (elemento, Jarvis) {
+                    if (_Tracert) {
+                        console.log('metodo: "Jarvis.Utils.Validation.ClassCss.Remove(elemento, Jarvis)" ha cargado exitosamente');
+                    }
+                    if (this.HasClass(elemento, Jarvis)) {
+                        elemento.className = elemento.className.replace(new RegExp('(\\s|^)' + Jarvis + '(\\s|$)'), ' ').replace(/^\s+|\s+$/g, '');
+                    }
+                },
+                Css: function (className) {
+                    if (_Tracert) {
+                        console.log('metodo: "Jarvis.Utils.Validation.ClassCss.Css(className)" ha cargado exitosamente');
+                    }
+                    if (document.styleSheets.length > 0) {
+                        var estyles = document.styleSheets[0];
+                        var classes = estyles.rules || estyles.cssRules;
+                        if (classes !== null && classes.length > 0) {
+                            for (var x = 0; x < classes.length; x++) {
+                                if (classes[x].selectorText === className) {
+                                    return classes[x].cssText;
+                                }
+                            }
+                        }
+                        return null;
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            Pattern: [
+            {
+                "Validation": "0",
+                "RegEx": "((?:https?\\://|www\\.)(?:[-a-z0-9]+\\.)*[-a-z0-9]+.*)",
+                "Message": "La direcci&0acute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
+            }, {
+                "Validation": "1",
+                "RegEx": "\\d",
+                "Message": "S&oacute;lo puede ingresar valores n&uacute;mericos en este campo, por favor intente nuevamente"
+            }, {
+                "Validation": "2",
+                "RegEx": "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?",
+                "Message": "La direcci&oacute;n url ingresada es inv&aacute;lida, por favor intente nuevamente"
+            }, {
+                "Validation": "3",
+                "RegEx": "[VEJPG]{1}[0-9][1-9]{1}",
+                "Message": "El RIF ingresado es inv&aacute;lido, por favor intente nuevamente"
+            }, {
+                "Validation": "4",
+                "RegEx": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
+                "Message": "Direcci&oacute;n de email inv&aacute;lida"
+            },
+            {
+                "Validation": "5",
+                "RegEx": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})",
+                "Message": "La contrase&ntilde;a con cumple con las siguientes condiciones: al menos un (1) n&uacute;mero, una (1) letra min&uacute;scula y una (1) letra May&uacute;sucla, y debe tener al menos seis (6) letras, numeros o underscore"
+            },
+            {
+                "Validation": "6",
+                "RegEx": "^[0-9]*\,?[0-9]*$",
+                "Message": "S&oacute;lo se puede ingresar valores decimales"
+            },
+            {
+                "Validation": "7",
+                "RegEx": "[a-zA-ZÃ¡Ã©Ã­Ã³ÃºÃÃ‰ÃÃ“ÃšÃ±Ã‘]",
+                "Message": "S&oacute;lo se puede ingresar car&aacute;cteres"
+            },
+            {
+                "Validation": "8",
+                "RegEx": "^/+[a-z]+/+[a-zA-Z]+.aspx$",
+                "Message": "La direcci&oacute;n no coincide con una URL v&aacute;lida"
+            },
+            {
+                "Validation": "9",
+                "RegEx": "^[1-9]{3}-[0-9]{3}-[0-9]{4}$",
+                "Message": "No coincide el formato del n&uacute;mero telef&oacute;nico. Ej: 424-123-4567"
+            }
+            ],
+            ApplyCssValidation: function () {
+                if (_Tracert) {
+                    console.log('metodo: "Jarvis.Utils.Validation.ApplyCssValidation()" ha cargado exitosamente');
+                }
+                var styleRequerido = this.ClassCss.Css(".requerido");
+                var head = document.getElementsByTagName("head");
+                var tagHead = null;
+                if (styleRequerido === null) {
+                    styleRequerido = document.createElement("style");
+                    styleRequerido.innerHTML = ".requerido{ background: rgb(255, 233, 233); border: 1px solid red;}";
+                    tagHead = head[0];
+                    tagHead.appendChild(styleRequerido);
+                }
+                var styleFeedBackLabel = this.ClassCss.Css(".FeedBackLabel");
+                if (styleFeedBackLabel === null) {
+                    styleFeedBackLabel = document.createElement("style");
+                    styleFeedBackLabel.innerHTML = ".FeedBackLabel { font-family:calibri,tahoma,segoe; color:green; font-size:1rem; display:block; }";
+                    tagHead = head[0];
+                    tagHead.appendChild(styleFeedBackLabel);
+                }
+            },
+            Container: function (idContainer) {
+                if (_Tracert) {
+                    console.log('metodo: "Jarvis.Utils.Validation.Container(idContainer)" ha cargado exitosamente');
+                }
+                if (idContainer !== undefined && idContainer !== null && idContainer.length > 0) {
+                    this._Container = document.getElementById(idContainer);
+                } else {
+                    this._Container = document;
+                }
+                this.Fields();
+                return this._Container;
+            },
+            Fields: function () {
+                if (_Tracert) {
+                    console.log('metodo: "Jarvis.Utils.Validation.Fields()" ha cargado exitosamente');
+                }
+                var content = this._Container;
+                if (content === null) {
+                    content = this.Container();
+                }
+                var inputs = content.querySelectorAll("input[type=text]");
+                var files = content.querySelectorAll("input[type=file]");
+                var textAreas = content.getElementsByTagName("textarea");
+                var selects = content.getElementsByTagName("select");
+                var objects = [];
+                objects.push.apply(objects, inputs);
+                objects.push.apply(objects, files);
+                objects.push.apply(objects, textAreas);
+                objects.push.apply(objects, selects);
+                for (var i = 0; i < objects.length; i++) {
+                    var obj = objects[i];
+                    if (!obj.hasAttribute("disabled") && obj.style.display === "") {
+                        var strNameLbl = "lblFeedBack_" + obj.id;
+                        var lblFeedBack = null;
+                        var lblFeedBack = document.getElementById(strNameLbl);
+                        if (lblFeedBack === null) {
+                            lblFeedBack = document.createElement("span");
+                            lblFeedBack.id = strNameLbl;
+                            lblFeedBack.className = "FeedBackLabel";
+                            obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
+                        }                                                
+                    }
+                }
+                var radios = content.querySelectorAll("input[type=radio]").ToArray();
+                var radiosUniques = radios.Radios().FirstAtEachName();
+                for (var i = 0; i < radiosUniques.length; i++) {
+                    var obj = radiosUniques[i];
+                    var srtNameLbl = "lblFeedBack_" + obj.id;
+                    var lblFeedBack = null;
+                    var lblFeedBack = document.getElementById(strNameLbl);
+                    if (lblFeedBack === null) {
+                        lblFeedBack = document.createElement("span");
+                        lblFeedBack.id =
+                    lblFeedBack.className = "FeedBackLabel";
+                        obj.parentNode.insertBefore(lblFeedBack, obj.nextSibling);
+                    }                    
+                }
+                this._Fiedls = objects;
+            },
+            FireOn: {
+                Input: {
+                    NotAllowSpecialCharactersToStartAText: function () {
+                        if (_Tracert) {
+                            console.log('metodo: "Jarvis.Utils.Validation.NotAllowSpecialCharactersToStartAText()" ha cargado exitosamente');
+                        }
+                        var objs = this.parent.Validation._Fiedls;
+                        var notAllowSpecialCharactersToStartATextMenssage = "&nbsp;No se permiten caracteres especiaes \" .,-@*+/_#$%&()\"'=?!Â¿Â¡ \" al inicio de este campo.";
+                        for (var i = 0; i < objs.length; i++) {
+                            var obj = objs[i];
+                            if (obj.type === 'text' || obj.type === 'textarea') {
+                                obj.oninput = function () {
+                                    this.nextElementSibling.style.color = "green";
+                                    var firstChart = this.value.substring(0, 1);
+                                    var rEx = new RegExp('[.,-@*+/_#$%&()\"\'=?!Â¿Â¡]{1}');
+                                    if (rEx.test(firstChart)) {
+                                        if (!firstChart.match(/[0-9]/)) {
+                                            this.nextElementSibling.innerHTML = notAllowSpecialCharactersToStartATextMenssage;
+                                        } else {
+                                            this.nextElementSibling.innerHTML = "";
+                                        }
+                                    } else {
+                                        this.nextElementSibling.innerHTML = "";
+                                    }
+                                    this.value = this.value.replace(/[^A-Za-z0-9]{0,1}/, '');
+                                }
+                                ;
+                            }
+                        }
+                    }
+                },
+                Blur: {
+                    CheckRegExs: function () {
+                        if (_Tracert) {
+                            console.log('metodo: "Jarvis.Utils.Validation.FireOn.Blur.CheckRegExs()" ha cargado exitosamente');
+                        }
+                        var self = this;
+                        var objs = this.parent.Validation._Fiedls;
+                        for (var i = 0; i < objs.length; i++) {
+                            var obj = objs[i];
+                            if (obj.getAttribute("validation") !== null) {
+                                obj.onblur = function () {
+                                    this.nextElementSibling.innerHTML = "";
+                                    var ex = self.parent.Validation.Pattern[this.getAttribute("validation")];
+                                    var exp = new RegExp(ex.RegEx, "ig");
+                                    var validado = exp.test(this.value);
+                                    if (!validado) {
+                                        this.nextElementSibling.innerHTML = ex.Message;
+                                        this.nextElementSibling.style.color = "red";
+                                        this.value = "";
+                                    }
+                                }
+                                ;
+                            }
+                        }
+                    }
+                },
+                Copy: {
+                    NotAllow: function () {
+                        if (_Tracert) {
+                            console.log('metodo: "Jarvis.Utils.Validation.NotAllowCommandCopy()" ha cargado exitosamente');
+                        }
+                        var objs = this.parent.Validation._Fiedls;
+                        var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Pegar (Ctrl+C), valores sobre este campo...";
+                        for (var i = 0; i < objs.length; i++) {
+                            var obj = objs[i];
+                            if (obj.type === 'text' || obj.type === 'textarea') {
+                                obj.oncopy = function (e) {
+                                    e.preventDefault();
+                                    this.nextElementSibling.style.color = "green";
+                                    this.nextElementSibling.innerHTML = disableCommandPasteMessage;
+                                }
+                                ;
+                            }
+                        }
+                    }
+                },
+                Paste: {
+                    NotAllow: function () {
+                        if (_Tracert) {
+                            console.log('metodo: "Jarvis.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente');
+                        }
+                        var objs = this.parent.Validation._Fiedls;
+                        var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Pegar (Ctrl+V), valores sobre este campo...";
+                        for (var i = 0; i < objs.length; i++) {
+                            var obj = objs[i];
+                            if (obj.type === 'text' || obj.type === 'textarea') {
+                                obj.onpaste = function (e) {
+                                    e.preventDefault();
+                                    this.nextElementSibling.style.color = "green";
+                                    this.nextElementSibling.innerHTML = disableCommandPasteMessage;
+                                }
+                                ;
+                            }
+                        }
+                    }
+                },
+                Cut: {
+                    NotAllow: function () {
+                        if (_Tracert) {
+                            console.log('metodo: "Jarvis.Utils.Validation.NotAllowCommandPaste()" ha cargado exitosamente');
+                        }
+                        var objs = this.parent.Validation._Fiedls;
+                        var disableCommandPasteMessage = "&nbsp;No se permiten usar la funci&oacute;n de Cortar (Ctrl+X), valores sobre este campo...";
+                        for (var i = 0; i < objs.length; i++) {
+                            var obj = objs[i];
+                            if (obj.type === 'text' || obj.type === 'textarea') {
+                                obj.oncut = function (e) {
+                                    e.preventDefault();
+                                    this.nextElementSibling.style.color = "green";
+                                    this.nextElementSibling.innerHTML = disableCommandPasteMessage;
+                                }
+                                ;
+                            }
+                        }
+                    }
+                }
+            },
+            Validate: function () {
+                if (_Tracert) {
+                    console.log('metodo: "Jarvis.Utils.Validation.Validate()" ha cargado exitosamente');
+                }
+                var objs = this._Fiedls;
+                if (objs.length === 0) {
+                    this.Fields();
+                    objs = this._Fiedls;
+                }
+                if (this.ClassCss.Css(".requerido") === null) {
+                    this.ApplyCssValidation();
+                }
+                var self = this;
                 var requeridFieldMessage = "&nbsp;Este campo es requerido.";
                 var validados = true;
                 this._Emptys = [];
@@ -1933,7 +2239,7 @@
                                 this._Emptys.push(obj);
                                 var title = obj.getAttribute("title");
                                 this.ClassCss.Add(obj, "requerido");
-                                if (title !== null ) {
+                                if (title !== null) {
                                     obj.nextElementSibling.innerHTML = title;
                                 } else {
                                     obj.nextElementSibling.innerHTML = requeridFieldMessage;
@@ -1947,14 +2253,18 @@
                     }
                 }
                 /* -------------------------------------------------------------------
-                 * Radios se validan aparte por se diferente la lÃ³gica de validaciÃ³n
-                 * ------------------------------------------------------------------- */
-                var radios = document.querySelectorAll("input[type=radio]").ToArray();
+                * Radios se validan aparte por se diferente la lÃ³gica de validaciÃ³n
+                * ------------------------------------------------------------------- */
+                var content = this._Container;
+                if (content === null) {
+                    content = this.Container();
+                }
+                var radios = content.querySelectorAll("input[type=radio]").ToArray();
                 var radiosUniques = radios.Radios().FirstAtEachName();
                 for (var i = 0; i < radiosUniques.length; i++) {
                     var radiosNames = radios.Radios().DistinctName(radiosUniques[i].name);
                     var seleccionado = radios.Radios().SelectedItem(radiosNames);
-                    if (seleccionado == null ) {
+                    if (seleccionado == null) {
                         validados = false;
                         for (var o = 0; o < radiosNames.length; o++) {
                             var obj = radiosNames[o];
@@ -3293,6 +3603,21 @@
             return items.ToArray();
         }
         ;
+    }
+    if (typeof namespace.j === "undefined") {
+        if (_Tracert) {
+            console.log('metodo: "namespace.__(selector)", ha cargado exitosamente');
+        }
+        if (_Info) {
+            console.log('info: "namespace.__(selector)", metodo abreviado de querySelectorAll(selector), retorna un arreglo de objetos a partir de su selector');
+        }
+        namespace.j = function (selector,firstElement) {
+            var items = document.querySelectorAll(selector);
+            if (typeof(firstElement) !== "undefined")
+                return items.ToArray().First();                
+            else
+                return items.ToArray();
+            };
     }
     /*----------------------------
      * Para Usar como plantilla para nuevos metodos, metodos obsoletos y/o propiedades 
