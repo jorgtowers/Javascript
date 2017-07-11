@@ -45,7 +45,7 @@
         this.Utils.DisplayWhenEditing();
         this.Utils.KeyBoard();
         this.UI.CheckBoxAsToogle();
-
+        this.UI.Alert();
         var closeEditPanel = _("closeEditPanel");
         if (closeEditPanel != null) {
             closeEditPanel.onclick = function () {
@@ -2599,6 +2599,51 @@
         }
     }._();
     Jarvis.prototype.UI = {
+        Alert: function () {
+            var self = this;
+            if (document.getElementById) {
+                window.alert = function (txt,callback) {
+                    self.Create(txt,callback);
+                }
+            }
+            this.Body = document.getElementsByTagName("body")[0];
+            this.ALERT_TITLE = "Oops!";
+            this.ALERT_BUTTON_TEXT = "Ok";
+            this.Create = function (txt,callback) {
+                var d = document;
+                var body = this.Body;
+                if (j("#modalContainer")) this.Remove();
+                var mObj = body.appendChild(d.createElement("div"));
+                mObj.id = "modalContainer";
+
+                var alertObj = mObj.appendChild(d.createElement("div"));
+                alertObj.id = "alertBox";
+                if (d.all && !window.opera)
+                    alertObj.style.top = document.documentElement.scrollTop + "px";
+                alertObj.style.left = "50%";
+                alertObj.style.marginLeft = "-150px";
+                alertObj.style.visiblity = "visible";
+
+                var h1 = alertObj.appendChild(d.createElement("h1"));
+                h1.appendChild(d.createTextNode(this.ALERT_TITLE));
+
+                var msg = alertObj.appendChild(d.createElement("p"));
+                msg.innerHTML = txt;
+
+                var btn = alertObj.appendChild(d.createElement("a"));
+                btn.id = "closeBtn";
+                btn.appendChild(d.createTextNode(this.ALERT_BUTTON_TEXT));
+                btn.href = "javascript:void(0)";
+                //btn.focus();
+                btn.onclick = function () { self.Remove(callback); return false; }
+                alertObj.style.display = "block";
+            }
+            this.Remove = function (callback) {
+                this.Body.removeChild(document.getElementById("modalContainer"));
+                if (callback !== undefined)
+                    callback();
+            }
+        },
         CheckBoxAsToogle: function () {
             var chks = document.querySelectorAll("[type=checkbox]");
             for (var i = 0; i < chks.length; i++) {
