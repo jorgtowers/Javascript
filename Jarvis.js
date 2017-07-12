@@ -3814,6 +3814,10 @@
             return this[index];
         };
         Array.prototype.Query = function (expresion) {
+            /* *****************************************
+             * EJ: objetoJSON.Query("Columna==Valor")
+             * Retorna: Objeto del Arreglo
+             * *****************************************/
             var terminos = expresion.match(/([A-Z]{1}\w+)([>=|<=|>|<|==]{1,2})(\w+)/);
             if (!terminos) {
                 throw "La Condicion de busqueda no coincide con el patron requerido, por favor verifique que la expresion este correcta, y vuelva a intentarlo.";
@@ -3822,6 +3826,10 @@
             return this.Item(index);
         };
         Array.prototype.Find = function (columnName, keyToFind, condition) {
+            /* *****************************************
+             * EJ: objetoJSON.Find("Columna","Valor","==")
+             * Retorna: Index del objeto
+             * *****************************************/
             for (var i = 0; i < this.length; i++) {
                 var item = this[i];
                 if (!item.hasOwnProperty(columnName)) {
